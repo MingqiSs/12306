@@ -1,0 +1,9 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/12036ByTicket/12036ByTicket/bin/Debug
+/12036ByTicket/12036ByTicket/obj/Debug
+/12036ByTicket/.vs/12036ByTicket/v15
+
+/12036ByTicket/packages
