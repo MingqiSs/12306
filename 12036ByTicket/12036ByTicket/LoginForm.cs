@@ -31,15 +31,21 @@ namespace _12036ByTicket
             {
                 answer = _clickPoints.Aggregate(answer,
                     (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
+            } 
+           var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  //randCode = randCode.replace(']', '').replace('[', '').replace("'", '').replace(' ', '')
+          // randCode = tb_userName.Text;
+            var isCheck = _12306Service.CheckCaptcha(randCode);
+            if (isCheck)
+            {
+                //登录
+                _12306Service.Login("xiangmingqo", "", "123");
+                //登录逻辑
+                MainForm logForm = new MainForm();
+                logForm.Show();
             }
-           var  randCode = answer.TrimEnd(',');
-            Thread.Sleep(1000);
-            _12306Service.CheckCaptcha(randCode);
-            //登录
-            _12306Service.Login("xiangmingqo","","123");
-            //登录逻辑
-            MainForm logForm = new MainForm();
-            logForm.Show();
+            else {
+                LoadCaptchaImg();
+            }
 
         }
         private void LoadCaptchaImg()

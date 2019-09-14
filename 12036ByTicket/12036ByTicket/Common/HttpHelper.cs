@@ -20,6 +20,7 @@ namespace _12036ByTicket.Common
                 request.UserAgent = agent;
                 request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 request.Method = "GET";
+                request.Referer = "https://kyfw.12306.cn/otn/resources/login.html";
                 request.KeepAlive = true;
                 request.CookieContainer = cookie;
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();

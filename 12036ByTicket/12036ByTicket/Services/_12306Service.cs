@@ -60,8 +60,8 @@ namespace _12036ByTicket.Services
                 }
                 //
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
-                long timeStamp = (long)(DateTime.Now - startTime).TotalSeconds; // 相差秒数
-
+                long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
+              ///  1568437828  1568437740606
                 var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check,randCode, timeStamp), _cookie);
                 ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
                 var result_code = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["result_code"];
@@ -69,14 +69,14 @@ namespace _12036ByTicket.Services
                 {
                     return true;
                 }
-               else if ((int)result_code == 5)
+                else if ((int)result_code == 5)
                 {
                     MessageBox.Show("验证码校验失败！");
                 }
             }
             catch (Exception ex)
             {
-                Logger.Error("校验验证码失败");
+                Logger.Error($"校验验证码失败{ex}");
             }
             return false;
         }
@@ -99,6 +99,8 @@ namespace _12036ByTicket.Services
         //   msg = retEntity.messages[0];
             return false;
         }
+
+       
 
     }
 }
