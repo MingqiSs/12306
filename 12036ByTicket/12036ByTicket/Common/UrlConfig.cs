@@ -17,7 +17,7 @@ namespace _12036ByTicket.Common
         /// <summary>
         /// 验证码校验
         /// </summary>
-        public static string captcha_Check = $"passport/captcha/captcha-check?callback=jQuery19108016482864806321_1554298927290&answer={0}&rand=sjrand&login_site=E&_={1}";
+        public static string captcha_Check = $"{baseUrl}/passport/captcha/captcha-check?callback=jQuery19108016482864806321_1554298927290&answer={0}&rand=sjrand&login_site=E&_={1}";
         /// <summary>
         /// 登陆
         /// </summary>

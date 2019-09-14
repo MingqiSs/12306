@@ -86,6 +86,7 @@
             this.Captcha_Img.Size = new System.Drawing.Size(218, 175);
             this.Captcha_Img.TabIndex = 2;
             this.Captcha_Img.TabStop = false;
+            this.Captcha_Img.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Captcha_Img_MouseDown);
             // 
             // bnt_Captcha_Refresh
             // 
@@ -105,7 +106,7 @@
             this.Login.TabIndex = 0;
             this.Login.Text = "登录";
             this.Login.UseVisualStyleBackColor = true;
-            this.Login.Click += new System.EventHandler(this.Login_Click);
+            this.Login.Click += new System.EventHandler(this.btn_Login_Click);
             // 
             // tb_passWord
             // 

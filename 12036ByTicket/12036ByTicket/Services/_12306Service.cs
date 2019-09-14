@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _12036ByTicket.Services
 {
@@ -31,8 +32,8 @@ namespace _12036ByTicket.Services
                 {
                     _cookie = new CookieContainer();
                 }
-                var imgcode = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
-                var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(imgcode.Split('(')[1].Split(')')[0]))["image"];
+                var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
+                var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["image"];
                 //var fromBase64 = $"data:image/jpg;base64,{result}";
                 byte[] data = System.Convert.FromBase64String((string)result);
                 MemoryStream ms = new MemoryStream(data);
@@ -49,10 +50,8 @@ namespace _12036ByTicket.Services
         /// 校验验证码
         /// </summary>
         /// <returns></returns>
-        public static Image CheckCaptcha()
+        public static bool CheckCaptcha(string randCode)
         {
-            //待修改
-            var randCode = "";
             try
             {
                 if (_cookie == null)
@@ -62,15 +61,24 @@ namespace _12036ByTicket.Services
                 //
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
                 long timeStamp = (long)(DateTime.Now - startTime).TotalSeconds; // 相差秒数
-                var imgcode = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check, new Random().Next()), _cookie);
-                var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(imgcode.Split('(')[1].Split(')')[0]))["result_code"];
-                //if(result= "result_code")
+
+                var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check,randCode, timeStamp), _cookie);
+                ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
+                var result_code = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["result_code"];
+                if ((int)result_code == 4)
+                {
+                    return true;
+                }
+               else if ((int)result_code == 5)
+                {
+                    MessageBox.Show("验证码校验失败！");
+                }
             }
             catch (Exception ex)
             {
                 Logger.Error("校验验证码失败");
             }
-            return null;
+            return false;
         }
         /// <summary>
         /// 登录
