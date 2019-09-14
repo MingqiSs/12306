@@ -11,7 +11,7 @@ namespace _12036ByTicket.Common
 {
   public  class HttpHelper
     {
-        public static Stream Get(string agent, string url, CookieContainer cookie)
+        public static HttpWebResponse Get(string agent, string url, CookieContainer cookie)
         {
             try
             {
@@ -23,10 +23,7 @@ namespace _12036ByTicket.Common
                 request.Referer = "https://kyfw.12306.cn/otn/resources/login.html";
                 request.KeepAlive = true;
                 request.CookieContainer = cookie;
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-               
-                return responseStream;
+                return (HttpWebResponse)request.GetResponse();
             }
             catch (Exception ex)
             {
@@ -42,7 +39,7 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static string StringGet(string agent, string url, CookieContainer cookie)
         {
-            Stream queryStream = Get(agent, url, cookie);
+            Stream queryStream = Get(agent, url, cookie).GetResponseStream();
             StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
             string content = queryReader.ReadToEnd();
             queryReader.Close();
@@ -104,7 +101,7 @@ namespace _12036ByTicket.Common
             }
             catch (Exception ex)
             {
-             }
+            }
             return responseContent;
         }
     }
