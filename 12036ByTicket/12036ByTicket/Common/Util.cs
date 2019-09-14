@@ -16,7 +16,10 @@ namespace _12036ByTicket.Common
         public string Name { get; set; }
     }
 
+    public class test
+    {
 
+    }
     /// <summary>
     /// json实体类
     /// </summary>
