@@ -32,10 +32,11 @@ namespace _12036ByTicket.Services
                 _cookie = new CookieContainer();
             }
             var response = HttpHelper.Get(DefaultAgent, string.Format(UrlConfig.left_Ticket_init), _cookie);
+            var js = getJs();
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1568666175873","", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-                "VZcpy-vSck_0i1MmFcc4Y-nKkT30oO52BZugg_aaWyXYGCIonpZSV1RFVKZZm7CnOUHn407QsQXnACiI6fuexbGdMmIb9mw9_VjEENIkuykE4WqgHp4yaUjsWowNiYoYDVex-iwf6UOaheyjD4ZKPh3Yo3Ubpr0c",
+                js.RAIL_DEVICEID,
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -114,13 +115,7 @@ namespace _12036ByTicket.Services
         {
             try
             {
-                var js = getJs();
-                if (_cookie == null)
-                {
-                    _cookie = new CookieContainer();
-                }
-                _cookie.Add(new Cookie ("RAIL_DEVICEID",js.RAIL_DEVICEID,"","kyfw.12306.cn"));
-                _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+                
                 train_date = "2019-09-16";
                 from_station = "长沙南";
                 to_station = "深圳北";

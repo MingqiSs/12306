@@ -68,6 +68,7 @@ namespace _12036ByTicket.Common
         /// 查询车次
         /// </summary>
         public static string query =baseUrl+ "/otn/leftTicket/query{3}?leftTicketDTO.train_date={0}&leftTicketDTO.from_station={1}&leftTicketDTO.to_station={2}&purpose_codes=ADULT";
-        internal static string left_Ticket_init;
+
+        public static string left_Ticket_init = $"{baseUrl}/otn/leftTicket/init";
     }
 }
