@@ -76,7 +76,7 @@
             // 
             // Captcha_Img
             // 
-            this.Captcha_Img.Location = new System.Drawing.Point(0, 13);
+            this.Captcha_Img.Location = new System.Drawing.Point(15, 18);
             this.Captcha_Img.Name = "Captcha_Img";
             this.Captcha_Img.Size = new System.Drawing.Size(293, 190);
             this.Captcha_Img.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
