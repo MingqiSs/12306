@@ -1,6 +1,7 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.LogicModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -51,6 +52,7 @@ namespace _12036ByTicket.Services
                 {
                     _cookie = new CookieContainer();
                 }
+                getQuery("","","");
                 var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
                 var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["image"];
                 //var fromBase64 = $"data:image/jpg;base64,{result}";
@@ -111,7 +113,7 @@ namespace _12036ByTicket.Services
         /// <param name="from_station">始发站对应代码</param>
         /// <param name="to_station">终点站对应代码</param>
         /// <returns></returns>
-        public static string getQuery(string train_date,string from_station,string to_station)
+        public static List<DataInfo> getQuery(string train_date,string from_station,string to_station)
         {
             try
             {
@@ -125,6 +127,7 @@ namespace _12036ByTicket.Services
                 }
                 var from_code = string.Empty;
                 var to_code = string.Empty;
+                var datas = new List<DataInfo>();
                 var fromCode = _stationNames.FirstOrDefault(x => x.name == from_station);
                 if(fromCode!=null)
                 {
@@ -136,9 +139,63 @@ namespace _12036ByTicket.Services
                     to_code = toCode.code;
                 }
 
+                var response =JsonConvert.DeserializeObject<stationData>(System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie)));
+                if(response.status=="true"&&response.httpstatus=="200")
+                {
+                    var map = response.data.map;
+                    var results = response.data.result;
+                    foreach(var result in results)
+                    {
+                        var lists = result.Split('|');
+                        var model = new DataInfo()
+                        {
+                            sign = lists[0],
+                            state = lists[1],
+                            trainsNumber = lists[2],
+                            currentSchedule = lists[3],
+                            departureStation = lists[4],
+                            originInput = lists[5],
+                            currentArrivalStation = lists[6],
+                            currentArrivalStationInput = lists[7],
+                            startingTime = lists[8],
+                            arrivalTime = lists[9],
+                            after = lists[10],
+                            isCanBePurchased = lists[11],
+                            fastSign = lists[12],
+                            currentQueryDate = lists[13],
+                            unknown = lists[14],
+                            unknown1 = lists[15],
+                            unknown2 = lists[16],
+                            unknown3 = lists[17],
+                            unknown4 = lists[18],
+                            unknown5 = lists[19],
+                            unknown6 = lists[20],
+                            unknown7 = lists[21],
+                            unknown8 = lists[22],
+                            softSeat = lists[23],
+                            unknown9 = lists[24],
+                            specialSeat = lists[25],
+                            noSeat = lists[26],
+                            unknown10 = lists[27],
+                            hardSleeper = lists[28],
+                            hardSeat = lists[29],
+                            secondClass = lists[30],
+                            firstClass = lists[31],
+                            business = lists[32],
+                            stillLie = lists[33],
+                            unknown11 = lists[34],
+                            unknown12 = lists[35],
+                            unknown13 = lists[36],
+                            isCanAlternate = lists[37],
+                            noWaitingTables = lists[38],
+                        };
 
-                var url = string.Format(UrlConfig.query, train_date, from_code, to_code, "A");
-                var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query,train_date, from_code, to_code,"A"), _cookie));
+                        datas.Add(model);
+                    }
+                    return datas;
+                }
+                
+
             }
             catch(Exception ex)
             {
