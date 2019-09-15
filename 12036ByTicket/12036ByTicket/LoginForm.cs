@@ -20,12 +20,14 @@ namespace _12036ByTicket
             InitializeComponent();
             #region Login_init
             LoadCaptchaImg();
+      
             #endregion
         }
         private List<Point> _clickPoints = null;
         private const int ClickImgSize = 32;
         private void btn_Login_Click(object sender, EventArgs e)
         {
+            _12306Service.getQuery("","","");
             string answer = "";
             if (_clickPoints.Count > 0)
             {
@@ -50,6 +52,7 @@ namespace _12036ByTicket
         }
         private void LoadCaptchaImg()
         {
+            
             var img = _12306Service.GetCaptcha();
             if (img == null)
             {
@@ -102,5 +105,6 @@ namespace _12036ByTicket
             }
 
         }
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using _12036ByTicket.Common;
+using _12036ByTicket.LogicModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,7 +21,9 @@ namespace _12036ByTicket.Services
         private static CookieContainer _cookie = null;
         private const string DefaultAgent =
            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
-
+        private static List<StationNames> _stationNames=new List<StationNames>();
+        
+        
         /// <summary>
         /// 获取验证码
         /// </summary>
@@ -46,6 +50,113 @@ namespace _12036ByTicket.Services
             }
             return null;
         }
+        /// <summary>
+        /// 获取站点的代码
+        /// </summary>
+        /// <returns></returns>
+        public static List<StationNames> getFavoriteName()
+        {
+            try
+            {              
+                var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, UrlConfig.getFavoriteNname, _cookie)).Split('=');
+                var group = response[1].Split('@');
+                foreach (var column in group)
+                {
+                    if (column== "'")
+                    {
+                        continue;
+                    }                       
+                    var model = column.Split('|');
+                    StationNames names = new StationNames()
+                    {
+
+                        nameCode = model[0],
+                        name = model[1],
+                        code = model[2],
+                        pinYin = model[3],
+                        pinYinInitials = model[4],
+                        id = model[5],
+                    };
+                    _stationNames.Add(names);
+                }
+
+                return _stationNames;
+            }
+            catch(Exception ex)
+            {
+                Logger.Error($"getFavoriteName_{ex.Message}_{ex.StackTrace}");
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 查询车次
+        /// </summary>
+        /// <param name="train_date">乘车日期</param>
+        /// <param name="from_station">始发站对应代码</param>
+        /// <param name="to_station">终点站对应代码</param>
+        /// <returns></returns>
+        public static string getQuery(string train_date,string from_station,string to_station)
+        {
+            try
+            {
+                var js = getJs();
+                if (_cookie == null)
+                {
+                    _cookie = new CookieContainer();
+                }
+                _cookie.Add(new Cookie ("RAIL_DEVICEID",js.RAIL_DEVICEID,"","kyfw.12306.cn"));
+                _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+                train_date = "2019-09-16";
+                from_station = "长沙南";
+                to_station = "深圳北";
+                if (_stationNames.Count==0||_stationNames==null)
+                {
+                    _stationNames = getFavoriteName();
+                }
+                var from_code = string.Empty;
+                var to_code = string.Empty;
+                var fromCode = _stationNames.FirstOrDefault(x => x.name == from_station);
+                if(fromCode!=null)
+                {
+                    from_code = fromCode.code;
+                }
+                var toCode = _stationNames.FirstOrDefault(x => x.name == to_station);
+                if (toCode != null)
+                {
+                    to_code = toCode.code;
+                }
+
+
+                var url = string.Format(UrlConfig.query, train_date, from_code, to_code, "A");
+                var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query,train_date, from_code, to_code,"A"), _cookie));
+            }
+            catch(Exception ex)
+            {
+                Logger.Error($"getQuery{ex.Message}_{ex.StackTrace}");
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取加密指纹 
+        /// </summary>
+        /// <returns></returns>
+        public static Rail getJs()
+        {
+            try
+            {              
+                var response = JsonConvert.DeserializeObject<Rail>(HttpHelper.StringGet(DefaultAgent,UrlConfig.getLogdevice, _cookie));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"getJs{ex.Message}_{ex.StackTrace}");
+            }
+            return new Rail();
+        }
+  
+
         /// <summary>
         /// 校验验证码
         /// </summary>
