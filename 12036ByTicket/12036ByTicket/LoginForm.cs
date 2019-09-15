@@ -51,7 +51,9 @@ namespace _12036ByTicket
             {
                 //登录
                 _12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode);
-                //登录逻辑
+                //拿用户信息
+              var username= _12306Service.GetUserInfo();
+                //跳转主页
                 MainForm logForm = new MainForm();
                 logForm.Show();
             }

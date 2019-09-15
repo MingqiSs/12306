@@ -24,6 +24,10 @@ namespace _12036ByTicket.Common
         /// 登陆
         /// </summary>
         public static string login = $"{baseUrl}/passport/web/login";
+        /// <summary>
+        /// 授权
+        /// </summary>
+        public static string auth = $"{baseUrl}/passport/web/auth/uamtk-static";
 
     }
 }

@@ -123,10 +123,35 @@ namespace _12036ByTicket.Services
                 return true;
                 //登录失败
             }
-            return false;
         }
 
-       
+        /// <summary>
+        /// 用户授权
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserInfo()
+        {
+            var appId = "otn";
+
+            string postData = string.Format("appid={0}", appId);
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.auth, postData, _cookie);
+            //todo:{
+                //                "apptk": null,
+                //"result_message": "验证通过",
+                //"name": "屈兴明",
+                //"result_code": 0,
+                //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
+                //}
+            dynamic result = JsonConvert.DeserializeObject(response);
+            if (result.result_code == 0)
+            {
+                return result.name;
+            }
+            else
+            {
+                return "";
+            }
+        }
 
     }
 }
