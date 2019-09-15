@@ -1,4 +1,6 @@
 ﻿using _12036ByTicket.Common;
+using _12036ByTicket.LogicModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,7 +21,7 @@ namespace _12036ByTicket.Services
         private static CookieContainer _cookie = null;
         private const string DefaultAgent =
            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
-
+        private static List<StationNames> _stationNames = new List<StationNames>();
         /// <summary>
         /// _cookie 初始化
         /// </summary>
