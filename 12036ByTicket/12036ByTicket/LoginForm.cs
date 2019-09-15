@@ -18,30 +18,33 @@ namespace _12036ByTicket
         public LoginForm()
         {
             InitializeComponent();
+
             #region Login_init
+            _12306Service.Ticket_Init();
             LoadCaptchaImg();
       
             #endregion
         }
         private List<Point> _clickPoints = null;
-        private const int ClickImgSize = 32;
+        private const int ClickImgSize = 32;//287, 175
         private void btn_Login_Click(object sender, EventArgs e)
         {
-            _12306Service.getQuery("","","");
             string answer = "";
             if (_clickPoints.Count > 0)
             {
                 answer = _clickPoints.Aggregate(answer,
-                    (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
+                     (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
             } 
-           var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  //randCode = randCode.replace(']', '').replace('[', '').replace("'", '').replace(' ', '')
-          // randCode = tb_userName.Text;
+           var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  
+        //    MessageBox.Show(randCode);
             var isCheck = _12306Service.CheckCaptcha(randCode);
             if (isCheck)
             {
                 //登录
-                _12306Service.Login("xiangmingqo", "", "123");
-                //登录逻辑
+                _12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode);
+                //拿用户信息
+              var username= _12306Service.GetUserInfo();
+                //跳转主页
                 MainForm logForm = new MainForm();
                 logForm.Show();
             }
@@ -103,6 +106,11 @@ namespace _12036ByTicket
                 g.DrawImage(clickImg, new Point(x - 10, y - 10));
                 _clickPoints.Add(new Point(x - 10, y - 10));
             }
+
+        }
+
+        private void Captcha_Img_Click(object sender, EventArgs e)
+        {
 
         }
 

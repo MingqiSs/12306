@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace _12036ByTicket.Common
 {
-  public  class HttpHelper
+    public class HttpHelper
     {
-        public static Stream Get(string agent, string url, CookieContainer cookie)
+        public static HttpWebResponse Get(string agent, string url, CookieContainer cookie)
         {
             try
             {
@@ -23,10 +23,7 @@ namespace _12036ByTicket.Common
                 request.Referer = "https://kyfw.12306.cn/otn/resources/login.html";
                 request.KeepAlive = true;
                 request.CookieContainer = cookie;
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-               
-                return responseStream;
+                return (HttpWebResponse)request.GetResponse();
             }
             catch (Exception ex)
             {
@@ -42,27 +39,49 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static string StringGet(string agent, string url, CookieContainer cookie)
         {
-            Stream queryStream = Get(agent, url, cookie);
+            Stream queryStream = Get(agent, url, cookie).GetResponseStream();
             StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
             string content = queryReader.ReadToEnd();
             queryReader.Close();
             return content;
         }
 
-        /// <summary>
-        /// 返回json
-        /// </summary>
-        /// <param name="agent"></param>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="cookie"></param>
-        /// <returns></returns>
-        public static HttpJsonEntity<Dictionary<string, string>> Post(string agent, string url, string data, CookieContainer cookie)
+      /// <summary>
+      /// post
+      /// </summary>
+      /// <param name="agent"></param>
+      /// <param name="url"></param>
+      /// <param name="data"></param>
+      /// <param name="cookie"></param>
+      /// <returns></returns>
+        public static HttpWebResponse  Post(string agent, string url, string data, CookieContainer cookie)
         {
-            string responseContent = StringPost(agent, url, data, cookie);
-            HttpJsonEntity<Dictionary<string, string>> retDic =
-                null;
-            return retDic;
+            HttpWebResponse response = null;
+            try
+            {
+                Logger.Info($"请求地址:{url},data:{data}");
+                ServicePointManager.Expect100Continue = false;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.UserAgent = agent;
+                request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+                request.Method = "POST";
+                request.KeepAlive = true;
+                request.CookieContainer = cookie;
+                if (!string.IsNullOrEmpty(data))
+                {
+                    string postDataStr = data;
+                    byte[] postData = Encoding.UTF8.GetBytes(postDataStr);
+                    request.ContentLength = postData.Length;
+                    var requestStream = request.GetRequestStream();
+                    requestStream.Write(postData, 0, postData.Length);
+                }
+                 response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"请求异常错误:{ex.ToString()}");
+            }
+            return response;
         }
 
         /// <summary>
@@ -78,6 +97,7 @@ namespace _12036ByTicket.Common
             string responseContent = "";
             try
             {
+                Logger.Info($"请求地址:{url},data:{data}");
                 ServicePointManager.Expect100Continue = false;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = agent;
@@ -104,7 +124,8 @@ namespace _12036ByTicket.Common
             }
             catch (Exception ex)
             {
-             }
+                Logger.Error($"请求异常错误:{ex.ToString()}");
+            }
             return responseContent;
         }
     }
