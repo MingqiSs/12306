@@ -1,4 +1,5 @@
 ﻿using _12036ByTicket.Common;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,6 +31,10 @@ namespace _12036ByTicket.Services
             }
             var response = HttpHelper.Get(DefaultAgent, string.Format(UrlConfig.left_Ticket_init), _cookie);
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1568666175873","", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_DEVICEID",
+                "VZcpy-vSck_0i1MmFcc4Y-nKkT30oO52BZugg_aaWyXYGCIonpZSV1RFVKZZm7CnOUHn407QsQXnACiI6fuexbGdMmIb9mw9_VjEENIkuykE4WqgHp4yaUjsWowNiYoYDVex-iwf6UOaheyjD4ZKPh3Yo3Ubpr0c",
+                "", "kyfw.12306.cn"));
         }
         /// <summary>
         /// 获取验证码
@@ -99,15 +104,25 @@ namespace _12036ByTicket.Services
         {
             var appId = "otn";
 
-            string postData = string.Format("user_name={0}&password={1}&answer={2}&appid={3}", userName,
+            string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
                 passWord, randCode,appId);
-            HttpJsonEntity<Dictionary<string, string>> retEntity =
-                HttpHelper.Post(DefaultAgent, UrlConfig.login, postData, _cookie);
-            if (retEntity.status.ToUpper().Equals("TRUE") && retEntity.httpstatus.Equals(200))
+            string response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
+            if (string.IsNullOrWhiteSpace(response)) return false;
+            // {
+            //                "result_message": "登录成功",
+            //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
+            //"result_code": 0
+            // }
+            dynamic result = JsonConvert.DeserializeObject(response);
+            if (result.result_code == 0)
             {
                 return true;
+                //登录成功
             }
-        //   msg = retEntity.messages[0];
+            else {
+                return true;
+                //登录失败
+            }
             return false;
         }
 

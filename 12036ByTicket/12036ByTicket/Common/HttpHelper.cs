@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _12036ByTicket.Common
 {
-  public  class HttpHelper
+    public class HttpHelper
     {
         public static HttpWebResponse Get(string agent, string url, CookieContainer cookie)
         {
@@ -75,6 +75,7 @@ namespace _12036ByTicket.Common
             string responseContent = "";
             try
             {
+                Logger.Info($"请求地址:{url},data:{data}");
                 ServicePointManager.Expect100Continue = false;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = agent;
@@ -101,6 +102,7 @@ namespace _12036ByTicket.Common
             }
             catch (Exception ex)
             {
+                Logger.Error($"请求异常错误:{ex.ToString()}");
             }
             return responseContent;
         }
