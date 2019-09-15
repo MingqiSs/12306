@@ -28,6 +28,16 @@ namespace _12036ByTicket
         private const int ClickImgSize = 32;//287, 175
         private void btn_Login_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(tb_userName.Text))
+            {
+                MessageBox.Show("请输入用户名");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(tb_passWord.Text))
+            {
+                MessageBox.Show("请输入密码");
+                return;
+            }
             string answer = "";
             if (_clickPoints.Count > 0)
             {
@@ -40,7 +50,7 @@ namespace _12036ByTicket
             if (isCheck)
             {
                 //登录
-                _12306Service.Login("xiangmingqo", "", "123");
+                _12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode);
                 //登录逻辑
                 MainForm logForm = new MainForm();
                 logForm.Show();

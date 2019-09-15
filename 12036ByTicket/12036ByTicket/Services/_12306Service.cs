@@ -97,10 +97,10 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static bool Login(string userName, string passWord, string randCode)
         {
-          //  var popup_passport_appId = "otn";
+            var appId = "otn";
 
-            string postData = string.Format("loginUserDTO.user_name={0}&userDTO.password={1}&randCode={2}", userName,
-                passWord, randCode);
+            string postData = string.Format("user_name={0}&password={1}&answer={2}&appid={3}", userName,
+                passWord, randCode,appId);
             HttpJsonEntity<Dictionary<string, string>> retEntity =
                 HttpHelper.Post(DefaultAgent, UrlConfig.login, postData, _cookie);
             if (retEntity.status.ToUpper().Equals("TRUE") && retEntity.httpstatus.Equals(200))
