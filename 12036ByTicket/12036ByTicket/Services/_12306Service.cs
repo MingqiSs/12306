@@ -263,31 +263,37 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static bool Login(string userName, string passWord, string randCode)
         {
-            var appId = "otn";
-
-            string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
-                passWord, randCode,appId);
-            string response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
-            if (string.IsNullOrWhiteSpace(response)) return false;
-            // {
-            //                "result_message": "登录成功",
-            //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
-            //"result_code": 0
-            // }
-            dynamic result = JsonConvert.DeserializeObject(response);
-            if (result.result_code == 0)
+            try
             {
-                return true;
-                //登录成功
+                var appId = "otn";
+
+                string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
+                    passWord, randCode, appId);
+                string response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
+                if (string.IsNullOrWhiteSpace(response)) return false;
+                // {
+                //                "result_message": "登录成功",
+                //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
+                //"result_code": 0
+                // }
+                dynamic result = JsonConvert.DeserializeObject(response);
+                if (result.result_code == 0)
+                {
+                    return true;
+                    //登录成功
+                }
             }
-            else {
-                return true;
-                //登录失败
+            catch (Exception ex)
+            {
+              Logger.Error($"登陆发生异常:{ ex.ToString() }");
             }
+            
+            return false;
+            //登录失败
         }
 
         /// <summary>
-        /// 用户授权
+        /// 获取用户信息
         /// </summary>
         /// <returns></returns>
         public static string GetUserInfo()
@@ -313,6 +319,30 @@ namespace _12036ByTicket.Services
                 return "";
             }
         }
-
+        /// <summary>
+        /// 获取联系人
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPassenger()
+        {
+            string postData = string.Format("_json_att=''");
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.getPassenger, postData, _cookie);
+            //todo:{
+            //                "apptk": null,
+            //"result_message": "验证通过",
+            //"name": "屈兴明",
+            //"result_code": 0,
+            //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
+            //}
+            dynamic result = JsonConvert.DeserializeObject(response);
+            if (result.result_code == 0)
+            {
+                return result.name;
+            }
+            else
+            {
+                return "";
+            }
+        }
     }
 }

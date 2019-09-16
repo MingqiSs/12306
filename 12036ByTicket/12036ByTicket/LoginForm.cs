@@ -41,12 +41,14 @@ namespace _12036ByTicket
             if (isCheck)
             {
                 //登录
-                _12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode);
-                //拿用户信息
-              var username= _12306Service.GetUserInfo();
-                //跳转主页
-                MainForm logForm = new MainForm();
-                logForm.Show();
+                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode))
+                {
+                    //拿用户信息
+                  //  var username = _12306Service.GetUserInfo();
+                    //跳转主页
+                    MainForm logForm = new MainForm();
+                    logForm.Show();
+                }
             }
             else {
                 LoadCaptchaImg();
@@ -114,5 +116,9 @@ namespace _12036ByTicket
 
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

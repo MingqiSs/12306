@@ -91,8 +91,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.userinfo_tb = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.pl_passengers = new System.Windows.Forms.FlowLayoutPanel();
+            this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.seat_ck_b = new System.Windows.Forms.CheckedListBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.select_train_lb = new System.Windows.Forms.ListBox();
+            this.Ticket_btn = new System.Windows.Forms.Button();
+            this.Log_txb = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.flp_seatTypes.SuspendLayout();
@@ -102,6 +110,16 @@
             // 
             // gb_main
             // 
+            this.gb_main.Controls.Add(this.label9);
+            this.gb_main.Controls.Add(this.Log_txb);
+            this.gb_main.Controls.Add(this.Ticket_btn);
+            this.gb_main.Controls.Add(this.select_train_lb);
+            this.gb_main.Controls.Add(this.label8);
+            this.gb_main.Controls.Add(this.seat_ck_b);
+            this.gb_main.Controls.Add(this.label7);
+            this.gb_main.Controls.Add(this.pass_ck_b);
+            this.gb_main.Controls.Add(this.label1);
+            this.gb_main.Controls.Add(this.userinfo_tb);
             this.gb_main.Controls.Add(this.tb_logInfo);
             this.gb_main.Controls.Add(this.ckb_multiBuy);
             this.gb_main.Controls.Add(this.lb_to);
@@ -122,16 +140,15 @@
             this.gb_main.Controls.Add(this.label3);
             this.gb_main.Controls.Add(this.tb_stationFrom);
             this.gb_main.Controls.Add(this.label2);
-            this.gb_main.Controls.Add(this.label1);
-            this.gb_main.Controls.Add(this.pl_passengers);
-            this.gb_main.Location = new System.Drawing.Point(48, 17);
+            this.gb_main.Location = new System.Drawing.Point(42, 17);
             this.gb_main.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.gb_main.Name = "gb_main";
             this.gb_main.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
-            this.gb_main.Size = new System.Drawing.Size(938, 659);
+            this.gb_main.Size = new System.Drawing.Size(1131, 609);
             this.gb_main.TabIndex = 1;
             this.gb_main.TabStop = false;
-            this.gb_main.Text = "groupBox1";
+            this.gb_main.Text = "抢票页面";
+            this.gb_main.Enter += new System.EventHandler(this.gb_main_Enter);
             // 
             // tb_logInfo
             // 
@@ -177,7 +194,7 @@
             this.login_out.AutoSize = true;
             this.login_out.Cursor = System.Windows.Forms.Cursors.Hand;
             this.login_out.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.login_out.Location = new System.Drawing.Point(885, 14);
+            this.login_out.Location = new System.Drawing.Point(1052, 21);
             this.login_out.Name = "login_out";
             this.login_out.Size = new System.Drawing.Size(29, 12);
             this.login_out.TabIndex = 24;
@@ -212,7 +229,7 @@
             this.Column20,
             this.Column21,
             this.Column22});
-            this.dgv_tickets.Location = new System.Drawing.Point(11, 164);
+            this.dgv_tickets.Location = new System.Drawing.Point(0, 168);
             this.dgv_tickets.MultiSelect = false;
             this.dgv_tickets.Name = "dgv_tickets";
             this.dgv_tickets.ReadOnly = true;
@@ -223,7 +240,7 @@
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_tickets.Size = new System.Drawing.Size(917, 476);
+            this.dgv_tickets.Size = new System.Drawing.Size(1109, 313);
             this.dgv_tickets.TabIndex = 21;
             // 
             // TrianCode
@@ -758,34 +775,102 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "出发地：";
             // 
+            // userinfo_tb
+            // 
+            this.userinfo_tb.AutoSize = true;
+            this.userinfo_tb.Location = new System.Drawing.Point(9, 26);
+            this.userinfo_tb.Name = "userinfo_tb";
+            this.userinfo_tb.Size = new System.Drawing.Size(59, 12);
+            this.userinfo_tb.TabIndex = 30;
+            this.userinfo_tb.Text = "当前账户:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 9.047121F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(10, 30);
+            this.label1.Location = new System.Drawing.Point(12, 488);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 19);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "乘车人:";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "*选择乘客:";
             // 
-            // pl_passengers
+            // pass_ck_b
             // 
-            this.pl_passengers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pl_passengers.Font = new System.Drawing.Font("微软雅黑", 9.047121F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pl_passengers.Location = new System.Drawing.Point(68, 21);
-            this.pl_passengers.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pl_passengers.Name = "pl_passengers";
-            this.pl_passengers.Size = new System.Drawing.Size(738, 32);
-            this.pl_passengers.TabIndex = 0;
+            this.pass_ck_b.FormattingEnabled = true;
+            this.pass_ck_b.Location = new System.Drawing.Point(11, 503);
+            this.pass_ck_b.Name = "pass_ck_b";
+            this.pass_ck_b.Size = new System.Drawing.Size(80, 100);
+            this.pass_ck_b.TabIndex = 32;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(125, 488);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "*选择席位:";
+            // 
+            // seat_ck_b
+            // 
+            this.seat_ck_b.FormattingEnabled = true;
+            this.seat_ck_b.Location = new System.Drawing.Point(127, 503);
+            this.seat_ck_b.Name = "seat_ck_b";
+            this.seat_ck_b.Size = new System.Drawing.Size(80, 100);
+            this.seat_ck_b.TabIndex = 34;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(220, 488);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 12);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "*已选车次:";
+            // 
+            // select_train_lb
+            // 
+            this.select_train_lb.FormattingEnabled = true;
+            this.select_train_lb.ItemHeight = 12;
+            this.select_train_lb.Location = new System.Drawing.Point(214, 503);
+            this.select_train_lb.Name = "select_train_lb";
+            this.select_train_lb.Size = new System.Drawing.Size(78, 100);
+            this.select_train_lb.TabIndex = 36;
+            // 
+            // Ticket_btn
+            // 
+            this.Ticket_btn.Location = new System.Drawing.Point(1006, 537);
+            this.Ticket_btn.Name = "Ticket_btn";
+            this.Ticket_btn.Size = new System.Drawing.Size(103, 61);
+            this.Ticket_btn.TabIndex = 37;
+            this.Ticket_btn.Text = "下单";
+            this.Ticket_btn.UseVisualStyleBackColor = true;
+            // 
+            // Log_txb
+            // 
+            this.Log_txb.Location = new System.Drawing.Point(448, 503);
+            this.Log_txb.Multiline = true;
+            this.Log_txb.Name = "Log_txb";
+            this.Log_txb.Size = new System.Drawing.Size(363, 99);
+            this.Log_txb.TabIndex = 38;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(446, 488);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 12);
+            this.label9.TabIndex = 39;
+            this.label9.Text = "输出区域:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1028, 667);
+            this.ClientSize = new System.Drawing.Size(1182, 631);
             this.Controls.Add(this.gb_main);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.gb_main.ResumeLayout(false);
             this.gb_main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).EndInit();
@@ -863,7 +948,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_stationFrom;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label userinfo_tb;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.FlowLayoutPanel pl_passengers;
+        private System.Windows.Forms.CheckedListBox pass_ck_b;
+        private System.Windows.Forms.CheckedListBox seat_ck_b;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ListBox select_train_lb;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox Log_txb;
+        private System.Windows.Forms.Button Ticket_btn;
     }
 }
