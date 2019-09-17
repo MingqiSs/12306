@@ -38,7 +38,6 @@
             this.tb_userName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cb_remember = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Captcha_Img)).BeginInit();
@@ -52,7 +51,6 @@
             this.groupBox1.Controls.Add(this.tb_userName);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.cb_remember);
             this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 9.047121F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.Location = new System.Drawing.Point(29, 11);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
@@ -162,17 +160,6 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "验证码";
             // 
-            // cb_remember
-            // 
-            this.cb_remember.AutoSize = true;
-            this.cb_remember.Location = new System.Drawing.Point(239, 55);
-            this.cb_remember.Margin = new System.Windows.Forms.Padding(2);
-            this.cb_remember.Name = "cb_remember";
-            this.cb_remember.Size = new System.Drawing.Size(67, 23);
-            this.cb_remember.TabIndex = 1;
-            this.cb_remember.Text = "记住我";
-            this.cb_remember.UseVisualStyleBackColor = true;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -201,7 +188,6 @@
         private System.Windows.Forms.TextBox tb_userName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox cb_remember;
         private System.Windows.Forms.PictureBox Captcha_Img;
     }
 }

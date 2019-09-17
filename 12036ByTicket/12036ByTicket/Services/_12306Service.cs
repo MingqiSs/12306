@@ -229,31 +229,25 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static bool CheckCaptcha(string randCode)
         {
-            try
+            if (_cookie == null)
             {
-                if (_cookie == null)
-                {
-                    _cookie = new CookieContainer();
-                }
-                //
-                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
-                long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
-               // var url = string.Format(UrlConfig.captcha_Check, randCode, timeStamp);                                        
-                var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check, randCode, timeStamp), _cookie);
-                ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
-                var result_code = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["result_code"];
-                if ((int)result_code == 4)
-                {
-                    return true;
-                }
-                else if ((int)result_code == 5)
-                {
-                    MessageBox.Show("验证码校验失败！");
-                }
+                _cookie = new CookieContainer();
             }
-            catch (Exception ex)
+            //
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
+                                                                                 // var url = string.Format(UrlConfig.captcha_Check, randCode, timeStamp);                                        
+            var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check, randCode, timeStamp), _cookie);
+            ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
+          var dyData= ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]));
+            var result_code = dyData["result_code"];
+            if ((int)result_code == 4)
             {
-                Logger.Error($"校验验证码失败{ex}");
+                return true;
+            }
+            else if ((int)result_code == 5)
+            {
+                MessageBox.Show($"{dyData["result_message"]}");
             }
             return false;
         }
@@ -263,33 +257,41 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static bool Login(string userName, string passWord, string randCode)
         {
-            try
-            {
-                var appId = "otn";
+            var appId = "otn";
 
-                string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
-                    passWord, randCode, appId);
-                string response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
-                if (string.IsNullOrWhiteSpace(response)) return false;
-                // {
-                //                "result_message": "登录成功",
-                //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
-                //"result_code": 0
-                // }
-                dynamic result = JsonConvert.DeserializeObject(response);
-                if (result.result_code == 0)
+            string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
+                passWord, randCode, appId);
+            string responseContent = string.Empty;
+            var response = HttpHelper.Post(DefaultAgent, UrlConfig.login, postData, _cookie);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                foreach (Cookie cookie in response.Cookies)
                 {
-                    return true;
-                    //登录成功
+                    _cookie.Add(cookie);
+                }
+                Stream responseStream = response.GetResponseStream();
+                if (responseStream != null)
+                {
+                    StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);
+                    responseContent = responseStreamReader.ReadToEnd();
+                    responseStreamReader.Close();
                 }
             }
-            catch (Exception ex)
+            if (string.IsNullOrWhiteSpace(responseContent)) return false;
+            // {
+            //                "result_message": "登录成功",
+            //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
+            //"result_code": 0
+            // }
+            dynamic result = JsonConvert.DeserializeObject(responseContent);
+            if (result.result_code == 0)
             {
-              Logger.Error($"登陆发生异常:{ ex.ToString() }");
+                return true;
+                //登录成功
             }
-            
-            return false;
             //登录失败
+            MessageBox.Show($"{result.result_message}");
+            return false;
         }
 
         /// <summary>
@@ -325,15 +327,10 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static string GetPassenger()
         {
-            string postData = string.Format("_json_att=''");
+            string postData = string.Format("_json_att={0}", "");
             var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.getPassenger, postData, _cookie);
-            //todo:{
-            //                "apptk": null,
-            //"result_message": "验证通过",
-            //"name": "屈兴明",
-            //"result_code": 0,
-            //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
-            //}
+            //validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{ "isExist":false,"exMsg":"用户未登录","noLogin":"true","normal_passengers":null,"dj_passengers":null},"messages":[],"validateMessages":{}}
+          //  if getPassengerDTOsResult.get("data", False) and getPassengerDTOsResult["data"].get("normal_passengers", False):
             dynamic result = JsonConvert.DeserializeObject(response);
             if (result.result_code == 0)
             {

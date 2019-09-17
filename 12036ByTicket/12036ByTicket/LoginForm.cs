@@ -29,14 +29,28 @@ namespace _12036ByTicket
         private const int ClickImgSize = 32;//287, 175
         private void btn_Login_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(tb_userName.Text))
+            {
+                MessageBox.Show("请输入用户名！");
+                return;
+            }
+            if ( string.IsNullOrWhiteSpace(tb_passWord.Text))
+            {
+                MessageBox.Show("请输入密码！");
+                return;
+            }
             string answer = "";
             if (_clickPoints.Count > 0)
             {
                 answer = _clickPoints.Aggregate(answer,
                      (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
-            } 
-           var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  
-        //    MessageBox.Show(randCode);
+            }
+            if (string.IsNullOrWhiteSpace(answer))
+            {
+                MessageBox.Show("请选择验证码！");
+                return;
+            }
+            var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  
             var isCheck = _12306Service.CheckCaptcha(randCode);
             if (isCheck)
             {
