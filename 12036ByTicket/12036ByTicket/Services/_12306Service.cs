@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,9 +36,13 @@ namespace _12036ByTicket.Services
             var response = HttpHelper.Get(DefaultAgent, string.Format(UrlConfig.left_Ticket_init), _cookie);
             var js = getJs();
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+            //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+            //_cookie.Add(new Cookie("RAIL_DEVICEID",
+            //    js.RAIL_DEVICEID,
+            //    "", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569092519824", "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-                js.RAIL_DEVICEID,
+               "ekbSAp1GPWkmSQp7wih0ClKuNgjwA-k7fNoJSKQVOcGgNa_DzcO4QUJONRjGOzUnIoTRVb5z354Q78a0_SPELqteCL6ARLeZ0Fkn1HTur9CTYGDylJusMoiSo7h0kypFlZC5z6cG4f-tzhIj2wXRTv9zMXgNq5jd",
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -51,8 +56,7 @@ namespace _12036ByTicket.Services
                 if (_cookie == null)
                 {
                     _cookie = new CookieContainer();
-                }
-                getQuery("","","");
+                }               
                 var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
                 var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["image"];
                 //var fromBase64 = $"data:image/jpg;base64,{result}";
@@ -113,15 +117,15 @@ namespace _12036ByTicket.Services
         /// <param name="from_station">始发站对应代码</param>
         /// <param name="to_station">终点站对应代码</param>
         /// <returns></returns>
-        public static List<DataInfo> getQuery(string train_date,string from_station,string to_station)
+        public static List<DataInfo> getQuery(string train_date, string from_station, string to_station)
         {
             try
             {
-                
+
                 train_date = "2019-09-16";
                 from_station = "长沙南";
                 to_station = "深圳北";
-                if (_stationNames.Count==0||_stationNames==null)
+                if (_stationNames.Count == 0 || _stationNames == null)
                 {
                     _stationNames = getFavoriteName();
                 }
@@ -129,7 +133,7 @@ namespace _12036ByTicket.Services
                 var to_code = string.Empty;
                 var datas = new List<DataInfo>();
                 var fromCode = _stationNames.FirstOrDefault(x => x.name == from_station);
-                if(fromCode!=null)
+                if (fromCode != null)
                 {
                     from_code = fromCode.code;
                 }
@@ -139,12 +143,13 @@ namespace _12036ByTicket.Services
                     to_code = toCode.code;
                 }
 
-                var response =JsonConvert.DeserializeObject<stationData>(System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie)));
-                if(response.status=="true"&&response.httpstatus=="200")
-                {
+               var r =HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
+                var response = JsonConvert.DeserializeObject<stationData>(r);
                     var map = response.data.map;
+                if (response.status == "true" && response.httpstatus == "200")
+                {
                     var results = response.data.result;
-                    foreach(var result in results)
+                    foreach (var result in results)
                     {
                         var lists = result.Split('|');
                         var model = new DataInfo()
@@ -194,10 +199,8 @@ namespace _12036ByTicket.Services
                     }
                     return datas;
                 }
-                
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Error($"getQuery{ex.Message}_{ex.StackTrace}");
             }
@@ -262,35 +265,32 @@ namespace _12036ByTicket.Services
             string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
                 passWord, randCode, appId);
             string responseContent = string.Empty;
-            var response = HttpHelper.Post(DefaultAgent, UrlConfig.login, postData, _cookie);
-            if (response.StatusCode == HttpStatusCode.OK)
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
+            var retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+            if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
             {
-                foreach (Cookie cookie in response.Cookies)
+                postData = "appid=otn";
+                Thread.Sleep(1000);
+                response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtk, postData, _cookie);
+                retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                 {
-                    _cookie.Add(cookie);
+                    string newapptk = retDic["newapptk"];
+                    postData = "tk=" + newapptk;
+                    Thread.Sleep(1000);
+                    response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamauthclient, postData, _cookie);
+                    retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+                    if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
+                    {
+                        return true;
+                    }
                 }
-                Stream responseStream = response.GetResponseStream();
-                if (responseStream != null)
-                {
-                    StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);
-                    responseContent = responseStreamReader.ReadToEnd();
-                    responseStreamReader.Close();
-                }
-            }
-            if (string.IsNullOrWhiteSpace(responseContent)) return false;
-            // {
-            //                "result_message": "登录成功",
-            //"uamtk": "0KqvJJKDbWKtKnFkNmIrYwBs7ISoA2ui5e08x6DSl5k51x1x0",
-            //"result_code": 0
-            // }
-            dynamic result = JsonConvert.DeserializeObject(responseContent);
-            if (result.result_code == 0)
-            {
-                return true;
                 //登录成功
+                return true;
+                
             }
             //登录失败
-            MessageBox.Show($"{result.result_message}");
+            MessageBox.Show(retDic["result_message"]);
             return false;
         }
 
@@ -303,7 +303,7 @@ namespace _12036ByTicket.Services
             var appId = "otn";
 
             string postData = string.Format("appid={0}", appId);
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.auth, postData, _cookie);
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtkstatic, postData, _cookie);
             //todo:{
                 //                "apptk": null,
                 //"result_message": "验证通过",
@@ -322,24 +322,23 @@ namespace _12036ByTicket.Services
             }
         }
         /// <summary>
-        /// 获取联系人
+        /// 获取乘客列表
         /// </summary>
         /// <returns></returns>
-        public static string GetPassenger()
+        public static List<Normal_passengersItem> GetPassenger()
         {
+            var list = new List<Normal_passengersItem>();
             string postData = string.Format("_json_att={0}", "");
             var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.getPassenger, postData, _cookie);
             //validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{ "isExist":false,"exMsg":"用户未登录","noLogin":"true","normal_passengers":null,"dj_passengers":null},"messages":[],"validateMessages":{}}
           //  if getPassengerDTOsResult.get("data", False) and getPassengerDTOsResult["data"].get("normal_passengers", False):
-            dynamic result = JsonConvert.DeserializeObject(response);
-            if (result.result_code == 0)
+            var result = JsonConvert.DeserializeObject<PassengerDto>(response);
+            if (result.data.isExist&&result.data.normal_passengers!=null)
             {
-                return result.name;
+                list= result.data.normal_passengers;
+
             }
-            else
-            {
-                return "";
-            }
+            return list;
         }
     }
 }

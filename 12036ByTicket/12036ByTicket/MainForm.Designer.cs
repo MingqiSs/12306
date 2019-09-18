@@ -30,6 +30,16 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.Log_txb = new System.Windows.Forms.TextBox();
+            this.Ticket_btn = new System.Windows.Forms.Button();
+            this.select_train_lb = new System.Windows.Forms.ListBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.seat_ck_b = new System.Windows.Forms.CheckedListBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.userinfo_tb = new System.Windows.Forms.Label();
             this.tb_logInfo = new System.Windows.Forms.TextBox();
             this.ckb_multiBuy = new System.Windows.Forms.CheckBox();
             this.lb_to = new System.Windows.Forms.ListBox();
@@ -91,16 +101,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.userinfo_tb = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.seat_ck_b = new System.Windows.Forms.CheckedListBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.select_train_lb = new System.Windows.Forms.ListBox();
-            this.Ticket_btn = new System.Windows.Forms.Button();
-            this.Log_txb = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.flp_seatTypes.SuspendLayout();
@@ -110,6 +110,7 @@
             // 
             // gb_main
             // 
+            this.gb_main.Controls.Add(this.lb_from);
             this.gb_main.Controls.Add(this.label9);
             this.gb_main.Controls.Add(this.Log_txb);
             this.gb_main.Controls.Add(this.Ticket_btn);
@@ -123,7 +124,6 @@
             this.gb_main.Controls.Add(this.tb_logInfo);
             this.gb_main.Controls.Add(this.ckb_multiBuy);
             this.gb_main.Controls.Add(this.lb_to);
-            this.gb_main.Controls.Add(this.lb_from);
             this.gb_main.Controls.Add(this.login_out);
             this.gb_main.Controls.Add(this.dgv_tickets);
             this.gb_main.Controls.Add(this.flp_seatTypes);
@@ -150,9 +150,96 @@
             this.gb_main.Text = "抢票页面";
             this.gb_main.Enter += new System.EventHandler(this.gb_main_Enter);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(446, 488);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 12);
+            this.label9.TabIndex = 39;
+            this.label9.Text = "输出区域:";
+            // 
+            // Log_txb
+            // 
+            this.Log_txb.Location = new System.Drawing.Point(448, 503);
+            this.Log_txb.Multiline = true;
+            this.Log_txb.Name = "Log_txb";
+            this.Log_txb.Size = new System.Drawing.Size(363, 99);
+            this.Log_txb.TabIndex = 38;
+            // 
+            // Ticket_btn
+            // 
+            this.Ticket_btn.Location = new System.Drawing.Point(1006, 537);
+            this.Ticket_btn.Name = "Ticket_btn";
+            this.Ticket_btn.Size = new System.Drawing.Size(103, 61);
+            this.Ticket_btn.TabIndex = 37;
+            this.Ticket_btn.Text = "下单";
+            this.Ticket_btn.UseVisualStyleBackColor = true;
+            // 
+            // select_train_lb
+            // 
+            this.select_train_lb.FormattingEnabled = true;
+            this.select_train_lb.ItemHeight = 12;
+            this.select_train_lb.Location = new System.Drawing.Point(214, 503);
+            this.select_train_lb.Name = "select_train_lb";
+            this.select_train_lb.Size = new System.Drawing.Size(78, 100);
+            this.select_train_lb.TabIndex = 36;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(220, 488);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 12);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "*已选车次:";
+            // 
+            // seat_ck_b
+            // 
+            this.seat_ck_b.FormattingEnabled = true;
+            this.seat_ck_b.Location = new System.Drawing.Point(127, 503);
+            this.seat_ck_b.Name = "seat_ck_b";
+            this.seat_ck_b.Size = new System.Drawing.Size(80, 100);
+            this.seat_ck_b.TabIndex = 34;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(125, 488);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "*选择席位:";
+            // 
+            // pass_ck_b
+            // 
+            this.pass_ck_b.FormattingEnabled = true;
+            this.pass_ck_b.Location = new System.Drawing.Point(11, 503);
+            this.pass_ck_b.Name = "pass_ck_b";
+            this.pass_ck_b.Size = new System.Drawing.Size(80, 100);
+            this.pass_ck_b.TabIndex = 32;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 488);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 12);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "*选择乘客:";
+            // 
+            // userinfo_tb
+            // 
+            this.userinfo_tb.AutoSize = true;
+            this.userinfo_tb.Location = new System.Drawing.Point(12, 22);
+            this.userinfo_tb.Name = "userinfo_tb";
+            this.userinfo_tb.Size = new System.Drawing.Size(59, 12);
+            this.userinfo_tb.TabIndex = 30;
+            this.userinfo_tb.Text = "当前账户:";
+            // 
             // tb_logInfo
             // 
-            this.tb_logInfo.Location = new System.Drawing.Point(544, 55);
+            this.tb_logInfo.Location = new System.Drawing.Point(519, 50);
             this.tb_logInfo.Multiline = true;
             this.tb_logInfo.Name = "tb_logInfo";
             this.tb_logInfo.ReadOnly = true;
@@ -173,7 +260,7 @@
             // 
             this.lb_to.FormattingEnabled = true;
             this.lb_to.ItemHeight = 12;
-            this.lb_to.Location = new System.Drawing.Point(212, 93);
+            this.lb_to.Location = new System.Drawing.Point(205, 77);
             this.lb_to.Name = "lb_to";
             this.lb_to.Size = new System.Drawing.Size(80, 52);
             this.lb_to.TabIndex = 15;
@@ -183,7 +270,7 @@
             // 
             this.lb_from.FormattingEnabled = true;
             this.lb_from.ItemHeight = 12;
-            this.lb_from.Location = new System.Drawing.Point(68, 93);
+            this.lb_from.Location = new System.Drawing.Point(68, 77);
             this.lb_from.Name = "lb_from";
             this.lb_from.Size = new System.Drawing.Size(80, 52);
             this.lb_from.TabIndex = 14;
@@ -729,7 +816,7 @@
             // dtpicker
             // 
             this.dtpicker.CustomFormat = "";
-            this.dtpicker.Location = new System.Drawing.Point(378, 71);
+            this.dtpicker.Location = new System.Drawing.Point(362, 58);
             this.dtpicker.Name = "dtpicker";
             this.dtpicker.Size = new System.Drawing.Size(140, 21);
             this.dtpicker.TabIndex = 7;
@@ -737,7 +824,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(298, 76);
+            this.label4.Location = new System.Drawing.Point(291, 58);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 6;
@@ -745,7 +832,7 @@
             // 
             // tb_stationTo
             // 
-            this.tb_stationTo.Location = new System.Drawing.Point(212, 71);
+            this.tb_stationTo.Location = new System.Drawing.Point(205, 55);
             this.tb_stationTo.Name = "tb_stationTo";
             this.tb_stationTo.Size = new System.Drawing.Size(80, 21);
             this.tb_stationTo.TabIndex = 5;
@@ -753,7 +840,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(154, 75);
+            this.label3.Location = new System.Drawing.Point(154, 58);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 4;
@@ -761,7 +848,7 @@
             // 
             // tb_stationFrom
             // 
-            this.tb_stationFrom.Location = new System.Drawing.Point(68, 71);
+            this.tb_stationFrom.Location = new System.Drawing.Point(68, 55);
             this.tb_stationFrom.Name = "tb_stationFrom";
             this.tb_stationFrom.Size = new System.Drawing.Size(80, 21);
             this.tb_stationFrom.TabIndex = 3;
@@ -769,98 +856,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 74);
+            this.label2.Location = new System.Drawing.Point(15, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 2;
             this.label2.Text = "出发地：";
-            // 
-            // userinfo_tb
-            // 
-            this.userinfo_tb.AutoSize = true;
-            this.userinfo_tb.Location = new System.Drawing.Point(9, 26);
-            this.userinfo_tb.Name = "userinfo_tb";
-            this.userinfo_tb.Size = new System.Drawing.Size(59, 12);
-            this.userinfo_tb.TabIndex = 30;
-            this.userinfo_tb.Text = "当前账户:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 488);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 31;
-            this.label1.Text = "*选择乘客:";
-            // 
-            // pass_ck_b
-            // 
-            this.pass_ck_b.FormattingEnabled = true;
-            this.pass_ck_b.Location = new System.Drawing.Point(11, 503);
-            this.pass_ck_b.Name = "pass_ck_b";
-            this.pass_ck_b.Size = new System.Drawing.Size(80, 100);
-            this.pass_ck_b.TabIndex = 32;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(125, 488);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 12);
-            this.label7.TabIndex = 33;
-            this.label7.Text = "*选择席位:";
-            // 
-            // seat_ck_b
-            // 
-            this.seat_ck_b.FormattingEnabled = true;
-            this.seat_ck_b.Location = new System.Drawing.Point(127, 503);
-            this.seat_ck_b.Name = "seat_ck_b";
-            this.seat_ck_b.Size = new System.Drawing.Size(80, 100);
-            this.seat_ck_b.TabIndex = 34;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(220, 488);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 12);
-            this.label8.TabIndex = 35;
-            this.label8.Text = "*已选车次:";
-            // 
-            // select_train_lb
-            // 
-            this.select_train_lb.FormattingEnabled = true;
-            this.select_train_lb.ItemHeight = 12;
-            this.select_train_lb.Location = new System.Drawing.Point(214, 503);
-            this.select_train_lb.Name = "select_train_lb";
-            this.select_train_lb.Size = new System.Drawing.Size(78, 100);
-            this.select_train_lb.TabIndex = 36;
-            // 
-            // Ticket_btn
-            // 
-            this.Ticket_btn.Location = new System.Drawing.Point(1006, 537);
-            this.Ticket_btn.Name = "Ticket_btn";
-            this.Ticket_btn.Size = new System.Drawing.Size(103, 61);
-            this.Ticket_btn.TabIndex = 37;
-            this.Ticket_btn.Text = "下单";
-            this.Ticket_btn.UseVisualStyleBackColor = true;
-            // 
-            // Log_txb
-            // 
-            this.Log_txb.Location = new System.Drawing.Point(448, 503);
-            this.Log_txb.Multiline = true;
-            this.Log_txb.Name = "Log_txb";
-            this.Log_txb.Size = new System.Drawing.Size(363, 99);
-            this.Log_txb.TabIndex = 38;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(446, 488);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 12);
-            this.label9.TabIndex = 39;
-            this.label9.Text = "输出区域:";
             // 
             // MainForm
             // 

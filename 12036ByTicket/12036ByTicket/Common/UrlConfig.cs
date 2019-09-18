@@ -25,7 +25,7 @@ namespace _12036ByTicket.Common
         /// <summary>
         /// 授权
         /// </summary>
-        public static string auth = $"{baseUrl}/passport/web/auth/uamtk-static";
+        public static string uamtkstatic = $"{baseUrl}/passport/web/auth/uamtk-static";
 
         public static string loginCode = "https://kyfw.12306.cn/passport/captcha/captcha-image";
 
@@ -33,7 +33,12 @@ namespace _12036ByTicket.Common
         /// 登录步骤之获取用户名
         /// appid 写死 otn
         /// </summary>
-        public static string getUserName = $"{baseUrl}/passport/web/auth/uamtk";
+        public static string uamtk = $"{baseUrl}/passport/web/auth/uamtk";
+        /// <summary>
+        /// 登录步骤之获取用户名
+        /// appid 写死 otn
+        /// </summary>
+        public static string uamauthclient = $"{baseUrl}/otn/uamauthclient";
 
         /// <summary>
         /// 获取的浏览器session,为代码入口

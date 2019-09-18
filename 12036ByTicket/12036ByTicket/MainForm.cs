@@ -33,15 +33,15 @@ namespace _12036ByTicket
             //登录后获取用户信息
             this.userinfo_tb.Text = $"当前账户:【{userName}】";
             //乘客列表
-            _12306Service.GetPassenger();
-            String[] arr = new String[] { "乘客1", "乘客2", "乘客2", "乘客2", "乘客2", "乘客2", "乘客2" };
-            for (int i = 0; i < arr.Count(); i++)
+          var passengerlist= _12306Service.GetPassenger();
+            foreach (var item in passengerlist)
             {
-                pass_ck_b.Items.Add(arr[i]);
+                pass_ck_b.Items.Add(item.passenger_name);
             }
+            _12306Service.getQuery("", "", "");
             //席位选项
             String[] seatlist = new String[] { "硬卧", "硬座", "二等座", "一等座", "无座", "软卧", "动卧","软座","商务座","特等座" };
-            for (int i = 0; i < arr.Count(); i++)
+            for (int i = 0; i < seatlist.Count(); i++)
             {
                 seat_ck_b.Items.Add(seatlist[i]);
             }

@@ -64,7 +64,7 @@
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\Util.cs" />
-    <Compile Include="LogicModel\LogicModel.cs" />
+    <Compile Include="Model\LogicModel.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +80,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Logic.cs" />
+    <Compile Include="Model\PassengerDto.cs" />
     <Compile Include="Services\_12306Service.cs" />
     <EmbeddedResource Include="CaptchaCheck.resx">
       <DependentUpon>CaptchaCheck.cs</DependentUpon>
