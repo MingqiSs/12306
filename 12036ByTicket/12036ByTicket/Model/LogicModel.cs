@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _12036ByTicket.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +64,7 @@ namespace _12036ByTicket.LogicModel
 
         public string messages { get; set; }
 
-        public string status { get; set; }
+        public bool status { get; set; }
 
 
     }
@@ -235,4 +236,5 @@ namespace _12036ByTicket.LogicModel
         /// </summary>
         public string noWaitingTables { get; set; }
     }
+
 }

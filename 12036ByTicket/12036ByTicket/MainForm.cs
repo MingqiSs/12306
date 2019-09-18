@@ -1,4 +1,5 @@
-﻿using _12036ByTicket.Services;
+﻿using _12036ByTicket.Common;
+using _12036ByTicket.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +39,6 @@ namespace _12036ByTicket
             {
                 pass_ck_b.Items.Add(item.passenger_name);
             }
-            _12306Service.getQuery("", "", "");
             //席位选项
             String[] seatlist = new String[] { "硬卧", "硬座", "二等座", "一等座", "无座", "软卧", "动卧","软座","商务座","特等座" };
             for (int i = 0; i < seatlist.Count(); i++)
@@ -52,6 +52,27 @@ namespace _12036ByTicket
             Log_txb.AppendText(DateTime.Now.ToShortTimeString() + "  查询完毕,本次查询共用时:579毫秒"+ Environment.NewLine);
             Log_txb.AppendText(DateTime.Now.ToShortTimeString() + "  查询完毕,本次查询共用时:579毫秒" + Environment.NewLine);
             Log_txb.AppendText(DateTime.Now.ToShortTimeString() + "  查询完毕,本次查询共用时:579毫秒" + Environment.NewLine);
+        }
+
+        private void btn_search_Click(object sender, EventArgs e)
+        {
+
+            var train_date = dtpicker.Text;
+            //var train_date = "2019-09-18";
+            var from_station = tb_stationFrom.Text;
+            var to_station = tb_stationTo.Text;
+           var list= _12306Service.getQuery(train_date, from_station, to_station);
+            dgv_tickets.AutoGenerateColumns = false;
+            dgv_tickets.DataSource = list;
+            dgv_tickets.DoubleBuffered(true);
+            dgv_tickets.Rows[0].Selected = false;
+            FormatLogInfo("余票查询成功！");
+
+        }
+        private void FormatLogInfo(string arginfo)
+        {
+            string time = DateTime.Now.ToString("hh:mm:ss");
+            tb_logInfo.AppendText(string.Format("{0}  {1}\n", time, arginfo));
         }
     }
 }

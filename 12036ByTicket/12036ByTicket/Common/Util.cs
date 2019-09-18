@@ -139,7 +139,6 @@ namespace _12036ByTicket.Common
             pi.SetValue(dgv, setting, null);
         }
     }
-
     public class ValidateMessages
     {
     }

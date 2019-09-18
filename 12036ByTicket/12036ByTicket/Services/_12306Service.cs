@@ -117,21 +117,17 @@ namespace _12036ByTicket.Services
         /// <param name="from_station">始发站对应代码</param>
         /// <param name="to_station">终点站对应代码</param>
         /// <returns></returns>
-        public static List<DataInfo> getQuery(string train_date, string from_station, string to_station)
+        public static List<QueryTicket> getQuery(string train_date, string from_station, string to_station)
         {
+            var tickets = new List<QueryTicket>();
             try
             {
-
-                train_date = "2019-09-16";
-                from_station = "长沙南";
-                to_station = "深圳北";
                 if (_stationNames.Count == 0 || _stationNames == null)
                 {
                     _stationNames = getFavoriteName();
                 }
                 var from_code = string.Empty;
                 var to_code = string.Empty;
-                var datas = new List<DataInfo>();
                 var fromCode = _stationNames.FirstOrDefault(x => x.name == from_station);
                 if (fromCode != null)
                 {
@@ -143,68 +139,45 @@ namespace _12036ByTicket.Services
                     to_code = toCode.code;
                 }
 
-               var r =HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
+                var r = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
                 var response = JsonConvert.DeserializeObject<stationData>(r);
-                    var map = response.data.map;
-                if (response.status == "true" && response.httpstatus == "200")
+                var map = response.data.map;
+                if (response.status && response.data.result != null)
                 {
                     var results = response.data.result;
                     foreach (var result in results)
                     {
-                        var lists = result.Split('|');
-                        var model = new DataInfo()
-                        {
-                            sign = lists[0],
-                            state = lists[1],
-                            trainsNumber = lists[2],
-                            currentSchedule = lists[3],
-                            departureStation = lists[4],
-                            originInput = lists[5],
-                            currentArrivalStation = lists[6],
-                            currentArrivalStationInput = lists[7],
-                            startingTime = lists[8],
-                            arrivalTime = lists[9],
-                            after = lists[10],
-                            isCanBePurchased = lists[11],
-                            fastSign = lists[12],
-                            currentQueryDate = lists[13],
-                            unknown = lists[14],
-                            unknown1 = lists[15],
-                            unknown2 = lists[16],
-                            unknown3 = lists[17],
-                            unknown4 = lists[18],
-                            unknown5 = lists[19],
-                            unknown6 = lists[20],
-                            unknown7 = lists[21],
-                            unknown8 = lists[22],
-                            softSeat = lists[23],
-                            unknown9 = lists[24],
-                            specialSeat = lists[25],
-                            noSeat = lists[26],
-                            unknown10 = lists[27],
-                            hardSleeper = lists[28],
-                            hardSeat = lists[29],
-                            secondClass = lists[30],
-                            firstClass = lists[31],
-                            business = lists[32],
-                            stillLie = lists[33],
-                            unknown11 = lists[34],
-                            unknown12 = lists[35],
-                            unknown13 = lists[36],
-                            isCanAlternate = lists[37],
-                            noWaitingTables = lists[38],
-                        };
-
-                        datas.Add(model);
+                        QueryTicket ticket = new QueryTicket();
+                        string[] item = result.Split('|');
+                        ticket.SecretStr = item[0];
+                        ticket.Remark = item[1];
+                        ticket.Train_No = item[2];
+                        ticket.Station_Train_Code = item[3];
+                        ticket.From_Station_Name = map[item[6]];
+                        ticket.To_Station_Name = map[item[7]];
+                        ticket.Start_Time = item[8];
+                        ticket.Arrive_Time = item[9];
+                        ticket.LastedTime = item[10];
+                        ticket.Gr_Num = item[21];
+                        ticket.Qt_Num = item[22];
+                        ticket.Rw_Num = item[23];
+                        ticket.Rz_Num = item[25];
+                        ticket.Wz_Num = item[26];
+                        ticket.Yw_Num = item[28];
+                        ticket.Yz_Num = item[29];
+                        ticket.Ze_Num = item[30];
+                        ticket.Zy_Num = item[31];
+                        ticket.Swz_Num = item[32];
+                        ticket.Dw_Num = item[33];
+                        tickets.Add(ticket);
                     }
-                    return datas;
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error($"getQuery{ex.Message}_{ex.StackTrace}");
             }
-            return null;
+            return tickets;
         }
 
         /// <summary>
@@ -340,5 +313,6 @@ namespace _12036ByTicket.Services
             }
             return list;
         }
+     
     }
 }

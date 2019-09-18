@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.Log_txb = new System.Windows.Forms.TextBox();
@@ -322,8 +322,8 @@
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgv_tickets.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -812,14 +812,17 @@
             this.btn_search.TabIndex = 10;
             this.btn_search.Text = "查询";
             this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
             // 
             // dtpicker
             // 
-            this.dtpicker.CustomFormat = "";
+            this.dtpicker.CustomFormat = "yyyy-MM-dd";
+            this.dtpicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpicker.Location = new System.Drawing.Point(362, 58);
             this.dtpicker.Name = "dtpicker";
             this.dtpicker.Size = new System.Drawing.Size(140, 21);
             this.dtpicker.TabIndex = 7;
+            this.dtpicker.Value = new System.DateTime(2019, 9, 18, 22, 4, 53, 0);
             // 
             // label4
             // 
