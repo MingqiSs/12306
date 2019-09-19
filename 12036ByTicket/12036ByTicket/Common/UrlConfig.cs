@@ -82,5 +82,62 @@ namespace _12036ByTicket.Common
         /// 获取联系人
         /// </summary>
         public static string getPassenger = $"{baseUrl}/otn/confirmPassenger/getPassengerDTOs";
+
+        /// <summary>
+        /// 下单-预售下单-进入订单生成页
+        /// </summary>
+        public static string initDc = $"{baseUrl}/otn/confirmPassenger/initDc";
+
+        /// <summary>
+        /// 下单-预售下单-等待出票
+        /// </summary>
+        public static string queryOrderWaitTime = $"{baseUrl}/otn/confirmPassenger/queryOrderWaitTime?random={0}&tourFlag=dc&_json_att=";
+
+        /// <summary>
+        /// 下单-预售下单-订单排队
+        /// </summary>
+        public static string getQueueCount = $"{baseUrl}/otn/confirmPassenger/getQueueCount";
+
+        /// <summary>
+        /// 下单-预售下单-校验订单信息
+        /// </summary>
+        public static string checkOrderInfo = $"{baseUrl}/otn/confirmPassenger/checkOrderInfo";
+
+        /// <summary>
+        /// 下单-预售下单-提交订单
+        /// </summary>
+        public static string submitOrderRequest = $"{baseUrl}/otn/leftTicket/submitOrderRequest";
+
+        /// <summary>
+        /// 候补排队
+        /// </summary>
+        public static string queryQueue = $"{baseUrl}/otn/afterNate/queryQueue";
+
+        /// <summary>
+        /// 人脸验证
+        /// </summary>
+        public static string chechFace = $"{baseUrl}/otn/afterNate/chechFace";
+
+        /// <summary>
+        /// 提交候补信息
+        /// </summary>
+        public static string confirmHB = $"{baseUrl}/otn/afterNate/confirmHB";
+
+        /// <summary>
+        /// 获取候补信息
+        /// </summary>
+        public static string passengerInitApi = $"{baseUrl}/otn/afterNate/passengerInitApi";
+
+        /// <summary>
+        /// 提交候补订单
+        /// </summary>
+        public static string submitAfterNateOrderRequest = $"{baseUrl}/otn/afterNate/submitOrderRequest";
+
+        /// <summary>
+        /// 加入候补列表
+        /// </summary>
+        public static string getSuccessRate = $"{baseUrl}/otn/afterNate/getSuccessRate";
+
+
     }
 }
