@@ -1,5 +1,6 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.LogicModel;
+using Common.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -316,6 +317,33 @@ namespace _12036ByTicket.Services
             }
             return list;
         }
-     
+        public static string SubmitOrder(string secretStr)
+        {
+            var model = new SubmitOrderModel();
+            model.purpose_codes = "ADULT";
+            model.query_from_station_name = "长沙";
+            model.query_to_station_name = "深圳";
+            model.secretStr = secretStr;
+            model.tour_flag = "dc";
+            model.undefined = "";
+            model.train_date = "2019-09-23";
+            model.back_train_date = "2019-09-21";
+            var strDictionary = new BaseDictionary()
+            {
+                {"secretStr",System.Web.HttpUtility.UrlDecode(model.secretStr)},
+                {"train_date",model.train_date },
+                {"back_train_date",model.back_train_date },
+                {"tour_flag",model.tour_flag },
+                {"purpose_codes",model.purpose_codes},
+                {"query_from_station_name",model.query_from_station_name },
+                {"query_to_station_name",model.query_to_station_name },
+                {"undefined",model.undefined },
+            };
+            var postData = strDictionary.GetParmarStr();
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.submitOrderRequest, postData, _cookie);
+            return null;
+
+        }
+
     }
 }

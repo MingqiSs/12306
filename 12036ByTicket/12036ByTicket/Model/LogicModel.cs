@@ -1,6 +1,7 @@
 ﻿using _12036ByTicket.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -235,6 +236,54 @@ namespace _12036ByTicket.LogicModel
         ///这里会显示当前车次不可以候补坐席（显示的是坐席对应编码）
         /// </summary>
         public string noWaitingTables { get; set; }
+    }
+
+    /// <summary>
+    /// [普通下单]提交订单的model
+    /// </summary>
+    public class SubmitOrderModel
+    {
+        [Description("提交车次需要的字符串(需要解码。url.encode)")]
+        public string secretStr { get; set; }
+
+        [Description("车次发车时间")]
+        public string train_date { get; set; }
+
+        [Description("返程时间")]
+        public string back_train_date { get; set; }
+
+        [Description("写死dc")]
+        public string tour_flag { get; set; }
+
+        [Description("ADULT==成人票")]
+        public string purpose_codes { get; set; }
+
+        [Description("出发站")]
+        public string query_from_station_name { get; set; }
+
+        [Description("到达站")]
+        public string query_to_station_name { get; set; }
+
+        [Description("")]
+        public string undefined { get; set; }
+    }
+
+    /// <summary>
+    /// [普通下单]返回
+    /// </summary>
+    public class SubmitOrderResponse
+    {
+        [Description("为N时候代表车次代码可以提交，反之必然有错误信息，需要把错误信息打印出来")]
+        public string data { get; set; }
+
+        [Description("表示接口是否请求成功")]
+        public string status { get; set; }
+
+        [Description("错误信息")]
+        public string messages { get; set; }
+
+        [Description("校验的错误信息")]
+        public string validateMessages { get; set; }
     }
 
 }
