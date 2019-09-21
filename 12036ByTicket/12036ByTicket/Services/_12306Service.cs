@@ -78,7 +78,11 @@ namespace _12036ByTicket.Services
         public static List<StationNames> getFavoriteName()
         {
             try
-            {              
+            {
+                if (_stationNames != null && _stationNames.Count()>0)
+                {
+                    return _stationNames;
+                }
                 var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, UrlConfig.getFavoriteNname, _cookie)).Split('=');
                 var group = response[1].Split('@');
                 foreach (var column in group)
@@ -100,7 +104,6 @@ namespace _12036ByTicket.Services
                     };
                     _stationNames.Add(names);
                 }
-
                 return _stationNames;
             }
             catch(Exception ex)
@@ -243,14 +246,14 @@ namespace _12036ByTicket.Services
             if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
             {
                 postData = "appid=otn";
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtk, postData, _cookie);
                 retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                 if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                 {
                     string newapptk = retDic["newapptk"];
                     postData = "tk=" + newapptk;
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamauthclient, postData, _cookie);
                     retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                     if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))

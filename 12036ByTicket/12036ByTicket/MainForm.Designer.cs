@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
+            this.lb_from = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
             this.Log_txb = new System.Windows.Forms.TextBox();
-            this.Ticket_btn = new System.Windows.Forms.Button();
+            this.Ticket_Buy_btn = new System.Windows.Forms.Button();
             this.select_train_lb = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
             this.seat_ck_b = new System.Windows.Forms.CheckedListBox();
@@ -40,10 +41,8 @@
             this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.userinfo_tb = new System.Windows.Forms.Label();
-            this.tb_logInfo = new System.Windows.Forms.TextBox();
             this.ckb_multiBuy = new System.Windows.Forms.CheckBox();
             this.lb_to = new System.Windows.Forms.ListBox();
-            this.lb_from = new System.Windows.Forms.ListBox();
             this.login_out = new System.Windows.Forms.Label();
             this.dgv_tickets = new System.Windows.Forms.DataGridView();
             this.TrianCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,7 +91,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rb_normal = new System.Windows.Forms.RadioButton();
             this.rb_student = new System.Windows.Forms.RadioButton();
-            this.btn_autoBuy = new System.Windows.Forms.Button();
             this.ckb_autoQuery = new System.Windows.Forms.CheckBox();
             this.btn_search = new System.Windows.Forms.Button();
             this.dtpicker = new System.Windows.Forms.DateTimePicker();
@@ -113,7 +111,7 @@
             this.gb_main.Controls.Add(this.lb_from);
             this.gb_main.Controls.Add(this.label9);
             this.gb_main.Controls.Add(this.Log_txb);
-            this.gb_main.Controls.Add(this.Ticket_btn);
+            this.gb_main.Controls.Add(this.Ticket_Buy_btn);
             this.gb_main.Controls.Add(this.select_train_lb);
             this.gb_main.Controls.Add(this.label8);
             this.gb_main.Controls.Add(this.seat_ck_b);
@@ -121,7 +119,6 @@
             this.gb_main.Controls.Add(this.pass_ck_b);
             this.gb_main.Controls.Add(this.label1);
             this.gb_main.Controls.Add(this.userinfo_tb);
-            this.gb_main.Controls.Add(this.tb_logInfo);
             this.gb_main.Controls.Add(this.ckb_multiBuy);
             this.gb_main.Controls.Add(this.lb_to);
             this.gb_main.Controls.Add(this.login_out);
@@ -131,7 +128,6 @@
             this.gb_main.Controls.Add(this.label6);
             this.gb_main.Controls.Add(this.label5);
             this.gb_main.Controls.Add(this.groupBox1);
-            this.gb_main.Controls.Add(this.btn_autoBuy);
             this.gb_main.Controls.Add(this.ckb_autoQuery);
             this.gb_main.Controls.Add(this.btn_search);
             this.gb_main.Controls.Add(this.dtpicker);
@@ -150,6 +146,17 @@
             this.gb_main.Text = "抢票页面";
             this.gb_main.Enter += new System.EventHandler(this.gb_main_Enter);
             // 
+            // lb_from
+            // 
+            this.lb_from.FormattingEnabled = true;
+            this.lb_from.ItemHeight = 12;
+            this.lb_from.Location = new System.Drawing.Point(68, 63);
+            this.lb_from.Name = "lb_from";
+            this.lb_from.Size = new System.Drawing.Size(80, 52);
+            this.lb_from.TabIndex = 14;
+            this.lb_from.Visible = false;
+            this.lb_from.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lb_MouseDoubleClick);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -167,14 +174,15 @@
             this.Log_txb.Size = new System.Drawing.Size(363, 99);
             this.Log_txb.TabIndex = 38;
             // 
-            // Ticket_btn
+            // Ticket_Buy_btn
             // 
-            this.Ticket_btn.Location = new System.Drawing.Point(1006, 537);
-            this.Ticket_btn.Name = "Ticket_btn";
-            this.Ticket_btn.Size = new System.Drawing.Size(103, 61);
-            this.Ticket_btn.TabIndex = 37;
-            this.Ticket_btn.Text = "下单";
-            this.Ticket_btn.UseVisualStyleBackColor = true;
+            this.Ticket_Buy_btn.Location = new System.Drawing.Point(937, 513);
+            this.Ticket_Buy_btn.Name = "Ticket_Buy_btn";
+            this.Ticket_Buy_btn.Size = new System.Drawing.Size(120, 64);
+            this.Ticket_Buy_btn.TabIndex = 37;
+            this.Ticket_Buy_btn.Text = "抢票";
+            this.Ticket_Buy_btn.UseVisualStyleBackColor = true;
+            this.Ticket_Buy_btn.Click += new System.EventHandler(this.Ticket_Buy_btn_Click);
             // 
             // select_train_lb
             // 
@@ -231,25 +239,16 @@
             // userinfo_tb
             // 
             this.userinfo_tb.AutoSize = true;
-            this.userinfo_tb.Location = new System.Drawing.Point(12, 22);
+            this.userinfo_tb.Location = new System.Drawing.Point(9, 20);
             this.userinfo_tb.Name = "userinfo_tb";
             this.userinfo_tb.Size = new System.Drawing.Size(59, 12);
             this.userinfo_tb.TabIndex = 30;
             this.userinfo_tb.Text = "当前账户:";
             // 
-            // tb_logInfo
-            // 
-            this.tb_logInfo.Location = new System.Drawing.Point(519, 50);
-            this.tb_logInfo.Multiline = true;
-            this.tb_logInfo.Name = "tb_logInfo";
-            this.tb_logInfo.ReadOnly = true;
-            this.tb_logInfo.Size = new System.Drawing.Size(219, 74);
-            this.tb_logInfo.TabIndex = 29;
-            // 
             // ckb_multiBuy
             // 
             this.ckb_multiBuy.AutoSize = true;
-            this.ckb_multiBuy.Location = new System.Drawing.Point(785, 139);
+            this.ckb_multiBuy.Location = new System.Drawing.Point(775, 119);
             this.ckb_multiBuy.Name = "ckb_multiBuy";
             this.ckb_multiBuy.Size = new System.Drawing.Size(72, 16);
             this.ckb_multiBuy.TabIndex = 28;
@@ -260,21 +259,12 @@
             // 
             this.lb_to.FormattingEnabled = true;
             this.lb_to.ItemHeight = 12;
-            this.lb_to.Location = new System.Drawing.Point(205, 77);
+            this.lb_to.Location = new System.Drawing.Point(205, 62);
             this.lb_to.Name = "lb_to";
             this.lb_to.Size = new System.Drawing.Size(80, 52);
             this.lb_to.TabIndex = 15;
             this.lb_to.Visible = false;
-            // 
-            // lb_from
-            // 
-            this.lb_from.FormattingEnabled = true;
-            this.lb_from.ItemHeight = 12;
-            this.lb_from.Location = new System.Drawing.Point(68, 77);
-            this.lb_from.Name = "lb_from";
-            this.lb_from.Size = new System.Drawing.Size(80, 52);
-            this.lb_from.TabIndex = 14;
-            this.lb_from.Visible = false;
+            this.lb_to.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lb_MouseDoubleClick);
             // 
             // login_out
             // 
@@ -316,19 +306,21 @@
             this.Column20,
             this.Column21,
             this.Column22});
-            this.dgv_tickets.Location = new System.Drawing.Point(0, 168);
+            this.dgv_tickets.Location = new System.Drawing.Point(0, 160);
             this.dgv_tickets.MultiSelect = false;
             this.dgv_tickets.Name = "dgv_tickets";
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgv_tickets.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tickets.Size = new System.Drawing.Size(1109, 313);
             this.dgv_tickets.TabIndex = 21;
+            this.dgv_tickets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_tickets_CellClick);
+            this.dgv_tickets.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_tickets_CellDoubleClick);
             // 
             // TrianCode
             // 
@@ -543,7 +535,7 @@
             this.flp_seatTypes.Controls.Add(this.ck_99);
             this.flp_seatTypes.Controls.Add(this.ck_1);
             this.flp_seatTypes.Controls.Add(this.ck_wz);
-            this.flp_seatTypes.Location = new System.Drawing.Point(90, 130);
+            this.flp_seatTypes.Location = new System.Drawing.Point(68, 120);
             this.flp_seatTypes.Name = "flp_seatTypes";
             this.flp_seatTypes.Size = new System.Drawing.Size(673, 28);
             this.flp_seatTypes.TabIndex = 20;
@@ -658,7 +650,7 @@
             this.flp_trainType.Controls.Add(this.ckb_T);
             this.flp_trainType.Controls.Add(this.ckb_K);
             this.flp_trainType.Controls.Add(this.ckb_Other);
-            this.flp_trainType.Location = new System.Drawing.Point(90, 100);
+            this.flp_trainType.Location = new System.Drawing.Point(68, 80);
             this.flp_trainType.Name = "flp_trainType";
             this.flp_trainType.Size = new System.Drawing.Size(405, 28);
             this.flp_trainType.TabIndex = 19;
@@ -738,7 +730,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 134);
+            this.label6.Location = new System.Drawing.Point(10, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 12);
             this.label6.TabIndex = 18;
@@ -747,7 +739,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 103);
+            this.label5.Location = new System.Drawing.Point(4, 85);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 16;
@@ -757,7 +749,7 @@
             // 
             this.groupBox1.Controls.Add(this.rb_normal);
             this.groupBox1.Controls.Add(this.rb_student);
-            this.groupBox1.Location = new System.Drawing.Point(785, 62);
+            this.groupBox1.Location = new System.Drawing.Point(785, 40);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(147, 36);
             this.groupBox1.TabIndex = 11;
@@ -785,19 +777,10 @@
             this.rb_student.Text = "学生";
             this.rb_student.UseVisualStyleBackColor = true;
             // 
-            // btn_autoBuy
-            // 
-            this.btn_autoBuy.Location = new System.Drawing.Point(871, 134);
-            this.btn_autoBuy.Name = "btn_autoBuy";
-            this.btn_autoBuy.Size = new System.Drawing.Size(57, 28);
-            this.btn_autoBuy.TabIndex = 27;
-            this.btn_autoBuy.Text = "抢票";
-            this.btn_autoBuy.UseVisualStyleBackColor = true;
-            // 
             // ckb_autoQuery
             // 
             this.ckb_autoQuery.AutoSize = true;
-            this.ckb_autoQuery.Location = new System.Drawing.Point(785, 104);
+            this.ckb_autoQuery.Location = new System.Drawing.Point(775, 83);
             this.ckb_autoQuery.Name = "ckb_autoQuery";
             this.ckb_autoQuery.Size = new System.Drawing.Size(72, 16);
             this.ckb_autoQuery.TabIndex = 25;
@@ -806,9 +789,9 @@
             // 
             // btn_search
             // 
-            this.btn_search.Location = new System.Drawing.Point(871, 99);
+            this.btn_search.Location = new System.Drawing.Point(871, 82);
             this.btn_search.Name = "btn_search";
-            this.btn_search.Size = new System.Drawing.Size(57, 28);
+            this.btn_search.Size = new System.Drawing.Size(117, 50);
             this.btn_search.TabIndex = 10;
             this.btn_search.Text = "查询";
             this.btn_search.UseVisualStyleBackColor = true;
@@ -818,16 +801,16 @@
             // 
             this.dtpicker.CustomFormat = "yyyy-MM-dd";
             this.dtpicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpicker.Location = new System.Drawing.Point(362, 58);
+            this.dtpicker.Location = new System.Drawing.Point(355, 40);
             this.dtpicker.Name = "dtpicker";
             this.dtpicker.Size = new System.Drawing.Size(140, 21);
             this.dtpicker.TabIndex = 7;
-            this.dtpicker.Value = new System.DateTime(2019, 9, 18, 22, 4, 53, 0);
+            this.dtpicker.Value = new System.DateTime(2019, 9, 21, 0, 0, 0, 0);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(291, 58);
+            this.label4.Location = new System.Drawing.Point(289, 43);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 6;
@@ -835,15 +818,16 @@
             // 
             // tb_stationTo
             // 
-            this.tb_stationTo.Location = new System.Drawing.Point(205, 55);
+            this.tb_stationTo.Location = new System.Drawing.Point(205, 40);
             this.tb_stationTo.Name = "tb_stationTo";
             this.tb_stationTo.Size = new System.Drawing.Size(80, 21);
             this.tb_stationTo.TabIndex = 5;
+            this.tb_stationTo.TextChanged += new System.EventHandler(this.tb_station_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(154, 58);
+            this.label3.Location = new System.Drawing.Point(154, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 4;
@@ -851,15 +835,16 @@
             // 
             // tb_stationFrom
             // 
-            this.tb_stationFrom.Location = new System.Drawing.Point(68, 55);
+            this.tb_stationFrom.Location = new System.Drawing.Point(68, 40);
             this.tb_stationFrom.Name = "tb_stationFrom";
             this.tb_stationFrom.Size = new System.Drawing.Size(80, 21);
             this.tb_stationFrom.TabIndex = 3;
+            this.tb_stationFrom.TextChanged += new System.EventHandler(this.tb_station_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 55);
+            this.label2.Location = new System.Drawing.Point(18, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 2;
@@ -890,7 +875,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gb_main;
-        private System.Windows.Forms.TextBox tb_logInfo;
         private System.Windows.Forms.CheckBox ckb_multiBuy;
         private System.Windows.Forms.ListBox lb_to;
         private System.Windows.Forms.ListBox lb_from;
@@ -942,7 +926,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rb_normal;
         private System.Windows.Forms.RadioButton rb_student;
-        private System.Windows.Forms.Button btn_autoBuy;
         private System.Windows.Forms.CheckBox ckb_autoQuery;
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.DateTimePicker dtpicker;
@@ -960,6 +943,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Log_txb;
-        private System.Windows.Forms.Button Ticket_btn;
+        private System.Windows.Forms.Button Ticket_Buy_btn;
     }
 }
