@@ -25,6 +25,7 @@ namespace _12036ByTicket.Services
         private const string DefaultAgent =
            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
         private static List<StationNames> _stationNames = new List<StationNames>();
+        public static string UserName = string.Empty;
         /// <summary>
         /// _cookie 初始化
         /// </summary>
@@ -41,9 +42,9 @@ namespace _12036ByTicket.Services
             //_cookie.Add(new Cookie("RAIL_DEVICEID",
             //    js.RAIL_DEVICEID,
             //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569532807690", "", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569432415462", "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "jEJNP9e_ITc-PZER642zy05TCOpncAnyUacsP5wff7INsvPFyyWlFQMc2IA4LCC2gv5GqUlzg8gBnhNFrbt8yjrxxuypleLUAMGYKj_2a51gAowAmmwhkaQOSo7MeB7Y89moNbGSUpe4OBAK1RRWBA_fcD4KISBk",
+               "ktive9V7YR_ScTx08CfOaQXmklgVztEJmCZYpkv7svwFopIVF4O_BIH54XfTYBU6gfOETu_dTbvByxKEON5hWpe_7cWNkYEh2FgziQdAnqwrRO8WDvKIbmgr5vaaOLQhQM9Bv1yeda6Np6u9waAlhx4TzUNQ0Juf",
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -269,6 +270,7 @@ namespace _12036ByTicket.Services
                     retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                     if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                     {
+                        UserName = retDic["username"];
                         return true;
                     }
                 }
@@ -285,29 +287,29 @@ namespace _12036ByTicket.Services
         /// 获取用户信息
         /// </summary>
         /// <returns></returns>
-        public static string GetUserInfo()
-        {
-            var appId = "otn";
+        //public static string GetUserInfo()
+        //{
+        //    var appId = "otn";
 
-            string postData = string.Format("appid={0}", appId);
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtkstatic, postData, _cookie);
-            //todo:{
-                //                "apptk": null,
-                //"result_message": "验证通过",
-                //"name": "屈兴明",
-                //"result_code": 0,
-                //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
-                //}
-            dynamic result = JsonConvert.DeserializeObject(response);
-            if (result.result_code == 0)
-            {
-                return result.name;
-            }
-            else
-            {
-                return "";
-            }
-        }
+        //    string postData = string.Format("appid={0}", appId);
+        //    var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtkstatic, postData, _cookie);
+        //    //todo:{
+        //        //                "apptk": null,
+        //        //"result_message": "验证通过",
+        //        //"name": "屈兴明",
+        //        //"result_code": 0,
+        //        //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
+        //        //}
+        //    dynamic result = JsonConvert.DeserializeObject(response);
+        //    if (result.result_code == 0)
+        //    {
+        //        return result.name;
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
         /// <summary>
         /// 获取乘客列表
         /// </summary>
@@ -357,7 +359,7 @@ namespace _12036ByTicket.Services
             model.back_train_date = DateTime.Now.ToString("yyyy-MM-dd");
             var strDictionary = new BaseDictionary()
             {
-                {"secretStr",System.Web.HttpUtility.UrlDecode(model.secretStr)},
+                {"secretStr",model.secretStr},
                 {"train_date",model.train_date },
                 {"back_train_date",model.back_train_date },
                 {"tour_flag",model.tour_flag },

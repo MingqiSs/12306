@@ -11,16 +11,20 @@ namespace _12036ByTicket.Common
 {
     public class HttpHelper
     {
+        private static string contentType = "application/x-www-form-urlencoded";
+        //private static string accept = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/x-silverlight, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-ms-application, application/x-ms-xbap, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-silverlight-2-b1, */*";
+        private static string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
+        private static string referer = "https://kyfw.12306.cn/";
         public static HttpWebResponse Get(string agent, string url, CookieContainer cookie)
         {
             try
             {
                 ServicePointManager.Expect100Continue = false;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.UserAgent = agent;
+                request.UserAgent = userAgent;
                 request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 request.Method = "GET";
-                //request.Referer = "https://kyfw.12306.cn/otn/resources/login.html";
+                request.Referer = referer;
                 request.KeepAlive = true;
                 request.CookieContainer = cookie;
                 return (HttpWebResponse)request.GetResponse();
@@ -56,15 +60,14 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static HttpWebResponse Post(string agent, string url, string data, CookieContainer cookie)
         {
-            HttpWebResponse response = null;
-
             Logger.Info($"请求地址:{url},data:{data}");
             ServicePointManager.Expect100Continue = false;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.UserAgent = agent;
-            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.UserAgent = userAgent;
+            request.ContentType = contentType;
             request.Method = "POST";
             request.KeepAlive = true;
+            request.Referer = referer;
             request.CookieContainer = cookie;
             if (!string.IsNullOrEmpty(data))
             {
@@ -74,8 +77,9 @@ namespace _12036ByTicket.Common
                 var requestStream = request.GetRequestStream();
                 requestStream.Write(postData, 0, postData.Length);
             }
-            response = (HttpWebResponse)request.GetResponse();
-            return response;
+           return (HttpWebResponse)request.GetResponse();
+           
+              
         }
 
         /// <summary>
@@ -91,23 +95,7 @@ namespace _12036ByTicket.Common
             string responseContent = "";
             try
             {
-                Logger.Info($"请求地址:{url},data:{data}");
-                ServicePointManager.Expect100Continue = false;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.UserAgent = agent;
-                request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                request.Method = "POST";
-                request.KeepAlive = true;
-                request.CookieContainer = cookie;
-                if (!string.IsNullOrEmpty(data))
-                {
-                    string postDataStr = data;
-                    byte[] postData = Encoding.UTF8.GetBytes(postDataStr);
-                    request.ContentLength = postData.Length;
-                    var requestStream = request.GetRequestStream();
-                    requestStream.Write(postData, 0, postData.Length);
-                }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+               var response= Post(agent,url, data, cookie);
                 Stream responseStream = response.GetResponseStream();
                 if (responseStream != null)
                 {

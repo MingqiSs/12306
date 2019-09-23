@@ -36,9 +36,9 @@ namespace _12036ByTicket
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var userName = _12306Service.GetUserInfo();
+            var userName = _12306Service.UserName;
             //登录后获取用户信息
-            this.userinfo_tb.Text = $"当前账户:【{userName}】";
+            //this.userinfo_tb.Text = $"当前账户:【{userName}】";
             //乘客列表
           var passengerlist= _12306Service.GetPassenger();
             _lsPassenger = passengerlist;
