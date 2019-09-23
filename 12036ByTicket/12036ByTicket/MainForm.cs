@@ -79,6 +79,9 @@ namespace _12036ByTicket
                 tickets = list;
                 FormatLogInfo("余票查询成功！");
             }
+            else {
+                FormatLogInfo("很抱歉，按您的查询条件，当前未找到列车！");
+            }
         }
         private bool CheckValue()
         {
