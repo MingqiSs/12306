@@ -166,76 +166,104 @@ namespace _12036ByTicket
 
         private void Ticket_Buy_btn_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    if (_lsTrainCode.Count == 0)
-            //    {
-            //        MessageBox.Show("请先选择车次！");
-            //        return;
-            //    }
-            //    if (isAutoBuy)
-            //    {
-            //        isAutoBuy = false;
-            //        buyTimer.Stop();
-            //        btn_autoBuy.Text = "抢票";
-            //        FormatLogInfo("暂停抢票");
-            //    }
-            //    else
-            //    {
-            //        buyTimer = new System.Windows.Forms.Timer();
-            //        buyTimer.Interval = 3000;
-            //        buyTimer.Tick += buyTimer_Tick;
-            //        isAutoBuy = true;
-            //        btn_autoBuy.Text = "暂停";
-            //        buyTimer.Start();
-            //        j = 0;
-            //        FormatLogInfo("开始抢票");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogHelper.Error("购票失败！", ex);
-            //}
+            try
+            {
+                if (!CheckValue()) return;
+                var a= _lsTrainCode ;
+                if (_lsTrainCode.Count ==0)
+                {
+                    MessageBox.Show("请先选择车次！");
+                    return;
+                }
+                //
+                var secretStr = tickets.Where(q => q.Station_Train_Code == _lsTrainCode.FirstOrDefault()).Select(q => q.SecretStr).FirstOrDefault();
+                if (string.IsNullOrEmpty(secretStr))
+                {
+                    MessageBox.Show("请先选择车次！");
+                    return;
+                }
+                //出发地
+                var stationFrom= tb_stationFrom.Text;
+                //结束地方
+                var stationTo = tb_stationTo.Text;
+                ///行程日期
+                var train_date = dtpicker.Text;
+                if (_12306Service.Check_User())
+                {
+                    _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
+                }
+                //if (isAutoBuy)
+                //{
+                //    isAutoBuy = false;
+                //    //buyTimer.Stop();
+                //    //btn_autoBuy.Text = "抢票";
+                //    //FormatLogInfo("暂停抢票");
+                //}
+                //else
+                //{
+                //    //buyTimer = new System.Windows.Forms.Timer();
+                //    //buyTimer.Interval = 3000;
+                //    //buyTimer.Tick += buyTimer_Tick;
+                //    //isAutoBuy = true;
+                //    //btn_autoBuy.Text = "暂停";
+                //    //buyTimer.Start();
+                //    //j = 0;
+                //    FormatLogInfo("开始抢票");
+                //}
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"购票失败！{ex}");
+                FormatLogInfo($"购票失败！{ex}");
+            }
+            
         }
 
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             _lsTrainCode = new List<string>();
+            select_train_lb.Items.Clear();
             var rows = dgv_tickets.SelectedRows;
             foreach (DataGridViewRow row in rows)
             {
                 string trainNo = row.Cells["TrianCode"].Value.ToString();
                 _lsTrainCode.Add(trainNo);
-
+                select_train_lb.Items.Add(trainNo);
             }
+           
+          
         }
 
         private void dgv_tickets_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
-            {
-                if (dgv_tickets.CurrentRow == null) return;
-                if (dgv_tickets.SelectedRows.Count > 1 || isAutoBuy)
-                {
-                    return;
-                }
-                string secretStr = dgv_tickets.CurrentRow.Cells["SecretStr"].Value.ToString();
-                Logger.Info("车次secretStr：" + secretStr);
+            //try
+            //{
+            //    if (dgv_tickets.CurrentRow == null) return;
+            //    if (dgv_tickets.SelectedRows.Count > 1 || isAutoBuy)
+            //    {
+            //        return;
+            //    }
+            //    string secretStr = dgv_tickets.CurrentRow.Cells["SecretStr"].Value.ToString();
+            //    Logger.Info("车次secretStr：" + secretStr);
 
-                QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.SecretStr.Equals(secretStr));
-                //if (CheckIsNoTicket(selectedTrain))
-                //{
-                //    MessageBox.Show("此车次无票！");
-                //    return;
-                //}
-                //已选车次选项
-                select_train_lb.Items.Add(selectedTrain.Station_Train_Code);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("系统异常,请重试！");
-                Logger.Error($"error:{exception}");
-            }
+            //    QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.SecretStr.Equals(secretStr));
+            //    if (CheckIsNoTicket(selectedTrain))
+            //    {
+            //        MessageBox.Show("此车次无票！");
+            //        return;
+            //    }
+            //    //已选车次选项
+            //    if (!select_train_lb.Items.Contains(selectedTrain.Station_Train_Code))
+            //    {
+            //        select_train_lb.Items.Add(selectedTrain.Station_Train_Code);
+            //    }
+               
+            //}
+            //catch (Exception exception)
+            //{
+            //    MessageBox.Show("系统异常,请重试！");
+            //    Logger.Error($"error:{exception}");
+            //}
 
         }
         /// <summary>

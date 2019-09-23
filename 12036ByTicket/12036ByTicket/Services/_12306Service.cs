@@ -41,9 +41,9 @@ namespace _12036ByTicket.Services
             //_cookie.Add(new Cookie("RAIL_DEVICEID",
             //    js.RAIL_DEVICEID,
             //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569092519824", "", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569532807690", "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "ekbSAp1GPWkmSQp7wih0ClKuNgjwA-k7fNoJSKQVOcGgNa_DzcO4QUJONRjGOzUnIoTRVb5z354Q78a0_SPELqteCL6ARLeZ0Fkn1HTur9CTYGDylJusMoiSo7h0kypFlZC5z6cG4f-tzhIj2wXRTv9zMXgNq5jd",
+               "jEJNP9e_ITc-PZER642zy05TCOpncAnyUacsP5wff7INsvPFyyWlFQMc2IA4LCC2gv5GqUlzg8gBnhNFrbt8yjrxxuypleLUAMGYKj_2a51gAowAmmwhkaQOSo7MeB7Y89moNbGSUpe4OBAK1RRWBA_fcD4KISBk",
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -220,6 +220,11 @@ namespace _12036ByTicket.Services
             var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check, randCode, timeStamp), _cookie);
             ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
           var dyData= ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]));
+            if (dyData == null)
+            {
+                MessageBox.Show($"网络异常,请稍后再试!");
+                return false;
+            } 
             var result_code = dyData["result_code"];
             if ((int)result_code == 4)
             {
@@ -244,6 +249,11 @@ namespace _12036ByTicket.Services
             string responseContent = string.Empty;
             var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
             var retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+            if (retDic == null)
+            {
+                MessageBox.Show($"网络异常,请稍后再试!");
+                return false;
+            }
             if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
             {
                 postData = "appid=otn";
@@ -317,17 +327,34 @@ namespace _12036ByTicket.Services
             }
             return list;
         }
-        public static string SubmitOrder(string secretStr)
+        /// <summary>
+        /// 检查用户登录
+        /// </summary>
+        /// <returns></returns>
+        public static bool Check_User()
+        {
+            var list = new List<Normal_passengersItem>();
+            string postData = string.Format("_json_att={0}", "");
+            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.check_user_url, postData, _cookie);
+            dynamic result = JsonConvert.DeserializeObject(response);
+            //{"validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{"flag":true},"messages":[],"validateMessages":{}}
+            if ((bool)result["status"] ==true)
+            {
+                return true;
+            }
+            return false;
+        }
+        public static string SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date)
         {
             var model = new SubmitOrderModel();
             model.purpose_codes = "ADULT";
-            model.query_from_station_name = "长沙";
-            model.query_to_station_name = "深圳";
+            model.query_from_station_name = from_station;
+            model.query_to_station_name = to_station_name;
             model.secretStr = secretStr;
             model.tour_flag = "dc";
             model.undefined = "";
-            model.train_date = "2019-09-23";
-            model.back_train_date = "2019-09-21";
+            model.train_date = train_date;
+            model.back_train_date = DateTime.Now.ToString("yyyy-MM-dd");
             var strDictionary = new BaseDictionary()
             {
                 {"secretStr",System.Web.HttpUtility.UrlDecode(model.secretStr)},

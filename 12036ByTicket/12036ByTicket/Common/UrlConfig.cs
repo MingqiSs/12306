@@ -82,7 +82,10 @@ namespace _12036ByTicket.Common
         /// 获取联系人
         /// </summary>
         public static string getPassenger = $"{baseUrl}/otn/confirmPassenger/getPassengerDTOs";
-
+        /// <summary>
+        /// 检查用户登录
+        /// </summary>
+        public static string check_user_url = $"{baseUrl}/otn/login/checkUser";
         /// <summary>
         /// 下单-预售下单-进入订单生成页
         /// </summary>
