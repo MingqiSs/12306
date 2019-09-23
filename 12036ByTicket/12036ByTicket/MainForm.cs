@@ -36,11 +36,10 @@ namespace _12036ByTicket
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var userName = _12306Service.UserName;
             //登录后获取用户信息
-            //this.userinfo_tb.Text = $"当前账户:【{userName}】";
+            this.userinfo_tb.Text = $"当前账户:【{ _12306Service.UserName}】";
             //乘客列表
-          var passengerlist= _12306Service.GetPassenger();
+            var passengerlist = _12306Service.GetPassenger();
             _lsPassenger = passengerlist;
             foreach (var item in passengerlist)
             {
@@ -127,21 +126,24 @@ namespace _12036ByTicket
                 var stations = _12306Service.getFavoriteName().Where(x =>
                         x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
                         x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
-                BindingSource bs = new BindingSource();
-                bs.DataSource = stations;
-                if (tb.Name.Equals("tb_stationFrom"))
+                if (stations.Any())
                 {
-                    lb_from.DataSource = bs;
-                    lb_from.DisplayMember = "Name";
-                    lb_from.ValueMember = "Code";
-                    lb_from.Visible = true;
-                }
-                else
-                {
-                    lb_to.DataSource = bs;
-                    lb_to.DisplayMember = "Name";
-                    lb_to.ValueMember = "Code";
-                    lb_to.Visible = true;
+                    BindingSource bs = new BindingSource();
+                    bs.DataSource = stations;
+                    if (tb.Name.Equals("tb_stationFrom"))
+                    {
+                        lb_from.DataSource = bs;
+                        lb_from.DisplayMember = "Name";
+                        lb_from.ValueMember = "Code";
+                        lb_from.Visible = true;
+                    }
+                    else
+                    {
+                        lb_to.DataSource = bs;
+                        lb_to.DisplayMember = "Name";
+                        lb_to.ValueMember = "Code";
+                        lb_to.Visible = true;
+                    }
                 }
 
             }
