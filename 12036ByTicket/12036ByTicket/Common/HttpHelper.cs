@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace _12036ByTicket.Common
 {
+    /// <summary>
+    /// 请求12306接口http帮助类
+    /// </summary>
     public class HttpHelper
     {
         private static string contentType = "application/x-www-form-urlencoded";

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -21,12 +22,14 @@ namespace _12036ByTicket
 
             #region Login_init
             _12306Service.Ticket_Init();
-            LoadCaptchaImg();
+            LoadCaptchaImg(true);
       
             #endregion
         }
         private List<Point> _clickPoints = null;
         private const int ClickImgSize = 32;//287, 175
+        //验证码坐标
+        private string answer =string.Empty;
         private void btn_Login_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tb_userName.Text))
@@ -39,11 +42,13 @@ namespace _12036ByTicket
                 MessageBox.Show("请输入密码！");
                 return;
             }
-            string answer = "";
-            if (_clickPoints.Count > 0)
+            if (string.IsNullOrWhiteSpace(answer))
             {
-                answer = _clickPoints.Aggregate(answer,
-                     (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
+                if (_clickPoints.Count > 0)
+                {
+                    answer = _clickPoints.Aggregate(answer,
+                         (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
+                }
             }
             if (string.IsNullOrWhiteSpace(answer))
             {
@@ -66,13 +71,28 @@ namespace _12036ByTicket
             }
             else {
                 LoadCaptchaImg();
+               // Captcha_Img.Show();
             }
 
         }
-        private void LoadCaptchaImg()
-        {
-            
-            var img = _12306Service.GetCaptcha();
+        private void LoadCaptchaImg(bool isCerifyCaptch=false)
+        {            
+            var baseImgStr = _12306Service.GetCaptcha();
+            var isVip = true;//
+            if(baseImgStr!=null&& isVip&& isCerifyCaptch)
+            {
+               //var captchaCode= _12306Service.CerifyCaptchaCode(baseImgStr);
+               // if (captchaCode.Data != null && captchaCode.Data.Count() > 0)
+               // {
+               //     foreach (var item in captchaCode.Data) answer = item + ",";
+               //     ///隐藏验证码
+               //     Captcha_Img.Hide();
+               //     return;
+               // }
+            }
+            byte[] data = System.Convert.FromBase64String(baseImgStr);
+            MemoryStream ms = new MemoryStream(data);
+           var img= Image.FromStream(ms);
             if (img == null)
             {
                 MessageBox.Show("加载验证码失败！");
@@ -131,6 +151,11 @@ namespace _12036ByTicket
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
         {
 
         }

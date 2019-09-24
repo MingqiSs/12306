@@ -60,10 +60,12 @@
       <DependentUpon>CaptchaCheck.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\BaseDictionary.cs" />
+    <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\UrlConfig.cs" />
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\Util.cs" />
+    <Compile Include="Model\Dto\CerifyCaptchaCodeRP.cs" />
     <Compile Include="Model\LogicModel.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>

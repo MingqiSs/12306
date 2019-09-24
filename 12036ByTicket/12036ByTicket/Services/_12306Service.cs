@@ -1,5 +1,6 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.LogicModel;
+using _12036ByTicket.Model.Dto;
 using Common.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -49,7 +50,7 @@ namespace _12036ByTicket.Services
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
-        public static Image GetCaptcha()
+        public static string GetCaptcha()
         {
             try
             {
@@ -60,16 +61,35 @@ namespace _12036ByTicket.Services
                 var response = HttpHelper.StringGet( string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
                 var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["image"];
                 //var fromBase64 = $"data:image/jpg;base64,{result}";
-                byte[] data = System.Convert.FromBase64String((string)result);
-                MemoryStream ms = new MemoryStream(data);
-                return Image.FromStream(ms);
+                return result;
 
             }
             catch (Exception ex)
             {
-                Logger.Error("获取图片验证码失败");
+                Logger.Error($"获取图片验证码失败异常:{ex.ToString()}");
             }
             return null;
+        }
+        /// <summary>
+        /// 云打码
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <returns></returns>
+        public static CerifyCaptchaCodeRP CerifyCaptchaCode(string baseImgStr)
+        {
+            var resut = new CerifyCaptchaCodeRP();
+            try
+            {
+                var rq = new { imageFile = baseImgStr };
+                var response = HttpClientHelper.PostResponse("http://47.107.170.81:8000/verify/base64/", JsonConvert.SerializeObject(rq));
+                //{"code":0,"massage":"","data":["1","6"]}
+                resut = JsonConvert.DeserializeObject<CerifyCaptchaCodeRP>(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"云打码发生异常:{ex.ToString()}");
+            }
+            return resut;
         }
         /// <summary>
         /// 获取站点的代码
