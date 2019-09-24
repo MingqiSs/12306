@@ -19,6 +19,6 @@ namespace _12036ByTicket.Model.Dto
         /// <summary>
         /// 
         /// </summary>
-        public List<string> Data { get; set; }
+        public List<int> Data { get; set; }
     }
 }

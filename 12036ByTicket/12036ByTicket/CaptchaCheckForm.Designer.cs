@@ -72,7 +72,7 @@
             this.Login.Name = "Login";
             this.Login.Size = new System.Drawing.Size(290, 31);
             this.Login.TabIndex = 0;
-            this.Login.Text = "登录";
+            this.Login.Text = "确定";
             this.Login.UseVisualStyleBackColor = true;
             this.Login.Click += new System.EventHandler(this.Login_Click);
             // 

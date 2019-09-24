@@ -401,6 +401,69 @@ namespace _12036ByTicket.Services
             var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie);
             return null;
         }
+        /// <summary>
+        /// 获取图片对应坐标
+        /// </summary>
+        /// <param name="offsets"></param>
+        /// <returns></returns>
+        public static string GetCoords(int offsets)
+        {
+            #region MyRegion
+            //    if ofset == '1':
+            //    offsetsY = 77
+            //    offsetsX = 40
+            //elif ofset == '2':
+            //    offsetsY = 77
+            //    offsetsX = 112
+            //elif ofset == '3':
+            //    offsetsY = 77
+            //    offsetsX = 184
+            //elif ofset == '4':
+            //    offsetsY = 77
+            //    offsetsX = 256
+            //elif ofset == '5':
+            //    offsetsY = 149
+            //    offsetsX = 40
+            //elif ofset == '6':
+            //    offsetsY = 149
+            //    offsetsX = 112
+            //elif ofset == '7':
+            //    offsetsY = 149
+            //    offsetsX = 184
+            //elif ofset == '8':
+            //    offsetsY = 149
+            //    offsetsX = 256
+            #endregion
+            string coords = string.Empty;
+            switch (offsets)
+            {
+                case 1:
+                    coords = "40,77";
+                    break;
+                case 2:
+                    coords = "112,77";
+                    break;
+                case 3:
+                    coords = "184,77";
+                    break;
+                case 4:
+                    coords = "256,77";
+                    break;
+                case 5:
+                    coords = "40,149";
+                    break;
+                case 6:
+                    coords = "112,149";
+                    break;
+                case 7:
+                    coords = "184,149";
+                    break;
+                case 8:
+                    coords = "256,149";
+                    break;
+            }
+            return coords;
+        }
 
     }
 }

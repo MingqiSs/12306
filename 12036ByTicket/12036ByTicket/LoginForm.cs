@@ -46,15 +46,20 @@ namespace _12036ByTicket
                 //处理云打码逻辑
                 foreach (var item in captchaCode.Data)
                 {
-                    randCode = item + ",";
+                   var coords =_12306Service.GetCoords(item);
+                    randCode = randCode+ coords + ",";
                 }
-
-                //登录
-                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode.TrimEnd(',')))
+                var isCheck = _12306Service.CheckCaptcha(randCode);
+                if (isCheck)
                 {
-                    //跳转主页
-                    MainForm logForm = new MainForm();
-                    logForm.Show();
+                    //登录
+                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode.TrimEnd(',')))
+                    {
+                        //跳转主页
+                        MainForm logForm = new MainForm();
+                        logForm.Show();
+                        return ;
+                    }
                 }
             }
             //手动输入验证码逻辑
