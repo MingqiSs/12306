@@ -280,10 +280,10 @@ namespace _12036ByTicket.LogicModel
         public string status { get; set; }
 
         [Description("错误信息")]
-        public string messages { get; set; }
+        public object messages { get; set; }
 
         [Description("校验的错误信息")]
-        public string validateMessages { get; set; }
+        public object validateMessages { get; set; }
     }
 
 }

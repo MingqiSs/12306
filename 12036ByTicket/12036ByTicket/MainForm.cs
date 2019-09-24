@@ -195,7 +195,11 @@ namespace _12036ByTicket
                 var train_date = dtpicker.Text;
                 if (_12306Service.Check_User())
                 {
-                    _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
+                   var isSubmintOk= _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
+                    if(isSubmintOk)
+                    {
+                        _12306Service.GetinitDc();
+                    }
                 }
                 //if (isAutoBuy)
                 //{

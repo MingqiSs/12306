@@ -41,9 +41,9 @@ namespace _12036ByTicket.Services
             //_cookie.Add(new Cookie("RAIL_DEVICEID",
             //    js.RAIL_DEVICEID,
             //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569432415462", "", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569666558951", "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "ktive9V7YR_ScTx08CfOaQXmklgVztEJmCZYpkv7svwFopIVF4O_BIH54XfTYBU6gfOETu_dTbvByxKEON5hWpe_7cWNkYEh2FgziQdAnqwrRO8WDvKIbmgr5vaaOLQhQM9Bv1yeda6Np6u9waAlhx4TzUNQ0Juf",
+               "ZO1a4xzjiZ1eJtmb886bz6Jkkw6pHS7MEl92Q5gasIfpRECaMaAA_9Rf5NPiTCaoIHEwMdf91cjO9PIZVHRQhF0MW9fy9ZzOANOPzgbjitrB4fzZw85dtcnp3ElCRLd5yhaLYeGChvFuGDydLdGbNOTu5I4Tvca9",
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -364,7 +364,7 @@ namespace _12036ByTicket.Services
             }
             return false;
         }
-        public static string SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date)
+        public static bool SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date)
         {
             var model = new SubmitOrderModel();
             model.purpose_codes = "ADULT";
@@ -387,9 +387,19 @@ namespace _12036ByTicket.Services
                 {"undefined",model.undefined },
             };
             var postData = strDictionary.GetParmarStr();
-            var response = HttpHelper.StringPost( UrlConfig.submitOrderRequest, postData, _cookie);
-            return null;
+            var response =JsonConvert.DeserializeObject<SubmitOrderResponse>(HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie));
+            if(response.status=="true"&&response.data=="N")
+            {
+                return true;
+            }
+            return false;
 
+        }
+
+        public static string GetinitDc()
+        {
+            var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie);
+            return null;
         }
 
     }
