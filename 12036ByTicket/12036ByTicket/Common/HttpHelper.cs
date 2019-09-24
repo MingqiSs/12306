@@ -15,7 +15,7 @@ namespace _12036ByTicket.Common
         //private static string accept = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/x-silverlight, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, application/x-ms-application, application/x-ms-xbap, application/vnd.ms-xpsdocument, application/xaml+xml, application/x-silverlight-2-b1, */*";
         private static string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
         private static string referer = "https://kyfw.12306.cn/";
-        public static HttpWebResponse Get(string agent, string url, CookieContainer cookie)
+        public static HttpWebResponse Get( string url, CookieContainer cookie)
         {
             try
             {
@@ -41,9 +41,9 @@ namespace _12036ByTicket.Common
         /// <param name="url"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        public static string StringGet(string agent, string url, CookieContainer cookie)
+        public static string StringGet( string url, CookieContainer cookie)
         {
-            Stream queryStream = Get(agent, url, cookie).GetResponseStream();
+            Stream queryStream = Get( url, cookie).GetResponseStream();
             StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
             string content = queryReader.ReadToEnd();
             queryReader.Close();
@@ -58,7 +58,7 @@ namespace _12036ByTicket.Common
         /// <param name="data"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        public static HttpWebResponse Post(string agent, string url, string data, CookieContainer cookie)
+        public static HttpWebResponse Post( string url, string data, CookieContainer cookie)
         {
             Logger.Info($"请求地址:{url},data:{data}");
             ServicePointManager.Expect100Continue = false;
@@ -90,12 +90,12 @@ namespace _12036ByTicket.Common
         /// <param name="data"></param>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        public static string StringPost(string agent, string url, string data, CookieContainer cookie)
+        public static string StringPost(string url, string data, CookieContainer cookie)
         {
             string responseContent = "";
             try
             {
-               var response= Post(agent,url, data, cookie);
+               var response= Post(url, data, cookie);
                 Stream responseStream = response.GetResponseStream();
                 if (responseStream != null)
                 {

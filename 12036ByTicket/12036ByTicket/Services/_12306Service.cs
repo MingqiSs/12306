@@ -22,8 +22,6 @@ namespace _12036ByTicket.Services
    public static class _12306Service
     {
         private static CookieContainer _cookie = null;
-        private const string DefaultAgent =
-           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36";
         private static List<StationNames> _stationNames = new List<StationNames>();
         public static string UserName = string.Empty;
         /// <summary>
@@ -35,7 +33,7 @@ namespace _12036ByTicket.Services
             {
                 _cookie = new CookieContainer();
             }
-            var response = HttpHelper.Get(DefaultAgent, string.Format(UrlConfig.left_Ticket_init), _cookie);
+            var response = HttpHelper.Get( string.Format(UrlConfig.left_Ticket_init), _cookie);
             var js = getJs();
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
             //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
@@ -59,7 +57,7 @@ namespace _12036ByTicket.Services
                 {
                     _cookie = new CookieContainer();
                 }               
-                var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
+                var response = HttpHelper.StringGet( string.Format(UrlConfig.captcha, new Random().Next()), _cookie);
                 var result = ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]))["image"];
                 //var fromBase64 = $"data:image/jpg;base64,{result}";
                 byte[] data = System.Convert.FromBase64String((string)result);
@@ -85,7 +83,7 @@ namespace _12036ByTicket.Services
                 {
                     return _stationNames;
                 }
-                var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet(DefaultAgent, UrlConfig.getFavoriteNname, _cookie)).Split('=');
+                var response = System.Web.HttpUtility.UrlDecode(HttpHelper.StringGet( UrlConfig.getFavoriteNname, _cookie)).Split('=');
                 var group = response[1].Split('@');
                 foreach (var column in group)
                 {
@@ -144,7 +142,7 @@ namespace _12036ByTicket.Services
                     to_code = toCode.code;
                 }
 
-                var r = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
+                var r = HttpHelper.StringGet(string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
                 var response = JsonConvert.DeserializeObject<stationData>(r);
                 var map = response.data.map;
                 if (response.status && response.data.result != null)
@@ -193,7 +191,7 @@ namespace _12036ByTicket.Services
         {
             try
             {              
-                var response = JsonConvert.DeserializeObject<Rail>(HttpHelper.StringGet(DefaultAgent,UrlConfig.getLogdevice, _cookie));
+                var response = JsonConvert.DeserializeObject<Rail>(HttpHelper.StringGet(UrlConfig.getLogdevice, _cookie));
                 return response;
             }
             catch (Exception ex)
@@ -218,7 +216,7 @@ namespace _12036ByTicket.Services
             System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
             long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
                                                                                  // var url = string.Format(UrlConfig.captcha_Check, randCode, timeStamp);                                        
-            var response = HttpHelper.StringGet(DefaultAgent, string.Format(UrlConfig.captcha_Check, randCode, timeStamp), _cookie);
+            var response = HttpHelper.StringGet( string.Format(UrlConfig.captcha_Check, randCode, timeStamp), _cookie);
             ///**/jQuery19108016482864806321_1554298927290({"result_message":"验证码校验失败","result_code":"5"});
           var dyData= ((dynamic)Newtonsoft.Json.JsonConvert.DeserializeObject(response.Split('(')[1].Split(')')[0]));
             if (dyData == null)
@@ -248,7 +246,7 @@ namespace _12036ByTicket.Services
             string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
                 passWord, randCode, appId);
             string responseContent = string.Empty;
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.login, postData, _cookie);
+            var response = HttpHelper.StringPost( UrlConfig.login, postData, _cookie);
             var retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
             if (retDic == null)
             {
@@ -259,14 +257,14 @@ namespace _12036ByTicket.Services
             {
                 postData = "appid=otn";
                 Thread.Sleep(500);
-                response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtk, postData, _cookie);
+                response = HttpHelper.StringPost( UrlConfig.uamtk, postData, _cookie);
                 retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                 if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                 {
                     string newapptk = retDic["newapptk"];
                     postData = "tk=" + newapptk;
                     Thread.Sleep(500);
-                    response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamauthclient, postData, _cookie);
+                    response = HttpHelper.StringPost( UrlConfig.uamauthclient, postData, _cookie);
                     retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                     if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                     {
@@ -318,7 +316,7 @@ namespace _12036ByTicket.Services
         {
             var list = new List<Normal_passengersItem>();
             string postData = string.Format("_json_att={0}", "");
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.getPassenger, postData, _cookie);
+            var response = HttpHelper.StringPost( UrlConfig.getPassenger, postData, _cookie);
             //validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{ "isExist":false,"exMsg":"用户未登录","noLogin":"true","normal_passengers":null,"dj_passengers":null},"messages":[],"validateMessages":{}}
           //  if getPassengerDTOsResult.get("data", False) and getPassengerDTOsResult["data"].get("normal_passengers", False):
             var result = JsonConvert.DeserializeObject<PassengerDto>(response);
@@ -337,7 +335,7 @@ namespace _12036ByTicket.Services
         {
             var list = new List<Normal_passengersItem>();
             string postData = string.Format("_json_att={0}", "");
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.check_user_url, postData, _cookie);
+            var response = HttpHelper.StringPost( UrlConfig.check_user_url, postData, _cookie);
             dynamic result = JsonConvert.DeserializeObject(response);
             //{"validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{"flag":true},"messages":[],"validateMessages":{}}
             if ((bool)result["status"] ==true)
@@ -369,7 +367,7 @@ namespace _12036ByTicket.Services
                 {"undefined",model.undefined },
             };
             var postData = strDictionary.GetParmarStr();
-            var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.submitOrderRequest, postData, _cookie);
+            var response = HttpHelper.StringPost( UrlConfig.submitOrderRequest, postData, _cookie);
             return null;
 
         }
