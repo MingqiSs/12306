@@ -22,132 +22,54 @@ namespace _12036ByTicket
 
             #region Login_init
             _12306Service.Ticket_Init();
-            LoadCaptchaImg(true);
       
             #endregion
         }
-        private List<Point> _clickPoints = null;
-        private const int ClickImgSize = 32;//287, 175
-        //验证码坐标
-        private string answer =string.Empty;
         private void btn_Login_Click(object sender, EventArgs e)
         {
+            var randCode = string.Empty;
             if (string.IsNullOrWhiteSpace(tb_userName.Text))
             {
                 MessageBox.Show("请输入用户名！");
                 return;
             }
-            if ( string.IsNullOrWhiteSpace(tb_passWord.Text))
+            if (string.IsNullOrWhiteSpace(tb_passWord.Text))
             {
                 MessageBox.Show("请输入密码！");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(answer))
+            btn_Login.Name = "登陆中";
+            var captchaImgStr = _12306Service.GetCaptcha();
+            var captchaCode = _12306Service.CerifyCaptchaCode(captchaImgStr);
+            if (captchaCode.Data.Any())
             {
-                if (_clickPoints.Count > 0)
+                //处理云打码逻辑
+                foreach (var item in captchaCode.Data)
                 {
-                    answer = _clickPoints.Aggregate(answer,
-                         (current, p) => current + (p.X + 10) + ',' + (p.Y - 20) + ',');
+                    randCode = item + ",";
                 }
-            }
-            if (string.IsNullOrWhiteSpace(answer))
-            {
-                MessageBox.Show("请选择验证码！");
-                return;
-            }
-            var  randCode = answer.TrimEnd(',');  //todo:124,114,163,64  
-            var isCheck = _12306Service.CheckCaptcha(randCode);
-            if (isCheck)
-            {
+
                 //登录
-                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode))
+                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode.TrimEnd(',')))
                 {
-                    //拿用户信息
-                  //  var username = _12306Service.GetUserInfo();
                     //跳转主页
                     MainForm logForm = new MainForm();
                     logForm.Show();
                 }
             }
-            else {
-                LoadCaptchaImg();
-               // Captcha_Img.Show();
-            }
-
-        }
-        private void LoadCaptchaImg(bool isCerifyCaptch=false)
-        {            
-            var baseImgStr = _12306Service.GetCaptcha();
-            var isVip = true;//
-            if(baseImgStr!=null&& isVip&& isCerifyCaptch)
+            //手动输入验证码逻辑
+            CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
+            DialogResult ddr = captchaCheckForm.ShowDialog();
+            if (ddr == DialogResult.OK)
             {
-               //var captchaCode= _12306Service.CerifyCaptchaCode(baseImgStr);
-               // if (captchaCode.Data != null && captchaCode.Data.Count() > 0)
-               // {
-               //     foreach (var item in captchaCode.Data) answer = item + ",";
-               //     ///隐藏验证码
-               //     Captcha_Img.Hide();
-               //     return;
-               // }
+                //登录
+                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode))
+                {
+                    //跳转主页
+                    MainForm logForm = new MainForm();
+                    logForm.Show();
+                }
             }
-            byte[] data = System.Convert.FromBase64String(baseImgStr);
-            MemoryStream ms = new MemoryStream(data);
-           var img= Image.FromStream(ms);
-            if (img == null)
-            {
-                MessageBox.Show("加载验证码失败！");
-                return;
-            }
-            _clickPoints = new List<Point>();
-            Captcha_Img.AutoSize = true;
-            Captcha_Img.BackgroundImage = img;
-        }
-        /// <summary>
-        /// 刷新验证码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bnt_Captcha_Refresh_Click(object sender, EventArgs e)
-        {
-            LoadCaptchaImg();
-        }
-        /// <summary>
-        /// 验证码点击事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Captcha_Img_MouseDown(object sender, MouseEventArgs e)
-        {
-            int x = e.Location.X;
-            int y = e.Location.Y;
-            if (e.Button != MouseButtons.Left) return;
-            if (y <= 30) return;
-            Point point =
-                _clickPoints.FirstOrDefault(
-                    p => p.X <= e.X && e.X <= p.X + ClickImgSize && p.Y <= e.Y && e.Y <= p.Y + ClickImgSize);
-            Graphics g = Captcha_Img.CreateGraphics();
-            if (!point.IsEmpty)
-            {
-                //再次点击时取消点击标志（用背景将点击验证码图片覆盖）
-                g.DrawImage(Captcha_Img.BackgroundImage,
-                    new Rectangle(point.X, point.Y, ClickImgSize, ClickImgSize),
-                    new Rectangle(point.X, point.Y, ClickImgSize, ClickImgSize), GraphicsUnit.Pixel);
-                _clickPoints.Remove(point);
-            }
-            else
-            {
-                Image clickImg =
-                    new Bitmap("../../Static/click.png");
-
-                g.DrawImage(clickImg, new Point(x - 10, y - 10));
-                _clickPoints.Add(new Point(x - 10, y - 10));
-            }
-
-        }
-
-        private void Captcha_Img_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -159,5 +81,6 @@ namespace _12036ByTicket
         {
 
         }
+
     }
 }

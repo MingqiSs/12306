@@ -53,11 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CaptchaCheck.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="CaptchaCheckForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CaptchaCheck.Designer.cs">
-      <DependentUpon>CaptchaCheck.cs</DependentUpon>
+    <Compile Include="CaptchaCheckForm.Designer.cs">
+      <DependentUpon>CaptchaCheckForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\BaseDictionary.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
@@ -84,8 +84,8 @@
     <Compile Include="Services\Logic.cs" />
     <Compile Include="Model\PassengerDto.cs" />
     <Compile Include="Services\_12306Service.cs" />
-    <EmbeddedResource Include="CaptchaCheck.resx">
-      <DependentUpon>CaptchaCheck.cs</DependentUpon>
+    <EmbeddedResource Include="CaptchaCheckForm.resx">
+      <DependentUpon>CaptchaCheckForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
