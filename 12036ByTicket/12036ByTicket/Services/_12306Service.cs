@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -364,6 +365,14 @@ namespace _12036ByTicket.Services
             }
             return false;
         }
+        /// <summary>
+        /// 下单-预售下单-提交订单
+        /// </summary>
+        /// <param name="secretStr"></param>
+        /// <param name="from_station"></param>
+        /// <param name="to_station_name"></param>
+        /// <param name="train_date"></param>
+        /// <returns></returns>
         public static bool SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date)
         {
             var model = new SubmitOrderModel();
@@ -396,11 +405,149 @@ namespace _12036ByTicket.Services
 
         }
 
+        /// <summary>
+        /// 下单-预售下单-进入订单生成页
+        /// </summary>
+        /// <returns></returns>
         public static string GetinitDc()
         {
-            var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie);
+            var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie).Split('\n');
+            var strToken = response[11].Split('=');
+            var token = Regex.Replace(Regex.Replace(strToken[1], @"'", ""), @";", "").Trim();
+            // orderRequestDTO  ticketInfoForPassengerForm 暂时不用 用到的时候再说
+            //var orderDTO = response[1639];
+            //var s3 = orderDTO.Split('=');
+            //var orderRequestDTO = Regex.Replace(s3[1], @";", "").Trim();
+            //var ticketInfo = response[1637].Split('=');
+            //var ticketInfoForPassengerForm = Regex.Replace(ticketInfo[1], @";", "").Trim();
+            return token;
+        }
+
+        /// <summary>
+        /// 下单-预售下单-校验订单信息
+        /// </summary>
+        /// <param name="passengerTicketStr">座位编号,0,票类型,乘客名,证件类型,证件号,手机号码,保存常用联系人(Y或N),allEncStr(这个是获取联系人里面返回的)
+        /// <param name="oldPassengerStr"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static checkOrderInfoResponseData checkOrderInfo(string passengerTicketStr,string oldPassengerStr,string token)
+        {
+            var orderInfo = new checkOrderInfoResponseData();
+            var strDictionary = new BaseDictionary()
+            {
+                {"bed_level_order_num","000000000000000000000000000000"},
+                {"passengerTicketStr",passengerTicketStr },
+                {"oldPassengerStr",oldPassengerStr },
+                {"tour_flag","dc" },
+                {"randCode","" },
+                {"cancel_flag","2" },
+                {"_json_att","" },
+                {"REPEAT_SUBMIT_TOKEN",token },
+            };
+            var postData = strDictionary.GetParmarStr();
+            var responses = HttpHelper.StringPost(UrlConfig.checkOrderInfo, postData, _cookie);
+            var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
+            if(response.httpstatus=="200"&&response.status=="true")
+            {
+                return orderInfo=response.data;
+            }
+            return orderInfo;
+        }
+
+
+
+        /// <summary>
+        /// 下单-预售下单-订单排队
+        /// </summary>
+        /// <param name="secretStr"></param>
+        /// <param name="train_date">乘车日期</param>
+        /// <param name="tour_flag">乘车类型</param>
+        /// <param name="purpose_codes">学生还是成人</param>
+        /// <param name="query_from_station_name">起始车站</param>
+        /// <param name="query_to_station_name">结束车站</param>
+        /// <param name="passengerTicketStr">乘客乘车代码</param>
+        /// <param name="oldPassengerStr">乘客编号代码</param>
+        /// <returns></returns>
+        public static string  GetQueueCount(string secretStr,string train_date,string tour_flag,string purpose_codes,
+            string query_from_station_name,string query_to_station_name,string passengerTicketStr,string oldPassengerStr)
+        {
+            var strDictionary = new BaseDictionary()
+            {
+                {"secretStr",WebUtility.UrlDecode(secretStr)},
+                {"train_date",train_date },
+                {"tour_flag",tour_flag },
+                {"purpose_codes",purpose_codes },// 	学生还是成人
+                {"query_from_station_name",query_from_station_name },//起始车站
+                {"query_to_station_name",query_to_station_name },//结束车站
+                {"cancel_flag","2" },
+                {"bed_level_order_num","000000000000000000000000000000" },
+                {"passengerTicketStr",passengerTicketStr },//乘客乘车代码
+                {"oldPassengerStr",oldPassengerStr },//乘客编号代码
+            };
+            var postData = strDictionary.GetParmarStr();
+            var responses = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
             return null;
         }
+
+        /// <summary>
+        /// 下单-预售下单-等待出票
+        /// </summary>
+        /// <returns></returns>
+        public static queryOrderWaitTimeResponseData queryOrderWaitTime()
+        {
+            var random = RandomHelper.GenerateRandomCode(13);
+            var strDictionary = new BaseDictionary()
+            {
+                {"random",random},//13位随机数
+                {"tourFlag","dc" },//成人或者学生
+                {"_json_att","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            var responses = HttpHelper.StringPost(UrlConfig.queryOrderWaitTime, postData, _cookie);
+            var response =JsonConvert.DeserializeObject<queryOrderWaitTimeResponse>(responses);
+            if (response.httpstatus == "200" && response.status == "true")
+            {
+                if (Convert.ToInt32(response.data.waitTime) > 1000)
+                {
+                    //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
+                }
+                return response.data;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 下单-预售下单-等待出票 重复10次
+        /// </summary>
+        /// <returns></returns>
+        public static queryOrderWaitTimeResponseData taskqueryOrderWaitTime()
+        {
+            var order = new queryOrderWaitTimeResponseData();
+            var isContinue = true;
+
+            for (int i = 0; i < 10; i++)
+            {
+                while (isContinue)
+                {
+                    Thread.Sleep(1000);
+                    var orderInfo = queryOrderWaitTime();
+                    if (!string.IsNullOrEmpty(orderInfo.orderId))
+                    {
+                        isContinue = false;
+                        order = orderInfo;
+                        continue;
+                    }
+
+                    if (i == 9)
+                    {
+                        isContinue = false;
+                    }
+                }
+            }
+
+            return order;
+        }
+
         /// <summary>
         /// 获取图片对应坐标
         /// </summary>

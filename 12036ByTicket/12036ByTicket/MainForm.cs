@@ -198,7 +198,29 @@ namespace _12036ByTicket
                    var isSubmintOk= _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
                     if(isSubmintOk)
                     {
-                        _12306Service.GetinitDc();
+                        var token= _12306Service.GetinitDc();
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            
+                           var passengerTicketStr = "1,0,1,尹瑶,1,4302***********515,13147077217,N,2831edc444ab8ac170ee85fbffb111c494e1ed0062ee2c3097b28666246696d9bfecc63ac71ea346407ea45de99ae59b" + "_";
+                           var oldPassengerStr = "尹瑶,1,4302***********515,1" + "_";
+                           var orderInfo= _12306Service.checkOrderInfo(passengerTicketStr, oldPassengerStr, token);
+                            if(orderInfo.submitStatus)
+                            {
+                                _12306Service.GetQueueCount(secretStr, train_date, "dc", "ADULT", stationFrom, stationTo, passengerTicketStr, oldPassengerStr);
+                            }
+
+                            //留着 出票的接口
+                            //var order= _12306Service.queryOrderWaitTime();
+                            // if (!string.IsNullOrEmpty(order.orderId))
+                            // {
+
+                            // }
+                            // else
+                            // {
+                            //    var orderWait = _12306Service.taskqueryOrderWaitTime();
+                            // }
+                        }
                     }
                 }
                 //if (isAutoBuy)

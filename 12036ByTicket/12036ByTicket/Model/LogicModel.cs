@@ -286,4 +286,68 @@ namespace _12036ByTicket.LogicModel
         public object validateMessages { get; set; }
     }
 
+    /// <summary>
+    /// 预定下单等待出票 返回
+    /// </summary>
+    public class queryOrderWaitTimeResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public queryOrderWaitTimeResponseData data { get; set; }
+    }
+
+    public class queryOrderWaitTimeResponseData
+    {
+        public string queryOrderWaitTimeStatus { get; set; }
+
+        public string count { get; set; }
+
+        [Description("为当前用户还需等待时长 如果等待时长超过1000S，放弃排队，去订单中心取消此订单")]
+        public string waitTime { get; set; }
+
+        public string requestId { get; set; }
+
+        public string waitCount { get; set; }
+
+        [Description("当前车票类型")]
+        public string tourFlag { get; set; }
+
+        [Description("当前车票订单号 - 以此为判断下单是否成功")]
+        public string orderId { get; set; }
+    }
+
+    public class checkOrderInfoResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public checkOrderInfoResponseData data { get; set; }
+
+    }
+
+    public class checkOrderInfoResponseData
+    {
+        [Description("安全等待时间")]
+        public string ifShowPassCodeTime { get; set; }
+
+        [Description("是否可以提交，为false时候，需要打印messages or validateMessages里面的消息")]
+        public bool submitStatus { get; set; }
+
+        [Description("是否需要验证码，N=不需要")]
+        public string ifShowPassCode { get; set; }
+
+        public string canChooseBeds { get; set; }
+
+        public string canChooseSeats { get; set; }
+
+        public string choose_Seats { get; set; }
+
+        public string isCanChooseMid { get; set; }
+
+        //public string errMsg { get; set; }
+
+    }
 }
