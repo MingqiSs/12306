@@ -403,9 +403,10 @@ namespace _12036ByTicket.LogicModel
         [Description("当前订单排队人数")]
         public string count { get; set; }
 
-        [Description("代表当前余票数，如果余票数为0，可以放弃提交")]
+   
         public string countT { get; set; }
 
+        [Description("代表当前余票数，如果余票数为0，可以放弃提交")]
         public string ticket { get; set; }
 
         public string op_2 { get; set; }

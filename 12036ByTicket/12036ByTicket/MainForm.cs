@@ -208,7 +208,7 @@ namespace _12036ByTicket
                             if(orderInfo.submitStatus)
                             {
                                 var queueInfo= _12306Service.GetQueueCount(train_date, from);
-                                if(Convert.ToInt32(queueInfo.countT)==0)
+                                if(Convert.ToInt32(queueInfo.ticket)==0)
                                 {
                                     //to do 如果余票为0 放弃排队
                                 }
