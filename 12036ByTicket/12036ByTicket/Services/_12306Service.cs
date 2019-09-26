@@ -472,7 +472,7 @@ namespace _12036ByTicket.Services
         /// <param name="train_location">乘客编号代码</param>
         /// <param name="REPEAT_SUBMIT_TOKEN">token</param>
         /// <returns></returns>
-        public static getQueueCountResponseData GetQueueCount(string train_date, ticketInfoForPassengerForm from)
+        public static getQueueCountResponseData GetQueueCount(string train_date,string seatType, ticketInfoForPassengerForm from)
         {
             train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
             var data = from.queryLeftTicketRequestDTO;
@@ -482,7 +482,7 @@ namespace _12036ByTicket.Services
                 {"train_date",train_date},
                 {"train_no",data.train_no },
                 {"stationTrainCode",data.station_train_code },
-                {"seatType","0" },
+                {"seatType",seatType },
                 {"fromStationTelecode",data.from_station },
                 {"toStationTelecode",data.to_station },
                 {"leftTicket",from.leftTicketStr },
@@ -491,6 +491,7 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = strDictionary.GetParmarStr();
+            var s = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
             var responses =JsonConvert.DeserializeObject<getQueueCountResponse>(HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie));
             if(responses.httpstatus=="200"&&responses.status=="true")
             {
