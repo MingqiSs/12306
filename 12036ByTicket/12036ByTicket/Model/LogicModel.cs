@@ -350,4 +350,66 @@ namespace _12036ByTicket.LogicModel
         //public string errMsg { get; set; }
 
     }
+
+    /// <summary>
+    /// 订单生成页
+    /// </summary>
+    public class ticketInfoForPassengerForm
+    {
+        [Description("字符串")]
+        public string leftTicketStr { get; set; }
+
+        [Description("列车位置")]
+        public string purpose_codes { get; set; }
+
+        [Description("乘客编号代码")]
+        public string train_location { get; set; }
+
+        public queryLeftTicketRequestDTOs queryLeftTicketRequestDTO { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        public string token { get; set; }
+    }
+
+    public class queryLeftTicketRequestDTOs
+    {
+        [Description("车次")]
+        public string train_no { get; set; }
+
+        [Description("车次代号")]
+        public string station_train_code { get; set; }
+
+        [Description("起始车站")]
+        public string from_station { get; set; }
+
+        [Description("到达车站")]
+        public string to_station { get; set; }
+    }
+
+    /// <summary>
+    /// 排队
+    /// </summary>
+    public class getQueueCountResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public getQueueCountResponseData data { get; set; }
+    }
+
+    public class getQueueCountResponseData
+    {
+        [Description("当前订单排队人数")]
+        public string count { get; set; }
+
+        [Description("代表当前余票数，如果余票数为0，可以放弃提交")]
+        public string countT { get; set; }
+
+        public string ticket { get; set; }
+
+        public string op_2 { get; set; }
+
+        public string op_1 { get; set; }
+    }
 }

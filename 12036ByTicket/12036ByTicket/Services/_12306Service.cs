@@ -409,7 +409,7 @@ namespace _12036ByTicket.Services
         /// 下单-预售下单-进入订单生成页
         /// </summary>
         /// <returns></returns>
-        public static string GetinitDc()
+        public static ticketInfoForPassengerForm GetinitDc()
         {
             var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie).Split('\n');
             var strToken = response[11].Split('=');
@@ -418,9 +418,11 @@ namespace _12036ByTicket.Services
             //var orderDTO = response[1639];
             //var s3 = orderDTO.Split('=');
             //var orderRequestDTO = Regex.Replace(s3[1], @";", "").Trim();
-            //var ticketInfo = response[1637].Split('=');
-            //var ticketInfoForPassengerForm = Regex.Replace(ticketInfo[1], @";", "").Trim();
-            return token;
+            var ticketInfo = response[1637].Split('=');
+            var ticketInfoForPassengerForm = Regex.Replace(ticketInfo[1], @";", "").Trim();
+            var from = JsonConvert.DeserializeObject<ticketInfoForPassengerForm>(ticketInfoForPassengerForm);
+            from.token = token;
+            return from;
         }
 
         /// <summary>
@@ -459,34 +461,42 @@ namespace _12036ByTicket.Services
         /// <summary>
         /// 下单-预售下单-订单排队
         /// </summary>
-        /// <param name="secretStr"></param>
-        /// <param name="train_date">乘车日期</param>
-        /// <param name="tour_flag">乘车类型</param>
-        /// <param name="purpose_codes">学生还是成人</param>
-        /// <param name="query_from_station_name">起始车站</param>
-        /// <param name="query_to_station_name">结束车站</param>
-        /// <param name="passengerTicketStr">乘客乘车代码</param>
-        /// <param name="oldPassengerStr">乘客编号代码</param>
+        /// <param name="train_date">乘车日期【中国标准时间】</param>
+        /// <param name="train_no">车次</param>
+        /// <param name="stationTrainCode">车次代号</param>
+        /// <param name="seatType">坐席代码</param>
+        /// <param name="fromStationTelecode">起始车站</param>
+        /// <param name="toStationTelecode">到达车站</param>
+        /// <param name="leftTicket">字符串</param>
+        /// <param name="purpose_codes">列车位置</param>
+        /// <param name="train_location">乘客编号代码</param>
+        /// <param name="REPEAT_SUBMIT_TOKEN">token</param>
         /// <returns></returns>
-        public static string  GetQueueCount(string secretStr,string train_date,string tour_flag,string purpose_codes,
-            string query_from_station_name,string query_to_station_name,string passengerTicketStr,string oldPassengerStr)
+        public static getQueueCountResponseData GetQueueCount(string train_date, ticketInfoForPassengerForm from)
         {
+            train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
+            var data = from.queryLeftTicketRequestDTO;
+            var responseData = new getQueueCountResponseData();
             var strDictionary = new BaseDictionary()
             {
-                {"secretStr",WebUtility.UrlDecode(secretStr)},
-                {"train_date",train_date },
-                {"tour_flag",tour_flag },
-                {"purpose_codes",purpose_codes },// 	学生还是成人
-                {"query_from_station_name",query_from_station_name },//起始车站
-                {"query_to_station_name",query_to_station_name },//结束车站
-                {"cancel_flag","2" },
-                {"bed_level_order_num","000000000000000000000000000000" },
-                {"passengerTicketStr",passengerTicketStr },//乘客乘车代码
-                {"oldPassengerStr",oldPassengerStr },//乘客编号代码
+                {"train_date",train_date},
+                {"train_no",data.train_no },
+                {"stationTrainCode",data.station_train_code },
+                {"seatType","0" },
+                {"fromStationTelecode",data.from_station },
+                {"toStationTelecode",data.to_station },
+                {"leftTicket",from.leftTicketStr },
+                {"purpose_codes",from.purpose_codes },
+                {"train_location",from.train_location },
+                {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = strDictionary.GetParmarStr();
-            var responses = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
-            return null;
+            var responses =JsonConvert.DeserializeObject<getQueueCountResponse>(HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie));
+            if(responses.httpstatus=="200"&&responses.status=="true")
+            {
+                return responseData=responses.data;
+            }
+            return responseData;
         }
 
         /// <summary>
