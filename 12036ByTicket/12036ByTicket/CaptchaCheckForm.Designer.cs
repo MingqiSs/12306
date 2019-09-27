@@ -65,6 +65,7 @@
             this.bnt_Captcha_Refresh.TabIndex = 1;
             this.bnt_Captcha_Refresh.Text = "刷新";
             this.bnt_Captcha_Refresh.UseVisualStyleBackColor = true;
+            this.bnt_Captcha_Refresh.Click += new System.EventHandler(this.bnt_Captcha_Refresh_Click_1);
             // 
             // Login
             // 

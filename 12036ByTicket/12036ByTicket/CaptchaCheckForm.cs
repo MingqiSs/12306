@@ -131,5 +131,10 @@ namespace _12036ByTicket
 
             }
         }
+
+        private void bnt_Captcha_Refresh_Click_1(object sender, EventArgs e)
+        {
+            LoadCaptchaImg();
+        }
     }
 }
