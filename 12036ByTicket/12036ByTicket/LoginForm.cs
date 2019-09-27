@@ -41,7 +41,7 @@ namespace _12036ByTicket
             btn_Login.Name = "登陆中";
             var captchaImgStr = _12306Service.GetCaptcha();
             var captchaCode = _12306Service.CerifyCaptchaCode(captchaImgStr);
-            if (captchaCode.Data.Any())
+            if (captchaCode.Data!=null&&captchaCode.Data.Any())
             {
                 //处理云打码逻辑
                 foreach (var item in captchaCode.Data)
