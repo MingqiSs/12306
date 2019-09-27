@@ -82,7 +82,7 @@ namespace _12036ByTicket.Services
             try
             {
                 var rq = new { imageFile = baseImgStr };
-                var response = HttpClientHelper.PostResponse("http://47.107.170.81:8000/verify/base64/", JsonConvert.SerializeObject(rq));
+                var response = HttpClientHelper.PostResponse("http://34.97.127.118:8000/verify/base64/", JsonConvert.SerializeObject(rq));
                 //{"code":0,"massage":"","data":["1","6"]}
                 resut = JsonConvert.DeserializeObject<CerifyCaptchaCodeRP>(response);
             }
@@ -491,7 +491,6 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = strDictionary.GetParmarStr();
-            var s = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
             var responses =JsonConvert.DeserializeObject<getQueueCountResponse>(HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie));
             if(responses.httpstatus=="200"&&responses.status=="true")
             {
@@ -500,6 +499,36 @@ namespace _12036ByTicket.Services
             return responseData;
         }
 
+
+
+        public static bool  confirmSingleForQueue(string passengerTicketStr,string oldPassengerStr, ticketInfoForPassengerForm from)
+        {
+            var isOk = false;
+            var strDictionary = new Dictionary<string, object>
+            {
+                {"passengerTicketStr",passengerTicketStr},
+                {"oldPassengerStr",oldPassengerStr },
+                {"purpose_codes",from.purpose_codes },
+                {"key_check_isChange",from.key_check_isChange },
+                {"leftTicketStr",from.leftTicketStr },
+                {"train_location",from.train_location },
+                {"seatDetailType","" },
+                {"roomType","00" },
+                {"dwAll","N" },
+                {"whatsSelect",1 },
+                {"_json_at","" },
+                {"randCode","" },
+                {"choose_seats","" },
+                {"REPEAT_SUBMIT_TOKEN",from.token },
+            };
+            var postData = BaseDictionary.GetParmarStrs(strDictionary);
+            var responses =JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie));
+            if(responses.status=="true"&&responses.httpstatus=="200")
+            {
+                isOk = responses.data.submitStatus;
+            }
+            return isOk;
+        }
         /// <summary>
         /// 下单-预售下单-等待出票
         /// </summary>

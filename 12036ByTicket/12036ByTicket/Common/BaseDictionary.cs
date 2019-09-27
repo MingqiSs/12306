@@ -64,6 +64,17 @@ namespace Common.Logic
         }
 
         /// <summary>
+        /// 获取参数形式字符串
+        /// </summary>
+        /// <returns></returns>
+        public static string GetParmarStrs(Dictionary<string, object> paramsMap)
+        {
+            StringBuilder result = new StringBuilder();
+            paramsMap.Aggregate(result, (s, b) => s.Append(b.Key + "=" + b.Value + "&"));
+            return result.ToString().TrimEnd('&');
+        }
+
+        /// <summary>
         /// 转换 QueryString 参数值
         /// </summary>
         public static BaseDictionary TransQueryString(string msg)

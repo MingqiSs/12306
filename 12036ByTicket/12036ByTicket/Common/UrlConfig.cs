@@ -112,6 +112,11 @@ namespace _12036ByTicket.Common
         public static string submitOrderRequest = $"{baseUrl}/otn/leftTicket/submitOrderRequest";
 
         /// <summary>
+        /// 下单-确认订单
+        /// </summary>
+        public static string confirmSingleForQueue = $"{baseUrl}/otn/confirmPassenger/confirmSingleForQueue";
+
+        /// <summary>
         /// 候补排队
         /// </summary>
         public static string queryQueue = $"{baseUrl}/otn/afterNate/queryQueue";

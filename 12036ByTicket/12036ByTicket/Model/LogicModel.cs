@@ -369,6 +369,9 @@ namespace _12036ByTicket.LogicModel
 
         [Newtonsoft.Json.JsonIgnore]
         public string token { get; set; }
+
+        [Description("字符串")]
+        public string key_check_isChange { get; set; }
     }
 
     public class queryLeftTicketRequestDTOs
@@ -407,10 +410,27 @@ namespace _12036ByTicket.LogicModel
         public string countT { get; set; }
 
         [Description("代表当前余票数，如果余票数为0，可以放弃提交")]
-        public string ticket { get; set; }
+        public object ticket { get; set; }
 
         public string op_2 { get; set; }
 
         public string op_1 { get; set; }
+    }
+
+    /// <summary>
+    /// 确认订单
+    /// </summary>
+    public class confirmSingleForQueueResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public confirmSingleForQueueData data { get; set; }
+    }
+
+    public class confirmSingleForQueueData
+    {
+        public bool submitStatus { get; set; }
     }
 }

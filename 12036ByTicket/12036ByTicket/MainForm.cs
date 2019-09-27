@@ -204,30 +204,39 @@ namespace _12036ByTicket
                             
                            var passengerTicketStr = "1,0,1,尹瑶,1,4302***********515,13147077217,N,2831edc444ab8ac170ee85fbffb111c494e1ed0062ee2c3097b28666246696d9bfecc63ac71ea346407ea45de99ae59b" + "_";
                            var oldPassengerStr = "尹瑶,1,4302***********515,1" + "_";
+                            var seatType = "1";//座位的枚举
                            var orderInfo= _12306Service.checkOrderInfo(passengerTicketStr, oldPassengerStr, from.token);
                             if(orderInfo.submitStatus)
                             {
-                                var queueInfo= _12306Service.GetQueueCount(train_date,"1",from);
-                                if(Convert.ToInt32(queueInfo.ticket)==0)
+                                var queueInfo= _12306Service.GetQueueCount(train_date, seatType, from);
+                                var ticket = queueInfo.ticket.ToString().Split(',');// ticket[0] 代表 有对应的座位票 ticket[1] 代表 有站票
+                                if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
                                 {
                                     //to do 如果余票为0 放弃排队
                                 }
                                 else
                                 {
-
+                                    var passengerStr = passengerTicketStr.Split('_');
+                                    var oldpassengerStr = oldPassengerStr.Split('_');
+                                    var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from);
+                                    if(isOk)//这时候 12306 就会有订单了 让你去支付
+                                    {
+                                        //返回车票的信息 
+                                        //留着 出票的接口
+                                        var order = _12306Service.queryOrderWaitTime();
+                                        if (!string.IsNullOrEmpty(order.orderId))
+                                        {
+                                            var s= order;//这个是订单的信息
+                                        }
+                                        else
+                                        {
+                                            var orderWait = _12306Service.taskqueryOrderWaitTime();
+                                        }
+                                    }
                                 }
                             }
 
-                            //留着 出票的接口
-                            //var order= _12306Service.queryOrderWaitTime();
-                            // if (!string.IsNullOrEmpty(order.orderId))
-                            // {
-
-                            // }
-                            // else
-                            // {
-                            //    var orderWait = _12306Service.taskqueryOrderWaitTime();
-                            // }
+                      
                         }
                     }
                 }
