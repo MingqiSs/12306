@@ -1,5 +1,6 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.LogicModel;
+using _12036ByTicket.Model;
 using _12036ByTicket.Model.Dto;
 using Common.Logic;
 using Newtonsoft.Json;
@@ -42,9 +43,9 @@ namespace _12036ByTicket.Services
             //_cookie.Add(new Cookie("RAIL_DEVICEID",
             //    js.RAIL_DEVICEID,
             //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569666558951", "", "kyfw.12306.cn"));
+            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569970118210", "", "kyfw.12306.cn"));
             _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "ZO1a4xzjiZ1eJtmb886bz6Jkkw6pHS7MEl92Q5gasIfpRECaMaAA_9Rf5NPiTCaoIHEwMdf91cjO9PIZVHRQhF0MW9fy9ZzOANOPzgbjitrB4fzZw85dtcnp3ElCRLd5yhaLYeGChvFuGDydLdGbNOTu5I4Tvca9",
+               "iizJtWjqjXnjQ9hI3vjqdyyLoAoV0ASUYCp7IprB9793Bify53EXSDJpnciNtJxRTCW-U49mgIwf39B2VCWBTqeCiDpgoX6AYMtIZ8hlVgZrZFUC3WCi4Icht7TAZUYuPv4hGkiQ4ycFfq6JLpr1jyX1yjYr865Q",
                 "", "kyfw.12306.cn"));
         }
         /// <summary>
@@ -428,12 +429,32 @@ namespace _12036ByTicket.Services
         /// <summary>
         /// 下单-预售下单-校验订单信息
         /// </summary>
-        /// <param name="passengerTicketStr">座位编号,0,票类型,乘客名,证件类型,证件号,手机号码,保存常用联系人(Y或N),allEncStr(这个是获取联系人里面返回的)
-        /// <param name="oldPassengerStr"></param>
+        /// <param name="passengers"></param>
+        /// <param name="buySeat"></param>
         /// <param name="token"></param>
+        /// <param name="passengerTicketStr"></param>
+        /// <param name="oldPassengerStr"></param>
         /// <returns></returns>
-        public static checkOrderInfoResponseData checkOrderInfo(string passengerTicketStr,string oldPassengerStr,string token)
+        public static checkOrderInfoResponseData checkOrderInfo(List<Normal_passengersItem> passengers, string buySeat, string token,
+              out string passengerTicketStr, out string oldPassengerStr)
         {
+            //座位编号,0,票类型,乘客名,证件类型,证件号,手机号码,保存常用联系人(Y或N),allEncStr(这个是获取联系人里面返回的)
+            //  passengerTicketStr = "1,0,1,尹瑶,1,4302***********515,13147077217,N,2831edc444ab8ac170ee85fbffb111c494e1ed0062ee2c3097b28666246696d9bfecc63ac71ea346407ea45de99ae59b" + "_";
+            //  oldPassengerStr = "尹瑶,1,4302***********515,1" + "_";
+            passengerTicketStr = string.Empty;
+            oldPassengerStr = string.Empty;
+            foreach (var passenger in passengers)
+            {
+                string passengerticket = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", buySeat, "0", "1",
+                    passenger.passenger_name, passenger.passenger_id_type_code, passenger.passenger_id_no,
+                    passenger.mobile_no,"N", passenger.allEncStr,"_");
+                passengerTicketStr = passengerTicketStr + passengerticket + "_";
+
+                string oldPassenger = string.Format("{0},{1},{2},{3}", passenger.passenger_name,
+                    passenger.passenger_id_type_code, passenger.passenger_id_no, passenger.passenger_type);
+                oldPassengerStr = oldPassengerStr + oldPassenger + "_";
+            }
+
             var orderInfo = new checkOrderInfoResponseData();
             var strDictionary = new BaseDictionary()
             {
@@ -449,9 +470,9 @@ namespace _12036ByTicket.Services
             var postData = strDictionary.GetParmarStr();
             var responses = HttpHelper.StringPost(UrlConfig.checkOrderInfo, postData, _cookie);
             var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
-            if(response.httpstatus=="200"&&response.status=="true")
+            if (response.httpstatus == "200" && response.status == "true")
             {
-                return orderInfo=response.data;
+                return orderInfo = response.data;
             }
             return orderInfo;
         }
@@ -651,6 +672,40 @@ namespace _12036ByTicket.Services
             }
             return coords;
         }
+        /// <summary>
+        /// 获取座位
+        /// </summary>
+        /// <returns></returns>
+        public static List<SeatTypeDto> GetSeatType(string seatName="")
+        {
+            #region MyRegion
+            // '一等座': 'M',
+            //'特等座': 'P',
+            //'二等座': 'O',
+            //'商务座': 9,
+            //'硬座': 1,
+            //'无座': 1,
+            //'软座': 2,
+            //'软卧': 4,
+            //'硬卧': 3,
+            #endregion
+            var list = new List<SeatTypeDto>();
+            list.Add(new SeatTypeDto { SeatName = "特等座", SeatCode = "P" });
+            list.Add(new SeatTypeDto { SeatName = "商务座", SeatCode = "9" });
+            list.Add(new SeatTypeDto { SeatName = "一等座", SeatCode = "M" });
+            list.Add(new SeatTypeDto { SeatName = "二等座", SeatCode = "O" });
+            list.Add(new SeatTypeDto { SeatName = "硬座", SeatCode = "1" });
+            list.Add(new SeatTypeDto { SeatName = "无座", SeatCode = "1" });
+            list.Add(new SeatTypeDto { SeatName = "软座", SeatCode = "2" });
+            list.Add(new SeatTypeDto { SeatName = "软卧", SeatCode = "4" });
+            list.Add(new SeatTypeDto { SeatName = "软卧", SeatCode = "3" });
 
+            if(!string.IsNullOrEmpty(seatName))
+            {
+              list= list.Where(q => q.SeatName == seatName).ToList();
+            }
+            return list;
+        }
     }
+  
 }

@@ -9,7 +9,7 @@ namespace _12036ByTicket.Services
     public class Normal_passengersItem
     {
         /// <summary>
-        /// 向明其
+        /// 
         /// </summary>
         public string passenger_name { get; set; }
         /// <summary>
@@ -17,7 +17,7 @@ namespace _12036ByTicket.Services
         /// </summary>
         public string sex_code { get; set; }
         /// <summary>
-        /// 男
+        /// 
         /// </summary>
         public string sex_name { get; set; }
         /// <summary>
