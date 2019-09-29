@@ -261,10 +261,10 @@ namespace _12036ByTicket.Services
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public static bool Login(string userName, string passWord, string randCode)
+        public static bool Login(string userName, string passWord, string randCode,out string msg)
         {
             var appId = "otn";
-
+             msg = "登录失败";
             string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
                 passWord, randCode, appId);
             string responseContent = string.Empty;
@@ -299,37 +299,9 @@ namespace _12036ByTicket.Services
                 
             }
             //登录失败
-            MessageBox.Show(retDic["result_message"]);
+            msg = retDic["result_message"].ToString();
             return false;
         }
-
-        /// <summary>
-        /// 获取用户信息
-        /// </summary>
-        /// <returns></returns>
-        //public static string GetUserInfo()
-        //{
-        //    var appId = "otn";
-
-        //    string postData = string.Format("appid={0}", appId);
-        //    var response = HttpHelper.StringPost(DefaultAgent, UrlConfig.uamtkstatic, postData, _cookie);
-        //    //todo:{
-        //        //                "apptk": null,
-        //        //"result_message": "验证通过",
-        //        //"name": "屈兴明",
-        //        //"result_code": 0,
-        //        //"newapptk": "jG_kGMHKgQ_K0WoZWDiYO2henBFPPL0P7sp7XAcgq1q0"
-        //        //}
-        //    dynamic result = JsonConvert.DeserializeObject(response);
-        //    if (result.result_code == 0)
-        //    {
-        //        return result.name;
-        //    }
-        //    else
-        //    {
-        //        return "";
-        //    }
-        //}
         /// <summary>
         /// 获取乘客列表
         /// </summary>

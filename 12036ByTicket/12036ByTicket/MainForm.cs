@@ -1,5 +1,6 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.LogicModel;
+using _12036ByTicket.Model;
 using _12036ByTicket.Services;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -21,10 +23,13 @@ namespace _12036ByTicket
         }
         private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
-        private List<QueryTicket> tickets=new List<QueryTicket>();
-        private Dictionary<string, string> leftSeat;
+        private List<QueryTicket> tickets = new List<QueryTicket>();
+        // private Dictionary<string, string> leftSeat;
         private const string defaultTicket = "----";
         private List<Normal_passengersItem> _lsPassenger;//乘客
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer buyTimer;
+        private int j = 0;
         private void gb_main_Enter(object sender, EventArgs e)
         {
 
@@ -51,14 +56,12 @@ namespace _12036ByTicket
                 seat_ck_b.Items.Add(item.SeatName);
             }
             //初始化日期
-            dtpicker.Value=DateTime.Now.Date;
+            dtpicker.Value = DateTime.Now.Date;
             //已选车次选项
-          //  select_train_lb.Items.Add("k9052");
-          //  select_train_lb.Items.Add("k9053");
             //日志输出
             FormatLogInfo("登录成功");
 
-            
+
         }
 
         private void btn_search_Click(object sender, EventArgs e)
@@ -68,7 +71,7 @@ namespace _12036ByTicket
             //var train_date = "2019-09-18";
             var from_station = tb_stationFrom.Text;
             var to_station = tb_stationTo.Text;
-           var list= _12306Service.getQuery(train_date, from_station, to_station);
+            var list = _12306Service.getQuery(train_date, from_station, to_station);
             if (list != null && list.Count > 0)
             {
                 dgv_tickets.AutoGenerateColumns = false;
@@ -82,41 +85,10 @@ namespace _12036ByTicket
                 FormatLogInfo("很抱歉，按您的查询条件，当前未找到列车！");
             }
         }
-        private bool CheckValue()
-        {
-            DateTime selected = dtpicker.Value.Date;
-            if (selected < DateTime.Now.Date)
-            {
-                MessageBox.Show("出发日期不能小于当前日期！");
-                return false;
-            }
-            if (selected > DateTime.Now.Date.AddDays(29))
-            {
-                MessageBox.Show("预售期为30天，今日可购" + DateTime.Now.Date.AddDays(29).ToShortDateString());
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(tb_stationFrom.Text))
-            {
-                MessageBox.Show("出发站不能为空！");
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(tb_stationTo.Text))
-            {
-                MessageBox.Show("到达站不能为空！");
-                return false;
-            }
-            //_date = dtpicker.Value.ToString("yyyy-MM-dd");
-            
-            //if (rb_student.Checked == true)
-            //{
-            //    _type = "0X00";
-            //}
-            return true;
-        }
         private void FormatLogInfo(string arginfo)
         {
             string time = DateTime.Now.ToString("hh:mm:ss");
-            Log_txb.AppendText(string.Format("{0}  {1}\n", time, arginfo));
+            Log_txb.AppendText(string.Format("{0}  {1}", time, arginfo) + System.Environment.NewLine);
         }
 
         private void tb_station_TextChanged(object sender, EventArgs e)
@@ -170,111 +142,40 @@ namespace _12036ByTicket
 
         private void Ticket_Buy_btn_Click(object sender, EventArgs e)
         {
-            try
+            if (!CheckValue()) return;
+            if (_lsTrainCode.Count == 0)
             {
-                if (!CheckValue()) return;
-                var a = _lsTrainCode;
-                if (_lsTrainCode.Count == 0)
-                {
-                    MessageBox.Show("请先选择车次！");
-                    return;
-                }
-                //
-                var secretStr = tickets.Where(q => q.Station_Train_Code == _lsTrainCode.FirstOrDefault()).Select(q => q.SecretStr).FirstOrDefault();
-                if (string.IsNullOrEmpty(secretStr))
-                {
-                    MessageBox.Show("请先选择车次！");
-                    return;
-                }
-                if (pass_ck_b.CheckedItems.Count==0)
-                {
-                    MessageBox.Show("请选择乘客！");
-                    return;
-                }
-                if (seat_ck_b.CheckedItems.Count == 0)
-                {
-                    MessageBox.Show("请选择座位！");
-                    return;
-                }
-                //出发地
-                var stationFrom = tb_stationFrom.Text;
-                //结束地
-                var stationTo = tb_stationTo.Text;
-                //行程日期
-                var train_date = dtpicker.Text;
-                //选择用户选中的乘客列表；
-                List<string> passengerNameList = new List<string>();
-                for (int i = 0; i < pass_ck_b.CheckedItems.Count; i++)
-                {
-                    if (pass_ck_b.GetItemChecked(i))
-                    {
-                        passengerNameList.Add(pass_ck_b.Items[i] as string);
-                    }
-                }
-                _lsPassenger = _lsPassenger.Where(q => passengerNameList.Contains(q.passenger_name)).ToList();
-                //for (int i = 0; i < seat_ck_b.CheckedItems.Count; i++)
-                //{
-                //    if (seat_ck_b.GetItemChecked(i))
-                //    {
-                //        buySeat = _12306Service.GetSeatType("二等座").FirstOrDefault().SeatCode;
-                //    }
-                //}
-                var buySeat = _12306Service.GetSeatType("硬座").FirstOrDefault().SeatCode; 
-
-                if (_12306Service.Check_User())
-                {
-                    var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
-                    if (isSubmintOk)
-                    {
-                        var from = _12306Service.GetinitDc();
-                        if (!string.IsNullOrEmpty(from.token))
-                        {
-                            
-                            string passengerTicketStr, oldPassengerStr;
-                            var orderInfo = _12306Service.checkOrderInfo(_lsPassenger, buySeat,from.token,out passengerTicketStr, out oldPassengerStr);
-                            if (orderInfo.submitStatus)
-                            {
-                                var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from);
-                                var ticket = queueInfo.ticket.ToString().Split(',');// ticket[0] 代表 有对应的座位票 ticket[1] 代表 有站票
-                                if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
-                                {
-                                    //to do 如果余票为0 放弃排队
-                                }
-                                else
-                                {
-                                    var passengerStr = passengerTicketStr.Split('_');
-                                    var oldpassengerStr = oldPassengerStr.Split('_');
-                                    var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from);
-                                    if (isOk)//这时候 12306 就会有订单了 让你去支付
-                                    {
-                                        //返回车票的信息 
-                                        //留着 出票的接口
-                                        var order = _12306Service.queryOrderWaitTime();
-                                        if (!string.IsNullOrEmpty(order.orderId))
-                                        {
-                                            var s = order;//这个是订单的信息
-                                        }
-                                        else
-                                        {
-                                            var orderWait = _12306Service.taskqueryOrderWaitTime();
-                                        }
-                                    }
-                                }
-                            }
-
-
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("状态异常，需重新登录");
-                }
+                MessageBox.Show("请先选择车次！");
+                return;
             }
-            catch (Exception ex)
+            if (pass_ck_b.CheckedItems.Count == 0)
             {
-                Logger.Error($"购票失败！{ex}");
-                FormatLogInfo($"购票失败！{ex}");
+                MessageBox.Show("请选择乘客！");
+                return;
+            }
+            if (seat_ck_b.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("请选择座位！");
+                return;
+            }
+            if (isAutoBuy)
+            {
+                isAutoBuy = false;
+                buyTimer.Stop();
+                Ticket_Buy_btn.Text = "抢票";
+                FormatLogInfo("暂停抢票");
+            }
+            else
+            {
+                //buyTimer = new System.Windows.Forms.Timer();
+                //buyTimer.Interval = 5000;
+                //buyTimer.Tick += buyTimer_Tick;
+                //isAutoBuy = true;
+                //Ticket_Buy_btn.Text = "暂停";
+                //buyTimer.Start();
+                //j = 0;
+                //FormatLogInfo("开始抢票");
+                buyTimer_Tick(null, null);
             }
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -288,8 +189,8 @@ namespace _12036ByTicket
                 _lsTrainCode.Add(trainNo);
                 select_train_lb.Items.Add(trainNo);
             }
-           
-          
+
+
         }
 
         private void dgv_tickets_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -315,7 +216,7 @@ namespace _12036ByTicket
             //    {
             //        select_train_lb.Items.Add(selectedTrain.Station_Train_Code);
             //    }
-               
+
             //}
             //catch (Exception exception)
             //{
@@ -324,30 +225,45 @@ namespace _12036ByTicket
             //}
 
         }
+
+
+
+        #region Common
+        private bool CheckValue()
+        {
+            DateTime selected = dtpicker.Value.Date;
+            if (selected < DateTime.Now.Date)
+            {
+                MessageBox.Show("出发日期不能小于当前日期！");
+                return false;
+            }
+            if (selected > DateTime.Now.Date.AddDays(29))
+            {
+                MessageBox.Show("预售期为30天，今日可购" + DateTime.Now.Date.AddDays(29).ToShortDateString());
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(tb_stationFrom.Text))
+            {
+                MessageBox.Show("出发站不能为空！");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(tb_stationTo.Text))
+            {
+                MessageBox.Show("到达站不能为空！");
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// 是否有票
         /// </summary>
         /// <param name="ticket"></param>
         /// <returns></returns>
-        private bool CheckIsNoTicket(QueryTicket ticket)
+        private bool CheckTicket(QueryTicket ticket)
         {
-            leftSeat = new Dictionary<string, string>();
-            bool result = true;
-            var t = ticket.GetType();
-            //由于我们只在Property设置了Attibute,所以先获取Property
-            var properties = t.GetProperties();
-            foreach (var property in properties)
-            {
-                if (!property.IsDefined(typeof(SeatAttribute), false)) continue;
-                var propertyValue = property.GetValue(ticket) as string;
-                if (propertyValue != null && (!propertyValue.Equals(defaultTicket) && !propertyValue.Equals("无")))
-                {
-                    result = false;
-                    SeatAttribute attribute = (SeatAttribute)property.GetCustomAttributes(typeof(SeatAttribute), true).FirstOrDefault();
-                    leftSeat.Add(attribute.Code, attribute.Name);
-                }
-            }
-            return result;
+            var dic = PramHelper.GetProperties(ticket);
+            var parmStr = PramHelper.GetParamSrc(dic);
+            return parmStr.Contains("有");
         }
         /// <summary>
         /// 获取选择的乘车人
@@ -356,68 +272,158 @@ namespace _12036ByTicket
         private List<Normal_passengersItem> GetPassaPassengers()
         {
             List<Normal_passengersItem> passengers = new List<Normal_passengersItem>();
+            List<string> passengerNameList = new List<string>();
+            for (int i = 0; i < pass_ck_b.CheckedItems.Count; i++)
+            {
+                if (pass_ck_b.GetItemChecked(i) && _lsPassenger.Where(q => q.passenger_name == pass_ck_b.Items[i] as string).Any())
+                {
+                    passengers.Add(_lsPassenger.Where(q => q.passenger_name == pass_ck_b.Items[i] as string).First());
+                }
+            }
             return passengers;
         }
-
+        /// <summary>
+        /// 获取选中的座位
+        /// </summary>
+        /// <returns></returns>
+        private List<SeatTypeDto> GetCheckSeatTypes()
+        {
+            var list = new List<SeatTypeDto>();
+            for (int i = 0; i < seat_ck_b.CheckedItems.Count; i++)
+            {
+               var seatType =_12306Service.GetSeatType(seat_ck_b.CheckedItems[i] as string as string).FirstOrDefault();
+                if (seatType != null) list.Add(seatType);
+            }
+            return list; 
+        }
+        private void QueryTickets()
+        {
+            var train_date = dtpicker.Text;
+            //var train_date = "2019-09-18";
+            var from_station = tb_stationFrom.Text;
+            var to_station = tb_stationTo.Text;
+            var list = _12306Service.getQuery(train_date, from_station, to_station);
+            if (list != null && list.Count > 0)
+            {
+                dgv_tickets.AutoGenerateColumns = false;
+                dgv_tickets.DataSource = list;
+                dgv_tickets.DoubleBuffered(true);
+                dgv_tickets.Rows[0].Selected = false;
+                tickets = list;
+                FormatLogInfo("余票查询成功！");
+            }
+            else
+            {
+                FormatLogInfo("很抱歉，按您的查询条件，当前未找到列车！");
+            }
+        }
+        private void buyTimer_Tick(object sender, EventArgs e)
+        {
+            foreach (string trian in _lsTrainCode)
+            {
+                j++;
+                QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.Station_Train_Code.Equals(trian));
+                if (selectedTrain == null || string.IsNullOrEmpty(selectedTrain.SecretStr))
+                {
+                     QueryTickets();
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                string secretStr = selectedTrain.SecretStr;
+                string logMsg = "第" + j + "次购票：" + selectedTrain.Station_Train_Code;
+                FormatLogInfo(logMsg);
+                bool ticket = CheckTicket(selectedTrain);
+                var buySeat = string.Empty;//座位号
+               var seats= GetCheckSeatTypes();
+                buySeat = seats.FirstOrDefault()?.SeatCode;
+                if (!ticket || string.IsNullOrEmpty(buySeat))
+                {
+                    logMsg = selectedTrain.Station_Train_Code + "无票";
+                    FormatLogInfo(logMsg);
+                      QueryTickets();
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                var selectedPassengers = GetPassaPassengers();
+                string msg = string.Empty;
+                //出发地
+                var stationFrom = tb_stationFrom.Text;
+                //结束地
+                var stationTo = tb_stationTo.Text;
+                //行程日期
+                var train_date = dtpicker.Text;
+                if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg))
+                {
+                    buyTimer.Stop();
+                }
+                FormatLogInfo(msg);
+            }
+        }
         /// <summary>
         /// 购票逻辑
         /// </summary>
+        /// <param name="secretStr">车次代码</param>
+        /// <param name="selectedPassengers">乘客</param>
+        /// <param name="stationFrom">起始站</param>
+        /// <param name="stationTo">终点站</param>
+        /// <param name="train_date">行程日期</param>
         /// <returns></returns>
-        //private bool BuyTicket(string secretStr,string stationFrom,string stationTo,string train_date)
-        //{
-        //    if (_12306Service.Check_User())
-        //    {
-        //        var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
-        //        if (isSubmintOk)
-        //        {
-        //            var from = _12306Service.GetinitDc();
-        //            if (!string.IsNullOrEmpty(from.token))
-        //            {
+        private bool BuyTicket(string secretStr, List<Normal_passengersItem> selectedPassengers,
+                                   string stationFrom, string stationTo, string train_date, string buySeat, out string msg)
+        {
+            msg = "购票失败";
+            if (_12306Service.Check_User())
+            {
+                var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
+                if (isSubmintOk)
+                {
+                    var from = _12306Service.GetinitDc();
+                    if (!string.IsNullOrEmpty(from.token))
+                    {
 
-        //                var passengerTicketStr = "1,0,1,尹瑶,1,4302***********515,13147077217,N,2831edc444ab8ac170ee85fbffb111c494e1ed0062ee2c3097b28666246696d9bfecc63ac71ea346407ea45de99ae59b" + "_";
-        //                var oldPassengerStr = "尹瑶,1,4302***********515,1" + "_";
-        //                var seatType = "1";//座位的枚举
-        //                var orderInfo = _12306Service.checkOrderInfo(passengerTicketStr, oldPassengerStr, from.token);
-        //                if (orderInfo.submitStatus)
-        //                {
-        //                    var queueInfo = _12306Service.GetQueueCount(train_date, seatType, from);
-        //                    var ticket = queueInfo.ticket.ToString().Split(',');// ticket[0] 代表 有对应的座位票 ticket[1] 代表 有站票
-        //                    if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
-        //                    {
-        //                        //to do 如果余票为0 放弃排队
-        //                    }
-        //                    else
-        //                    {
-        //                        var passengerStr = passengerTicketStr.Split('_');
-        //                        var oldpassengerStr = oldPassengerStr.Split('_');
-        //                        var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from);
-        //                        if (isOk)//这时候 12306 就会有订单了 让你去支付
-        //                        {
-        //                            //返回车票的信息 
-        //                            //留着 出票的接口
-        //                            var order = _12306Service.queryOrderWaitTime();
-        //                            if (!string.IsNullOrEmpty(order.orderId))
-        //                            {
-        //                                var s = order;//这个是订单的信息
-        //                                return true;
-        //                            }
-        //                            else
-        //                            {
-        //                                var orderWait = _12306Service.taskqueryOrderWaitTime();
-        //                            }
-        //                        }
-        //                    }
-        //                }
+                        string passengerTicketStr, oldPassengerStr;
+                        var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr);
+                        if (orderInfo.submitStatus)
+                        {
+                            var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from);
+                            var ticket = queueInfo.ticket.ToString().Split(',');// ticket[0] 代表 有对应的座位票 ticket[1] 代表 有站票
+                            if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
+                            {
+                                //to do 如果余票为0 放弃排队
+                            }
+                            else
+                            {
+                                var passengerStr = passengerTicketStr.Split('_');
+                                var oldpassengerStr = oldPassengerStr.Split('_');
+                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from);
+                                if (isOk)//这时候 12306 就会有订单了 让你去支付
+                                {
+                                    //返回车票的信息 
+                                    //留着 出票的接口
+                                    var order = _12306Service.queryOrderWaitTime();
+                                    if (!string.IsNullOrEmpty(order.orderId))
+                                    {
+                                        var s = order;//这个是订单的信息
+                                        msg = "购票成功,请及时前往12306处理订单";
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        var orderWait = _12306Service.taskqueryOrderWaitTime();
+                                    }
+                                }
+                            }
+                        }
 
-
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("状态异常，需重新登录");
-        //    }
-        //    return true;
-        //}
+                    }
+                }
+            }
+            else
+            {
+                msg = "状态异常，需重新登录";
+            }
+            return false;
+        }
+        #endregion
     }
 }

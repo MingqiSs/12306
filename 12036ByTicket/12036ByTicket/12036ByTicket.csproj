@@ -62,6 +62,7 @@
     <Compile Include="Common\BaseDictionary.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\HttpWebRequestExtension.cs" />
+    <Compile Include="Common\PramHelper.cs" />
     <Compile Include="Common\RandomHelper.cs" />
     <Compile Include="Common\UrlConfig.cs" />
     <Compile Include="Common\HttpHelper.cs" />

@@ -38,7 +38,9 @@ namespace _12036ByTicket
                 MessageBox.Show("请输入密码！");
                 return;
             }
-            btn_Login.Name = "登陆中";
+            var msg = string.Empty;
+            btn_Login.Text = "登陆中";
+            btn_Login.Enabled = false;
             var captchaImgStr = _12306Service.GetCaptcha();
             var captchaCode = _12306Service.CerifyCaptchaCode(captchaImgStr);
             if (captchaCode.Data!=null&&captchaCode.Data.Any())
@@ -49,11 +51,12 @@ namespace _12036ByTicket
                    var coords =_12306Service.GetCoords(item);
                     randCode = randCode+ coords + ",";
                 }
+                randCode = randCode.TrimEnd(',');
                 var isCheck = _12306Service.CheckCaptcha(randCode);
                 if (isCheck)
                 {
                     //登录
-                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode.TrimEnd(',')))
+                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode,out  msg))
                     {
                         //跳转主页
                         MainForm logForm = new MainForm();
@@ -68,13 +71,18 @@ namespace _12036ByTicket
             if (ddr == DialogResult.OK)
             {
                 //登录
-                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode))
+                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out  msg))
                 {
                     //跳转主页
                     MainForm logForm = new MainForm();
                     logForm.Show();
+                    return;
                 }
             }
+            //登录失败
+            MessageBox.Show(msg);
+            btn_Login.Text = "登录";
+            btn_Login.Enabled = true;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
