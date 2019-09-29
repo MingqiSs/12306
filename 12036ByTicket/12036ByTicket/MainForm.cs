@@ -87,8 +87,11 @@ namespace _12036ByTicket
         }
         private void FormatLogInfo(string arginfo)
         {
-            string time = DateTime.Now.ToString("hh:mm:ss");
-            Log_txb.AppendText(string.Format("{0}  {1}", time, arginfo) + System.Environment.NewLine);
+            if (!string.IsNullOrEmpty(arginfo))
+            {
+                string time = DateTime.Now.ToString("hh:mm:ss");
+                Log_txb.AppendText(string.Format("{0}  {1}", time, arginfo) + System.Environment.NewLine);
+            }
         }
 
         private void tb_station_TextChanged(object sender, EventArgs e)
@@ -167,15 +170,15 @@ namespace _12036ByTicket
             }
             else
             {
-                //buyTimer = new System.Windows.Forms.Timer();
-                //buyTimer.Interval = 5000;
-                //buyTimer.Tick += buyTimer_Tick;
-                //isAutoBuy = true;
-                //Ticket_Buy_btn.Text = "暂停";
-                //buyTimer.Start();
-                //j = 0;
-                //FormatLogInfo("开始抢票");
-                buyTimer_Tick(null, null);
+                buyTimer = new System.Windows.Forms.Timer();
+                buyTimer.Interval = 5000;
+                buyTimer.Tick += buyTimer_Tick;
+                isAutoBuy = true;
+                Ticket_Buy_btn.Text = "暂停";
+                buyTimer.Start();
+                j = 0;
+                FormatLogInfo("开始抢票");
+                // buyTimer_Tick(null, null);
             }
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
