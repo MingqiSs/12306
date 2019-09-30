@@ -30,23 +30,24 @@ namespace _12036ByTicket.Services
         /// <summary>
         /// _cookie 初始化
         /// </summary>
-        public static void  Ticket_Init()
+        public static void  Ticket_Init(string cookieStr)
         {
             if (_cookie == null)
             {
                 _cookie = new CookieContainer();
             }
             var response = HttpHelper.Get( string.Format(UrlConfig.left_Ticket_init), _cookie);
-            var js = getJs();
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
-            //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
-            //_cookie.Add(new Cookie("RAIL_DEVICEID",
-            //    js.RAIL_DEVICEID,
-            //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1570045548523", "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "M84LAwiMOAXIxRiIzmh6p-ivTJ70vWciy7W2Qd0q4rKe6ReEvpBP3pgAJCTusrK40hL7pj7arLWJqMJHvAVVZfDuaC6wOCIVvyICN9cGuAvis5I0hgoFjTlTCv99OtRmqUuv6DihNRnIWrV164XDfTtp5wl5SinD",
-                "", "kyfw.12306.cn"));
+
+            string[] cookstr = cookieStr.Split(';');
+            foreach (string str in cookstr)
+            {
+                string[] cookieNameValue = str.Split('=');
+                if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION"|| cookieNameValue[0].Trim()=="RAIL_DEVICEID")
+                {
+                    _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
+                }
+            }
         }
         /// <summary>
         /// 获取验证码
@@ -211,10 +212,12 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static Rail getJs()
         {
+             
             try
-            {              
-                var response = JsonConvert.DeserializeObject<Rail>(HttpHelper.StringGet(UrlConfig.getLogdevice, _cookie));
-                return response;
+            {
+                //
+                var script  = HttpHelper.StringGet(UrlConfig.getJS, _cookie);
+          
             }
             catch (Exception ex)
             {
@@ -222,8 +225,7 @@ namespace _12036ByTicket.Services
             }
             return new Rail();
         }
-  
-
+   
         /// <summary>
         /// 校验验证码
         /// </summary>

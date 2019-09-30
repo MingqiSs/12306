@@ -52,7 +52,7 @@ namespace _12036ByTicket.Common
         ///// <summary>
         ///// 获取浏览器指纹
         ///// </summary>
-        //public static string getLogdevice = $"{baseUrl}/otn/HttpZF/logdevice";
+        public static string getLogdevice = $"{baseUrl}/otn/HttpZF/logdevice";
 
         /// <summary>
         /// 检查用户是否登陆
@@ -67,7 +67,7 @@ namespace _12036ByTicket.Common
         /// <summary>
         /// 获取浏览器指纹
         /// </summary>
-        public static string getLogdevice = "https://12306-rail-id.pjialin.com/";
+        //public static string getLogdevice = "https://12306-rail-id.pjialin.com/";
 
         /// <summary>
         /// 查询车次

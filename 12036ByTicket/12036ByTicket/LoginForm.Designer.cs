@@ -34,6 +34,7 @@
             this.tb_passWord = new System.Windows.Forms.TextBox();
             this.btn_Login = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +97,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.webBrowser1);
             this.groupBox1.Controls.Add(this.btn_Login);
             this.groupBox1.Controls.Add(this.tb_passWord);
             this.groupBox1.Controls.Add(this.label2);
@@ -111,6 +113,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "12306";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(131, 10);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(217, 80);
+            this.webBrowser1.TabIndex = 9;
             // 
             // LoginForm
             // 
@@ -135,6 +145,7 @@
         private System.Windows.Forms.TextBox tb_passWord;
         private System.Windows.Forms.Button btn_Login;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 
