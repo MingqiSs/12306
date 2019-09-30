@@ -90,7 +90,8 @@ namespace _12036ByTicket
             if (!string.IsNullOrEmpty(arginfo))
             {
                 string time = DateTime.Now.ToString("hh:mm:ss");
-                Log_txb.AppendText(string.Format("{0}  {1}", time, arginfo) + System.Environment.NewLine);
+              
+                Log_txb.AppendText(string.Format("{0}  {1}\r\n", time, arginfo));
             }
         }
 
@@ -171,7 +172,7 @@ namespace _12036ByTicket
             else
             {
                 buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 5000;
+                buyTimer.Interval = 8000;
                 buyTimer.Tick += buyTimer_Tick;
                 isAutoBuy = true;
                 Ticket_Buy_btn.Text = "暂停";
@@ -377,7 +378,7 @@ namespace _12036ByTicket
             msg = "购票失败";
             if (_12306Service.Check_User())
             {
-                var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date);
+                var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date,out msg);
                 if (isSubmintOk)
                 {
                     var from = _12306Service.GetinitDc();
