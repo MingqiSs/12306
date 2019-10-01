@@ -18,12 +18,7 @@ namespace _12036ByTicket
     {
         public LoginForm()
         {
-            InitializeComponent();
-
-            #region Login_init
-            _12306Service.Ticket_Init();
-      
-            #endregion
+            InitializeComponent();          
         }
         private void btn_Login_Click(object sender, EventArgs e)
         {
@@ -92,7 +87,12 @@ namespace _12036ByTicket
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-
+            #region Login_init
+            webBrowser1.Hide();
+            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html");//打开网页
+            string cookieStr = webBrowser1.Document.Cookie;
+            _12306Service.Ticket_Init(cookieStr);
+            #endregion
         }
 
     }

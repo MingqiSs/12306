@@ -30,23 +30,24 @@ namespace _12036ByTicket.Services
         /// <summary>
         /// _cookie 初始化
         /// </summary>
-        public static void  Ticket_Init()
+        public static void  Ticket_Init(string cookieStr)
         {
             if (_cookie == null)
             {
                 _cookie = new CookieContainer();
             }
             var response = HttpHelper.Get( string.Format(UrlConfig.left_Ticket_init), _cookie);
-            var js = getJs();
             foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
-            //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
-            //_cookie.Add(new Cookie("RAIL_DEVICEID",
-            //    js.RAIL_DEVICEID,
-            //    "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_EXPIRATION", "1569970118210", "", "kyfw.12306.cn"));
-            _cookie.Add(new Cookie("RAIL_DEVICEID",
-               "iizJtWjqjXnjQ9hI3vjqdyyLoAoV0ASUYCp7IprB9793Bify53EXSDJpnciNtJxRTCW-U49mgIwf39B2VCWBTqeCiDpgoX6AYMtIZ8hlVgZrZFUC3WCi4Icht7TAZUYuPv4hGkiQ4ycFfq6JLpr1jyX1yjYr865Q",
-                "", "kyfw.12306.cn"));
+
+            string[] cookstr = cookieStr.Split(';');
+            foreach (string str in cookstr)
+            {
+                string[] cookieNameValue = str.Split('=');
+                if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION"|| cookieNameValue[0].Trim()=="RAIL_DEVICEID")
+                {
+                    _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
+                }
+            }
         }
         /// <summary>
         /// 获取验证码
@@ -211,10 +212,12 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static Rail getJs()
         {
+             
             try
-            {              
-                var response = JsonConvert.DeserializeObject<Rail>(HttpHelper.StringGet(UrlConfig.getLogdevice, _cookie));
-                return response;
+            {
+                //
+                var script  = HttpHelper.StringGet(UrlConfig.getJS, _cookie);
+          
             }
             catch (Exception ex)
             {
@@ -222,8 +225,7 @@ namespace _12036ByTicket.Services
             }
             return new Rail();
         }
-  
-
+   
         /// <summary>
         /// 校验验证码
         /// </summary>
@@ -278,14 +280,14 @@ namespace _12036ByTicket.Services
             if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
             {
                 postData = "appid=otn";
-                Thread.Sleep(500);
+                Thread.Sleep(100);
                 response = HttpHelper.StringPost( UrlConfig.uamtk, postData, _cookie);
                 retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                 if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
                 {
                     string newapptk = retDic["newapptk"];
                     postData = "tk=" + newapptk;
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                     response = HttpHelper.StringPost( UrlConfig.uamauthclient, postData, _cookie);
                     retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
                     if (retDic.ContainsKey("result_code") && retDic["result_code"].Equals("0"))
@@ -346,7 +348,7 @@ namespace _12036ByTicket.Services
         /// <param name="to_station_name"></param>
         /// <param name="train_date"></param>
         /// <returns></returns>
-        public static bool SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date)
+        public static bool SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date,out string msg)
         {
             var model = new SubmitOrderModel();
             model.purpose_codes = "ADULT";
@@ -369,13 +371,14 @@ namespace _12036ByTicket.Services
                 {"undefined",model.undefined },
             };
             var postData = strDictionary.GetParmarStr();
-            var response =JsonConvert.DeserializeObject<SubmitOrderResponse>(HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie));
-            if(response.status=="true"&&response.data=="N")
+          var r = HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie);
+            var response =JsonConvert.DeserializeObject<SubmitOrderResponse>(r);
+              msg = response.messages.ToString();
+            if (response.status=="true"&&response.data=="N")
             {
                 return true;
             }
             return false;
-
         }
 
         /// <summary>
@@ -515,7 +518,8 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = BaseDictionary.GetParmarStrs(strDictionary);
-            var responses =JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie));
+            var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
+            var responses =JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
             if(responses.status=="true"&&responses.httpstatus=="200")
             {
                 isOk = responses.data.submitStatus;
@@ -670,7 +674,7 @@ namespace _12036ByTicket.Services
             list.Add(new SeatTypeDto { SeatName = "无座", SeatCode = "1" });
             list.Add(new SeatTypeDto { SeatName = "软座", SeatCode = "2" });
             list.Add(new SeatTypeDto { SeatName = "软卧", SeatCode = "4" });
-            list.Add(new SeatTypeDto { SeatName = "软卧", SeatCode = "3" });
+            list.Add(new SeatTypeDto { SeatName = "硬卧", SeatCode = "3" });
 
             if(!string.IsNullOrEmpty(seatName))
             {

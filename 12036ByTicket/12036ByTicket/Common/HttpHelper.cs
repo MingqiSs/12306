@@ -46,10 +46,16 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static string StringGet( string url, CookieContainer cookie)
         {
-            Stream queryStream = Get( url, cookie).GetResponseStream();
-            StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
-            string content = queryReader.ReadToEnd();
-            queryReader.Close();
+            string content = string.Empty;
+            var response = Get(url, cookie);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Stream queryStream = response.GetResponseStream();
+
+                StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
+                 content = queryReader.ReadToEnd();
+                queryReader.Close();
+            }
             return content;
         }
 
@@ -95,17 +101,21 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static string StringPost(string url, string data, CookieContainer cookie)
         {
-            string responseContent = "";
+            string responseContent =string.Empty;
             try
             {
                var response= Post(url, data, cookie);
-                Stream responseStream = response.GetResponseStream();
-                if (responseStream != null)
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);
-                    responseContent = responseStreamReader.ReadToEnd();
-                    responseStreamReader.Close();
+                    Stream responseStream = response.GetResponseStream();
+                    if (responseStream != null)
+                    {
+                        StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);
+                        responseContent = responseStreamReader.ReadToEnd();
+                        responseStreamReader.Close();
+                    }
                 }
+               
             }
             catch (Exception ex)
             {
