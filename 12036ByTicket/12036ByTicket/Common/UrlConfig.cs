@@ -77,7 +77,7 @@ namespace _12036ByTicket.Common
         /// <summary>
         /// 获取的浏览器session
         /// </summary>
-        public static string left_Ticket_init = $"{baseUrl}/otn/leftTicket/init";
+        public static string left_Ticket_init = $"{baseUrl}/otn/leftTicket/init?linktypeid=dc";
         /// <summary>
         /// 获取联系人
         /// </summary>

@@ -88,23 +88,26 @@ namespace _12036ByTicket
         private void LoginForm_Load(object sender, EventArgs e)
         {
             #region Login_init
-            webBrowser1.Hide();
-           // webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html");//打开网页
-            webBrowser1.Url = new Uri("https://kyfw.12306.cn/otn/resources/login.html");
-            string cookieStr = string.Empty;
-            while (string.IsNullOrEmpty(cookieStr))
-            {
-                if (webBrowser1.Document == null)
-                {
-                    Logger.Info("当前获取到:webBrowser数据");
-                    Thread.Sleep(1000);
-                }
-                if (webBrowser1.Document != null) {
-                    cookieStr = webBrowser1.Document.Cookie;
-                    webBrowser1.Dispose();
-                }
-            }
+
+           string cookieStr = string.Empty;
+           // webBrowser1.Hide();
+           // webBrowser1.Navigate(new Uri("https://kyfw.12306.cn/otn/resources/login.html"));//打开网页
+           //                                                                                 //   Thread.Sleep(5000);
+           // while (string.IsNullOrEmpty(cookieStr))
+           // {
+           //     if (webBrowser1.Document == null)
+           //     {
+           //         Logger.Info("当前未获取到:webBrowser数据");
+           //         Thread.Sleep(2000);
+           //     }
+           //     if (webBrowser1.Document != null)
+           //     {
+           //         cookieStr = webBrowser1.Document.Cookie;
+           //         //webBrowser1.Dispose();
+           //     }
+           // }
             _12306Service.Ticket_Init(cookieStr);
+
             #endregion
         }
 
