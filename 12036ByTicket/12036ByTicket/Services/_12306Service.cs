@@ -350,17 +350,19 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static bool SubmitOrder(string secretStr,string from_station,string to_station_name,string train_date,out string msg)
         {
-            var model = new SubmitOrderModel();
-            model.purpose_codes = "ADULT";
-            model.query_from_station_name = from_station;
-            model.query_to_station_name = to_station_name;
-            model.secretStr = secretStr;
-            model.tour_flag = "dc";
-            model.undefined = "";
-            model.train_date = train_date;
-            model.back_train_date = DateTime.Now.ToString("yyyy-MM-dd");
-            var strDictionary = new BaseDictionary()
+            try
             {
+                var model = new SubmitOrderModel();
+                model.purpose_codes = "ADULT";
+                model.query_from_station_name = from_station;
+                model.query_to_station_name = to_station_name;
+                model.secretStr = secretStr;
+                model.tour_flag = "dc";
+                model.undefined = "";
+                model.train_date = train_date;
+                model.back_train_date = DateTime.Now.ToString("yyyy-MM-dd");
+                var strDictionary = new BaseDictionary()
+              {
                 {"secretStr",model.secretStr},
                 {"train_date",model.train_date },
                 {"back_train_date",model.back_train_date },
@@ -369,14 +371,21 @@ namespace _12036ByTicket.Services
                 {"query_from_station_name",model.query_from_station_name },
                 {"query_to_station_name",model.query_to_station_name },
                 {"undefined",model.undefined },
-            };
-            var postData = strDictionary.GetParmarStr();
-          var r = HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie);
-            var response =JsonConvert.DeserializeObject<SubmitOrderResponse>(r);
-              msg = response.messages.ToString();
-            if (response.status=="true"&&response.data=="N")
+                };
+                var postData = strDictionary.GetParmarStr();
+                var r = HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<SubmitOrderResponse>(r);
+                msg = response.messages.ToString();
+                if (response.status == "true" && response.data == "N")
+                {
+                    return true;
+                }
+               
+            }
+            catch (Exception ex)
             {
-                return true;
+                Logger.Error($"下单-预售下单-提交订单:{ex.ToString()}");
+                msg = "下单-预售下单-提交订单发生异常";//返回给用户的错误,
             }
             return false;
         }
@@ -385,20 +394,30 @@ namespace _12036ByTicket.Services
         /// 下单-预售下单-进入订单生成页
         /// </summary>
         /// <returns></returns>
-        public static ticketInfoForPassengerForm GetinitDc()
+        public static ticketInfoForPassengerForm GetinitDc( out string msg)
         {
-            var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie).Split('\n');
-            var strToken = response[11].Split('=');
-            var token = Regex.Replace(Regex.Replace(strToken[1], @"'", ""), @";", "").Trim();
-            // orderRequestDTO  ticketInfoForPassengerForm 暂时不用 用到的时候再说
-            //var orderDTO = response[1639];
-            //var s3 = orderDTO.Split('=');
-            //var orderRequestDTO = Regex.Replace(s3[1], @";", "").Trim();
-            var ticketInfo = response[1637].Split('=');
-            var ticketInfoForPassengerForm = Regex.Replace(ticketInfo[1], @";", "").Trim();
-            var from = JsonConvert.DeserializeObject<ticketInfoForPassengerForm>(ticketInfoForPassengerForm);
-            from.token = token;
-            return from;
+            var model = new ticketInfoForPassengerForm();
+             msg = string.Empty;
+            try
+            {
+                var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie).Split('\n');
+                var strToken = response[11].Split('=');
+                var token = Regex.Replace(Regex.Replace(strToken[1], @"'", ""), @";", "").Trim();
+                // orderRequestDTO  ticketInfoForPassengerForm 暂时不用 用到的时候再说
+                //var orderDTO = response[1639];
+                //var s3 = orderDTO.Split('=');
+                //var orderRequestDTO = Regex.Replace(s3[1], @";", "").Trim();
+                var ticketInfo = response[1637].Split('=');
+                var ticketInfoForPassengerForm = Regex.Replace(ticketInfo[1], @";", "").Trim();
+                 model = JsonConvert.DeserializeObject<ticketInfoForPassengerForm>(ticketInfoForPassengerForm);
+                model.token = token;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"下单-预售下单-进入订单生成页发生错误:{ex.ToString()}");
+                msg = "下单-预售下单-进入订单生成页,网络异常"; //返回给用户的错误
+            }
+            return model;
         }
 
         /// <summary>
@@ -411,8 +430,10 @@ namespace _12036ByTicket.Services
         /// <param name="oldPassengerStr"></param>
         /// <returns></returns>
         public static checkOrderInfoResponseData checkOrderInfo(List<Normal_passengersItem> passengers, string buySeat, string token,
-              out string passengerTicketStr, out string oldPassengerStr)
+              out string passengerTicketStr, out string oldPassengerStr, out string msg)
         {
+            msg = string.Empty;
+            var orderInfo = new checkOrderInfoResponseData();
             //座位编号,0,票类型,乘客名,证件类型,证件号,手机号码,保存常用联系人(Y或N),allEncStr(这个是获取联系人里面返回的)
             //  passengerTicketStr = "1,0,1,尹瑶,1,4302***********515,13147077217,N,2831edc444ab8ac170ee85fbffb111c494e1ed0062ee2c3097b28666246696d9bfecc63ac71ea346407ea45de99ae59b" + "_";
             //  oldPassengerStr = "尹瑶,1,4302***********515,1" + "_";
@@ -430,7 +451,6 @@ namespace _12036ByTicket.Services
                 oldPassengerStr = oldPassengerStr + oldPassenger + "_";
             }
 
-            var orderInfo = new checkOrderInfoResponseData();
             var strDictionary = new BaseDictionary()
             {
                 {"bed_level_order_num","000000000000000000000000000000"},
@@ -443,11 +463,19 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",token },
             };
             var postData = strDictionary.GetParmarStr();
-            var responses = HttpHelper.StringPost(UrlConfig.checkOrderInfo, postData, _cookie);
-            var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
-            if (response.httpstatus == "200" && response.status == "true")
+            try
             {
-                return orderInfo = response.data;
+                var responses = HttpHelper.StringPost(UrlConfig.checkOrderInfo, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return orderInfo = response.data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"下单-预售下单-进入订单生成页发生错误:{ex.ToString()}");
+                msg = "下单-预售下单-校验订单信息,网络异常"; //返回给用户的错误
             }
             return orderInfo;
         }
@@ -487,15 +515,30 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = strDictionary.GetParmarStr();
-            var responses =JsonConvert.DeserializeObject<getQueueCountResponse>(HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie));
-            if(responses.httpstatus=="200"&&responses.status=="true")
+            try
             {
-                return responseData=responses.data;
+                var r = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
+                var responses = JsonConvert.DeserializeObject<getQueueCountResponse>(r);
+                if (responses.httpstatus == "200" && responses.status == "true")
+                {
+                    return responseData = responses.data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"下单-预售下单-进入订单生成页发生错误:{ex.ToString()}");
+              //  msg = "下单-预售下单-订单排队"; //返回给用户的错误
             }
             return responseData;
         }
 
-
+        /// <summary>
+        /// 确认是否下单成功
+        /// </summary>
+        /// <param name="passengerTicketStr"></param>
+        /// <param name="oldPassengerStr"></param>
+        /// <param name="from"></param>
+        /// <returns></returns>
 
         public static bool  confirmSingleForQueue(string passengerTicketStr,string oldPassengerStr, ticketInfoForPassengerForm from)
         {
@@ -518,12 +561,21 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = BaseDictionary.GetParmarStrs(strDictionary);
-            var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
-            var responses =JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
-            if(responses.status=="true"&&responses.httpstatus=="200")
+            try
             {
-                isOk = responses.data.submitStatus;
+                var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
+                var responses = JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
+                if (responses.status == "true" && responses.httpstatus == "200")
+                {
+                    isOk = responses.data.submitStatus;
+                }
             }
+            catch (Exception ex)
+            {
+                Logger.Error($"确认是否下单成功,发生错误:{ex.ToString()}");
+                //  msg = "下单-预售下单-订单排队"; //返回给用户的错误
+            }
+          
             return isOk;
         }
         /// <summary>
@@ -540,15 +592,22 @@ namespace _12036ByTicket.Services
                 {"_json_att","" },
             };
             var postData = strDictionary.GetParmarStr();
-            var responses = HttpHelper.StringPost(UrlConfig.queryOrderWaitTime, postData, _cookie);
-            var response =JsonConvert.DeserializeObject<queryOrderWaitTimeResponse>(responses);
-            if (response.httpstatus == "200" && response.status == "true")
+            try
             {
-                if (Convert.ToInt32(response.data.waitTime) > 1000)
+                var responses = HttpHelper.StringPost(UrlConfig.queryOrderWaitTime, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<queryOrderWaitTimeResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
                 {
-                    //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
+                    if (Convert.ToInt32(response.data.waitTime) > 1000)
+                    {
+                        //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
+                    }
+                    return response.data;
                 }
-                return response.data;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 下单-预售下单-等待出票:{ex.ToString()}");
             }
             return null;
         }

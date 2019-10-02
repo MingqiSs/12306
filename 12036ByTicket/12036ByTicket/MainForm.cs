@@ -29,6 +29,7 @@ namespace _12036ByTicket
         private List<Normal_passengersItem> _lsPassenger;//乘客
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Timer buyTimer;
+         static object lockObj = new object();
         private int j = 0;
         private void gb_main_Enter(object sender, EventArgs e)
         {
@@ -171,15 +172,15 @@ namespace _12036ByTicket
             }
             else
             {
-                buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 8000;
-                buyTimer.Tick += buyTimer_Tick;
-                isAutoBuy = true;
-                Ticket_Buy_btn.Text = "暂停";
-                buyTimer.Start();
-                j = 0;
-                FormatLogInfo("开始抢票");
-                // buyTimer_Tick(null, null);
+                //buyTimer = new System.Windows.Forms.Timer();
+                //buyTimer.Interval = 8000;
+                //buyTimer.Tick += buyTimer_Tick;
+                //isAutoBuy = true;
+                //Ticket_Buy_btn.Text = "暂停";
+                //buyTimer.Start();
+                //j = 0;
+                //FormatLogInfo("开始抢票");
+                 buyTimer_Tick(null, null);
             }
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -356,11 +357,14 @@ namespace _12036ByTicket
                 var stationTo = tb_stationTo.Text;
                 //行程日期
                 var train_date = dtpicker.Text;
-                if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg))
+                lock (lockObj)
                 {
-                    buyTimer.Stop();
+                    if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg))
+                    {
+                        buyTimer.Stop();
+                    }
+                    FormatLogInfo(msg);
                 }
-                FormatLogInfo(msg);
             }
         }
         /// <summary>
@@ -381,12 +385,12 @@ namespace _12036ByTicket
                 var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date,out msg);
                 if (isSubmintOk)
                 {
-                    var from = _12306Service.GetinitDc();
+                    var from = _12306Service.GetinitDc(out msg);
                     if (!string.IsNullOrEmpty(from.token))
                     {
 
                         string passengerTicketStr, oldPassengerStr;
-                        var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr);
+                        var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr,out msg);
                         if (orderInfo.submitStatus)
                         {
                             var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from);
@@ -394,6 +398,7 @@ namespace _12036ByTicket
                             if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
                             {
                                 //to do 如果余票为0 放弃排队
+                                msg = "暂无余票";
                             }
                             else
                             {

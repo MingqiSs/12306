@@ -22,6 +22,7 @@ namespace _12036ByTicket.Common
         {
             try
             {
+                Logger.Info($"请求地址:{url},请求方式:Get");
                 ServicePointManager.Expect100Continue = false;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = userAgent;
@@ -55,6 +56,7 @@ namespace _12036ByTicket.Common
                 StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
                  content = queryReader.ReadToEnd();
                 queryReader.Close();
+                Logger.Info($"请求地址:{url},response:{content}");
             }
             return content;
         }
@@ -69,7 +71,7 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static HttpWebResponse Post( string url, string data, CookieContainer cookie)
         {
-            Logger.Info($"请求地址:{url},data:{data}");
+            Logger.Info($"请求地址:{url},请求方式:Post,参数:{data}");
             ServicePointManager.Expect100Continue = false;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.UserAgent = userAgent;
@@ -113,6 +115,7 @@ namespace _12036ByTicket.Common
                         StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);
                         responseContent = responseStreamReader.ReadToEnd();
                         responseStreamReader.Close();
+                        Logger.Info($"请求接口:{url},response:{responseContent}");
                     }
                 }
                
@@ -120,6 +123,7 @@ namespace _12036ByTicket.Common
             catch (Exception ex)
             {
                 Logger.Error($"请求异常错误:{ex.ToString()}");
+                Logger.Error($"请求接口:{url},response:{responseContent}");
             }
             return responseContent;
         }
