@@ -51,9 +51,9 @@ namespace _12036ByTicket.Common
         /// <returns></returns>
         public static String GetParamSrc(Dictionary<object, object> paramsMap)
         {
-            var vDic = (from objDic in paramsMap orderby objDic.Key ascending select objDic);
+          //  var vDic = (from objDic in paramsMap orderby objDic.Key ascending select objDic);
             StringBuilder str = new StringBuilder();
-            foreach (KeyValuePair<object, object> kv in vDic)
+            foreach (KeyValuePair<object, object> kv in paramsMap)
             {
                 object pkey = kv.Key;
                 object pvalue = kv.Value;

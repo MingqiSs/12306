@@ -17,7 +17,12 @@ namespace _12036ByTicket.LogicModel
 
         public string RAIL_DEVICEID { get; set; }
     }
+    public class logdevice
+    {
+        public string dfp { get; set; }
 
+        public string exp { get; set; }
+    }
     /// <summary>
     /// 车站的信息
     /// </summary>
