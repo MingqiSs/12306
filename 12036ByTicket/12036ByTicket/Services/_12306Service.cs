@@ -249,12 +249,12 @@ namespace _12036ByTicket.Services
                 long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
                 var data= Get_hash_code_params(out  string hashCode);
                // data["algID"] = result.ToString();
-                data["timeStamp"] = timeStamp;
+                data["timestamp"] = timeStamp;
                 var src= PramHelper.GetParamSrc(data);
+              //  hashCode = "xdKLi0yvdjLmIbtiI4ADBNy61PTUvIyUmq-TVrOaIdE";
                 var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{src}";
-              //   url = "https://kyfw.12306.cn/otn/HttpZF/logdevice?algID=WAa2rRuEOC&hashCode=QlhSKcFkPZSm8tNjuuRam8HFx-cwnDdQdSh8zxVTM30&FMQw=0&q4f3=zh-CN&VPIf=1&custID=133&VEek=unknown&dzuS=0&yD16=0&EOQP=0208e6de57e8b9b57f6bff735b74c4db&lEnu=192.168.1.77&jp76=8beb582786105e7d07e7f50e54da59e0&hAqN=Win32&platform=WEB&ks0Q=0a6815c35d5ad34dbc377a43add7e29d&TeRS=1040x1920&tOHY=24xx1080x1920&Fvje=i1l1o1s1&q5aJ=-8&wNLf=99115dfb07133750ba677d055874de87&0aew=Mozilla/5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/77.0.3865.75%20Safari/537.36&E3gR=c8d3343eaf649d434e44b5ad01a44efb&timestamp=1570517076827";
                 var response = HttpHelper.StringGet(url, _cookie);
-                if (response.IndexOf("callbackFunction") >= 0)
+                if (response.IndexOf("callbackFunction") >= 0&& response.IndexOf("cookieCode")>0)
                 {
                     response= response.Split('(')[1].Split(')')[0].Replace("'",string.Empty);
                     var r = JsonConvert.DeserializeObject<logdevice>(response);
@@ -287,19 +287,19 @@ namespace _12036ByTicket.Services
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "ff5f70bc75a8b5461d59357d2698226c",
+                jsFonts = "11bc5a0fa3db6cd82ed864458a9e8feb",
                 localCode = "192.168.1.77",
-                mimeTypes = "b8656d92955793cf78a1ef604edb0bf9",
+                mimeTypes = "98369a2734de0da9c24c1e4ac3acd770",
                 os = "Win32",
                 platform = "WEB",
-                plugins = "446e33e51f5f1431d28be063315bcf4a",
+                plugins = "2e9ca173545d80c96a3195da54637714",
                 scrAvailSize = "1040x1920",
                 srcScreenSize = "24xx1080x1920",
                 storeDb = "i1l1o1s1",
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
                 userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36",
-                webSmartID = "de4697b0d29e61a9a9702578d90a7b27",
+                webSmartID = "b4770ab867fc4acaa8ae36707eacdd7a",
             };
             //var data = new
             //{
@@ -425,8 +425,8 @@ namespace _12036ByTicket.Services
                 d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
             }
             d = Encode_data_str(d);
-            d = Encode_data_str(d);
-            d = Encode_data_str(d);
+            //d = Encode_data_str(d);
+          //  d = Encode_data_str(d);
             var data_str = Encode_string(d);
             //parm["hashCode"] = data_str;
             hashCode = data_str;
