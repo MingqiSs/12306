@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -246,11 +247,13 @@ namespace _12036ByTicket.Services
                 var result = Regex.Match(script, @"algID\\x3d(.*?)\\x26").Groups["1"];
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
                 long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
-                var data= Get_hash_code_params();
-                data["algID"] = result.ToString();
+                var data= Get_hash_code_params(out  string hashCode);
+               // data["algID"] = result.ToString();
                 data["timeStamp"] = timeStamp;
                 var src= PramHelper.GetParamSrc(data);
-                var response = HttpHelper.StringGet($"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={src}", _cookie);
+                var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{src}";
+              //   url = "https://kyfw.12306.cn/otn/HttpZF/logdevice?algID=WAa2rRuEOC&hashCode=QlhSKcFkPZSm8tNjuuRam8HFx-cwnDdQdSh8zxVTM30&FMQw=0&q4f3=zh-CN&VPIf=1&custID=133&VEek=unknown&dzuS=0&yD16=0&EOQP=0208e6de57e8b9b57f6bff735b74c4db&lEnu=192.168.1.77&jp76=8beb582786105e7d07e7f50e54da59e0&hAqN=Win32&platform=WEB&ks0Q=0a6815c35d5ad34dbc377a43add7e29d&TeRS=1040x1920&tOHY=24xx1080x1920&Fvje=i1l1o1s1&q5aJ=-8&wNLf=99115dfb07133750ba677d055874de87&0aew=Mozilla/5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/77.0.3865.75%20Safari/537.36&E3gR=c8d3343eaf649d434e44b5ad01a44efb&timestamp=1570517076827";
+                var response = HttpHelper.StringGet(url, _cookie);
                 if (response.IndexOf("callbackFunction") >= 0)
                 {
                     response= response.Split('(')[1].Split(')')[0].Replace("'",string.Empty);
@@ -270,34 +273,57 @@ namespace _12036ByTicket.Services
             }
             return new Rail();
         }
-       
-        private static Dictionary<object, object> Get_hash_code_params()
+        #region 获取加密指纹处理
+        private static Dictionary<object, object> Get_hash_code_params(out string hashCode)
         {
             var parm = new Dictionary<object, object>();
-           
+
             var data = new
             {
                 adblock = "0",
-                browserLanguage = "en-US",
+                browserLanguage = "zh-CN",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "c227b88b01f5c513710d4b9f16a5ce52",
-                localCode = "3232236206",
-                mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
-                os = "MacIntel",
+                jsFonts = "ff5f70bc75a8b5461d59357d2698226c",
+                localCode = "192.168.1.77",
+                mimeTypes = "b8656d92955793cf78a1ef604edb0bf9",
+                os = "Win32",
                 platform = "WEB",
-                plugins = "d22ca0b81584fbea62237b14bd04c866",
-                scrAvailSize = new Random().Next(500, 1000).ToString() + "x1920",
+                plugins = "446e33e51f5f1431d28be063315bcf4a",
+                scrAvailSize = "1040x1920",
                 srcScreenSize = "24xx1080x1920",
                 storeDb = "i1l1o1s1",
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
-                userAgent = "Mozilla /5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0." + new Random().Next(5000, 7000).ToString() + ".0 Safari/537.36",
-                webSmartID = "f4e3b7b14cc647e30a6267028ad54c56",
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36",
+                webSmartID = "de4697b0d29e61a9a9702578d90a7b27",
             };
+            //var data = new
+            //{
+            //    adblock = "0",
+            //    browserLanguage = "en-US",
+            //    cookieEnabled = "1",
+            //    custID = "133",
+            //    doNotTrack = "unknown",
+            //    flashVersion = "0",
+            //    javaEnabled = "0",
+            //    jsFonts = "c227b88b01f5c513710d4b9f16a5ce52",
+            //    localCode = "3232236206",
+            //    mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
+            //    os = "MacIntel",
+            //    platform = "WEB",
+            //    plugins = "d22ca0b81584fbea62237b14bd04c866",
+            //    scrAvailSize = new Random().Next(500, 1000).ToString() + "x1920",
+            //    srcScreenSize = "24xx1080x1920",
+            //    storeDb = "i1l1o1s1",
+            //    timeZone = "-8",
+            //    touchSupport = "99115dfb07133750ba677d055874de87",
+            //    userAgent = "Mozilla /5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0." + new Random().Next(5000, 7000).ToString() + ".0 Safari/537.36",
+            //    webSmartID = "f4e3b7b14cc647e30a6267028ad54c56",
+            //};
             var data_trans = new
             {
                 browserVersion = "d435",
@@ -374,7 +400,7 @@ namespace _12036ByTicket.Services
             var d = string.Empty;
             foreach (var item in p)
             {
-                   d += $"{item.Key}{item.Value}";
+                d += $"{item.Key}{item.Value}";
                 var key = (tp.Any(q => q.Key.ToString() == item.Key.ToString())) ? tp[item.Key] : item.Key;
                 //var key = item.Key;
                 //if (tp.Any(q => q.Key.ToString() == item.Key.ToString()))
@@ -383,23 +409,54 @@ namespace _12036ByTicket.Services
                 //}
                 parm[key] = item.Value;
             }
-            var d_len = d.Length; 
+            var d_len = d.Length;
             var d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
             //todo:需要处理
             if (d_len >= 3)
             {
                 //d = d[d_f: 2 * d_f] + d[2 * d_f:d_len] + d[0: d_f]
+                d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
             }
-            //var d_len = d.Length;
-            //var d_f = int(d_len / 3) if d_len % 3 == 0 else int(d_len / 3) + 1
-            //    d = d[2 * d_f:d_len] + d[0: d_f] + d[1 * d_f: 2 * d_f]
-            var data_str = d;
-            parm["hashCode"] = data_str;
+             d_len = d.Length;
+             d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
+            if (d_len >= 3)
+            {
+                //  d = d[2 * d_f:d_len] + d[0: d_f] + d[1 * d_f: 2 * d_f]
+                d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+            }
+            d = Encode_data_str(d);
+            d = Encode_data_str(d);
+            d = Encode_data_str(d);
+            var data_str = Encode_string(d);
+            //parm["hashCode"] = data_str;
+            hashCode = data_str;
             //排序
-            var parms= (from objDic in parm orderby objDic.Value ascending select objDic).ToDictionary(pair => pair.Key, pair => pair.Value);
-          
+            var parms = (from objDic in parm orderby objDic.Value ascending select objDic).ToDictionary(pair => pair.Key, pair => pair.Value);
+
             return parm;
         }
+        private static string Encode_data_str(string d)
+        {
+            var b = d.Length;
+            if (b % 2 == 0)
+                return d.Substring((b / 2), b - (b / 2)) + d.Substring(0, (b / 2));
+            else
+            {
+                return d.Substring((b / 2 + 1), b - (b / 2 + 1)) + d.Substring((b / 2 + 1)) + d.Substring(0, (b / 2));
+            }
+        }
+        private static string Encode_string(string str)
+        {
+            // var   result = base64.b64encode(hashlib.sha256(str.encode()).digest()).decode()
+            //return result.replace('+', '-').replace('/', '_').replace('=', '')
+            //  var result = System.Text.ASCIIEncoding.ASCII.GetBytes(str);
+            //  result = System.Convert.ToBase64String(sha256(str));
+            byte[] bytes = Encoding.UTF8.GetBytes(str);
+            byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
+            var result = System.Convert.ToBase64String(hash);
+            return result.Replace('+', '-').Replace('/', '_').Replace("=", "");
+        }
+        #endregion
         /// <summary>
         /// 校验验证码
         /// </summary>
