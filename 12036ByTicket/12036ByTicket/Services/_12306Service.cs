@@ -876,6 +876,140 @@ namespace _12036ByTicket.Services
         }
 
         /// <summary>
+        /// 候补-人脸验证
+        /// </summary>
+        /// <param name="secretStr">订单加密字符串</param>
+        /// <param name="seatType">坐席</param>
+        /// <returns></returns>
+        public static bool chechFace(string secretStr,string seatType)
+        {
+            var isOk = false;
+            //secretList 订单加密字符串+ “#” + 坐席 + 竖划线
+            var secretList = string.Format("{0}#{1}|", secretStr, seatType);
+            var strDictionary = new BaseDictionary
+            {
+                {"secretList",secretList},
+                {"_json_att","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.chechFace, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<chechFaceResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    //需判断face_check_code和face_flag条件都满足才行
+                    if (response.data.face_flag==true&&response.data.face_check_code=="12")
+                    {
+                        //只有返回12的时候才可以下候补订单
+                        return isOk=true;
+                    }
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-人脸验证:{ex.ToString()}");
+            }
+
+            return isOk;
+        }
+
+        /// <summary>
+        /// 候补-加入候补列表
+        /// </summary>
+        /// <param name="secretStr">订单加密字符串</param>
+        /// <param name="seatType">坐席号</param>
+        /// <returns></returns>
+        public static List<getSuccessResponseRateData> getSuccessRate(string secretStr, string seatCode)
+        {
+            // secretList 加密字符串 +#+坐席号（坐席号说明见查询api）
+            var secretList = string.Format("{0}#{1}", secretStr, seatCode);
+            var strDictionary = new BaseDictionary
+            {
+                {"secretList",secretList},
+                {"_json_att","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.getSuccessRate, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<getSuccessRateResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return response.data.flag;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-加入候补列表:{ex.ToString()}");
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 候补-提交候补订单
+        /// </summary>
+        /// <param name="secretStr">订单加密字符串</param>
+        /// <param name="seatCode">坐席号</param>
+        /// <returns></returns>
+        public static bool submitOrderRequest(string secretStr, string seatCode)
+        {
+            // secretList 加密字符串+ # + 坐席号+ 竖划线
+            var isOk = false;
+            var secretList = string.Format("{0}#{1}|", secretStr, seatCode);
+            var strDictionary = new BaseDictionary
+            {
+                {"secretList",secretList},
+                {"_json_att","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.submitAfterNateOrderRequest, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<submitOrderRequestResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return isOk=response.data.flag;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-提交候补订单:{ex.ToString()}");
+            }
+
+            return isOk;
+        }
+
+        /// <summary>
+        /// 候补-获取候补信息
+        /// </summary>
+        /// <returns></returns>
+        public static passengerInitApiData passengerInitApi()
+        {
+            try
+            {
+                var responses = HttpHelper.StringGet(UrlConfig.passengerInitApi, _cookie);
+                var response = JsonConvert.DeserializeObject<passengerInitApiResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return   response.data;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-获取候补信息:{ex.ToString()}");
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
         /// 获取图片对应坐标
         /// </summary>
         /// <param name="offsets"></param>
@@ -972,6 +1106,8 @@ namespace _12036ByTicket.Services
             }
             return list;
         }
+
+
     }
   
 }

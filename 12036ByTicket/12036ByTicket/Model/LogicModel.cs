@@ -438,4 +438,104 @@ namespace _12036ByTicket.LogicModel
     {
         public bool submitStatus { get; set; }
     }
+
+    public class chechFaceResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public chechFaceData data { get; set; }
+    }
+
+    public class chechFaceData
+    {
+        public bool login_flag { get; set; }
+
+        public string face_check_code { get; set; }
+
+        public bool face_flag { get; set; }
+    }
+
+    public class getSuccessRateResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public getSuccessRateData data { get; set; }
+    }
+
+    public class getSuccessRateData
+    {
+        public List<getSuccessResponseRateData> flag { get; set; }
+    }
+
+    public class getSuccessResponseRateData
+    {
+        public int level { get; set; }
+
+        [Description("坐席号")]
+        public string seat_type_code { get; set; }
+
+        [Description("")]
+        public string train_no { get; set; }
+
+        [Description("候补日期")]
+        public string start_train_date { get; set; }
+
+        [Description("当前候补位置")]
+        public string info { get; set; }
+    }
+
+    public class submitOrderRequestResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public submitOrderRequestData data { get; set; }
+    }
+
+    public class submitOrderRequestData
+    {
+        public bool flag { get; set; }
+    }
+
+    public class passengerInitApiResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public passengerInitApiData data { get; set; }
+    }
+
+    public class passengerInitApiData
+    {
+        public string result_code { get; set; }
+
+        public string checkcode { get; set; }
+
+        public object limitTranStr { get; set; }
+
+        /// <summary>
+        /// 最后提交jzdhDate格式为2019-08-31#19#00，这个参数在confirmHB接口中需要用到
+        /// </summary>
+        [Description("当前候补最晚兑现日期")]
+        public string jzdhDateE { get; set; }
+
+        public string jzdhDateS { get; set; }
+
+        [Description("当前候补最晚兑现小时，需要将”:” 替换为 “#”")]
+        public string jzdhHourE { get; set; }
+
+        public object limitSeatType { get; set; }
+
+        public string isLimitTran { get; set; }
+
+        public string jzdhHourS { get; set; }
+
+        public object hbTrainList { get; set; }
+    }
 }
