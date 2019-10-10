@@ -304,25 +304,25 @@ namespace _12036ByTicket.Services
             {
                 adblock = "0",
                 browserLanguage = "zh-CN",
-                cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
+               // cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "4902a61a235fbb59700072139347967d",
-                localCode = "3232235853",
-                mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
+                jsFonts = "7416052cf2ec6f9a40e1b45fb8683f03",
+                localCode = "192.168.31.223",
+                mimeTypes = "e1c479675e139ccb951667adec9fffa4",
                 os = "Win32",
                 platform = "WEB",
-                plugins = "d22ca0b81584fbea62237b14bd04c866",
+                plugins = "cbe873f9ff34e65b847ce16819a51b7e",
                 scrAvailSize = "1040x1920",
                 srcScreenSize = "24xx1080x1920",
                 storeDb = "i1l1o1s1",
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
-                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
-                webSmartID = "c771787ccad2c9e0d94d8c96428743ec",
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+                webSmartID = "33c042018566d5c28deab6c606096f50",
             };
             var data_trans = new
             {
@@ -332,7 +332,7 @@ namespace _12036ByTicket.Services
                 browserLanguage = "q4f3",
                 browserName = "-UVA",
                 browserVersion = "d435",
-                cookieCode = "VySQ",
+              //  cookieCode = "VySQ",
                 cookieEnabled = "VPIf",
                 cpuClass = "Md7A",
                 doNotTrack = "VEek",
@@ -399,7 +399,7 @@ namespace _12036ByTicket.Services
             d = Encode_string(c);
             d_len = d.Length;
             var d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
-            if (d_len >= 3)
+            if (d_len<3)
             {
                 d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
             }
@@ -413,7 +413,7 @@ namespace _12036ByTicket.Services
             //d = Encode_data_str(d);
             //d = Encode_data_str(d);
             var data_str = Encode_string(d);
-            //parm["hashCode"] = data_str;
+           // hashCode = "A4S453b4O6k_Wttu_c3BlTYKQrxOUDgJy-Xuywi9Tok";
             hashCode = data_str;
             //排序
             var parms = (from objDic in parm orderby objDic.Value ascending select objDic).ToDictionary(pair => pair.Key, pair => pair.Value);
@@ -431,11 +431,7 @@ namespace _12036ByTicket.Services
             }
         }
         private static string Encode_string(string str)
-        {
-            // var   result = base64.b64encode(hashlib.sha256(str.encode()).digest()).decode()
-            //return result.replace('+', '-').replace('/', '_').replace('=', '')
-            //  var result = System.Text.ASCIIEncoding.ASCII.GetBytes(str);
-            //  result = System.Convert.ToBase64String(sha256(str));
+        {     
             byte[] bytes = Encoding.UTF8.GetBytes(str);
             byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
             var result = System.Convert.ToBase64String(hash);
