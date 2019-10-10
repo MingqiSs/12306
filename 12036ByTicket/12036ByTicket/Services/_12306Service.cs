@@ -277,124 +277,98 @@ namespace _12036ByTicket.Services
         private static Dictionary<object, object> Get_hash_code_params(out string hashCode)
         {
             var parm = new Dictionary<object, object>();
-
+            #region desc 12306解析出来的数据
+            //"[{"key":"adblock","value":"0"}," +
+            // "{"key":"browserLanguage","value":"zh - CN"}," +
+            //    "{"key":"cookieCode","value":"FGGXbCxK2hrKDYXLQausT6kXhPzixKe_"}," +
+            //    "{"key":"cookieEnabled","value":"1"},
+            //{ "key":"custID","value":"133"}," +
+            //    "{"key":"doNotTrack","value":"unknown"}," +
+            //    "{"key":"flashVersion","value":0}," +
+            //    "{"key":"javaEnabled","value":"0"}," +
+            //    "{"key":"jsFonts","value":"49a9fbfe2beb0490836324ceb234fef4"}," +
+            //    "{"key":"localCode","value":3232235853}," +
+            //    "{"key":"mimeTypes","value":"52d67b2a5aa5e031084733d5006cc664"}," +
+            //    "{"key":"os","value":"Win32"},
+            //{ "key":"platform","value":"WEB"}," +
+            //    "{"key":"plugins","value":"d22ca0b81584fbea62237b14bd04c866"}," +
+            //    "{"key":"scrAvailSize","value":"1040x1920"}," +
+            //    "{"key":"srcScreenSize","value":"24xx1080x1920"},
+            //{ "key":"storeDb","value":"i1l1o1s1"}," +
+            //    "{"key":"timeZone","value":-8}," +
+            //    "{"key":"touchSupport","value":"99115dfb07133750ba677d055874de87"}," +
+            //    "{"key":"userAgent","value":"Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 67.0.3396.99 Safari / 537.36"}," +
+            //    "{"key":"webSmartID","value":"378d1309184d0ecf2116f28a5caa05ba"}]"
+            #endregion
             var data = new
             {
                 adblock = "0",
                 browserLanguage = "zh-CN",
+                cookieCode = "FGGXbCxK2hrKDYXLQausT6kXhPzixKe_",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "11bc5a0fa3db6cd82ed864458a9e8feb",
-                localCode = "192.168.1.77",
-                mimeTypes = "98369a2734de0da9c24c1e4ac3acd770",
+                jsFonts = "49a9fbfe2beb0490836324ceb234fef4",
+                localCode = "3232235853",
+                mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
                 os = "Win32",
                 platform = "WEB",
-                plugins = "2e9ca173545d80c96a3195da54637714",
+                plugins = "d22ca0b81584fbea62237b14bd04c866",
                 scrAvailSize = "1040x1920",
                 srcScreenSize = "24xx1080x1920",
                 storeDb = "i1l1o1s1",
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
-                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36",
-                webSmartID = "b4770ab867fc4acaa8ae36707eacdd7a",
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
+                webSmartID = "378d1309184d0ecf2116f28a5caa05ba",
             };
-            //var data = new
-            //{
-            //    adblock = "0",
-            //    browserLanguage = "en-US",
-            //    cookieEnabled = "1",
-            //    custID = "133",
-            //    doNotTrack = "unknown",
-            //    flashVersion = "0",
-            //    javaEnabled = "0",
-            //    jsFonts = "c227b88b01f5c513710d4b9f16a5ce52",
-            //    localCode = "3232236206",
-            //    mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
-            //    os = "MacIntel",
-            //    platform = "WEB",
-            //    plugins = "d22ca0b81584fbea62237b14bd04c866",
-            //    scrAvailSize = new Random().Next(500, 1000).ToString() + "x1920",
-            //    srcScreenSize = "24xx1080x1920",
-            //    storeDb = "i1l1o1s1",
-            //    timeZone = "-8",
-            //    touchSupport = "99115dfb07133750ba677d055874de87",
-            //    userAgent = "Mozilla /5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0." + new Random().Next(5000, 7000).ToString() + ".0 Safari/537.36",
-            //    webSmartID = "f4e3b7b14cc647e30a6267028ad54c56",
-            //};
             var data_trans = new
             {
-                browserVersion = "d435",
-                touchSupport = "wNLf",
-                systemLanguage = "e6OK",
-                scrWidth = "ssI5",
-                openDatabase = "V8vl",
-                scrAvailSize = "TeRS",
-                hasLiedResolution = "3neK",
-                hasLiedOs = "ci5c",
-                timeZone = "q5aJ",
-                userAgent = "0aew",
-                userLanguage = "hLzX",
-                jsFonts = "EOQP",
-                scrAvailHeight = "88tV",
+                adblock = "FMQw",
+                appMinorVersion = "qBVW",
+                appcodeName = "qT7b",
+                browserLanguage = "q4f3",
                 browserName = "-UVA",
+                browserVersion = "d435",
                 cookieCode = "VySQ",
-                online = "9vyE",
-                scrAvailWidth = "E-lJ",
+                cookieEnabled = "VPIf",
+                cpuClass = "Md7A",
+                doNotTrack = "VEek",
                 flashVersion = "dzuS",
+                hasLiedBrowser = "2xC5",
+                hasLiedLanguages = "j5po",
+                hasLiedOs = "ci5c",
+                hasLiedResolution = "3neK",
+                historyList = "kU5z",
+                indexedDb = "3sw-",
+                javaEnabled = "yD16",
+                jsFonts = "EOQP",
+                localCode = "lEnu",
+                localStorage = "XM7l",
+                mimeTypes = "jp76",
+                online = "9vyE",
+                openDatabase = "V8vl",
+                os = "hAqN",
+                plugins = "ks0Q",
+                scrAvailHeight = "88tV",
+                scrAvailSize = "TeRS",
+                scrAvailWidth = "E-lJ",
+                scrColorDepth = "qmyu",
                 scrDeviceXDPI = "3jCe",
+                scrHeight = "5Jwy",
+                scrWidth = "ssI5",
+                sessionStorage = "HVia",
                 srcScreenSize = "tOHY",
                 storeDb = "Fvje",
-                doNotTrack = "VEek",
-                mimeTypes = "jp76",
-                sessionStorage = "HVia",
-                cookieEnabled = "VPIf",
-                os = "hAqN",
-                hasLiedLanguages = "j5po",
-                hasLiedBrowser = "2xC5",
+                systemLanguage = "e6OK",
+                timeZone = "q5aJ",
+                touchSupport = "wNLf",
+                userAgent = "0aew",
+                userLanguage = "hLzX",
                 webSmartID = "E3gR",
-                appcodeName = "qT7b",
-                javaEnabled = "yD16",
-                plugins = "ks0Q",
-                appMinorVersion = "qBVW",
-                cpuClass = "Md7A",
-                indexedDb = "3sw-",
-                adblock = "FMQw",
-                localCode = "lEnu",
-                browserLanguage = "q4f3",
-                scrHeight = "5Jwy",
-                localStorage = "XM7l",
-                historyList = "kU5z",
-                scrColorDepth = "qmyu"
             };
-            //var data = new
-            //{
-            //    algID = algID,
-            //    hashCode = "",
-            //    FMQw = "0",
-            //    q4f3 = "zh-CN",
-            //    VPIf = "1",
-            //    custID = "133",
-            //    VEek = "unknown",
-            //    dzuS = "0",
-            //    yD16 = "0",
-            //    EOQP = "c227b88b01f5c513710d4b9f16a5ce52",
-            //    lEnu = "3232236206",
-            //    jp76 = "c9b8af1dd0961a139018363ee8e43183",
-            //    hAqN = "Win32",
-            //    platform = "WEB",
-            //    ks0Q = "f7b3b950cc53e7cf86604d557db0c73c",
-            //    TeRS = new Random().Next(500, 1000).ToString() + "x1920",
-            //    tOHY = "24xx1080x1920",
-            //    Fvje = "i1l1o1s1",
-            //    q5aJ = "-8",
-            //    wNLf = "99115dfb07133750ba677d055874de87",
-            //    userAgent = "Mozilla /5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0." + new Random().Next(5000, 7000).ToString() + ".0 Safari/537.36",
-            //    E3gR = "695840773f2f83c2dff7dd5c0238509d",
-            //    timestamp = timeStamp,
-            //};
             var p = PramHelper.GetProperties(data);
             var tp = PramHelper.GetProperties(data_trans);
             var d = string.Empty;
@@ -402,31 +376,44 @@ namespace _12036ByTicket.Services
             {
                 d += $"{item.Key}{item.Value}";
                 var key = (tp.Any(q => q.Key.ToString() == item.Key.ToString())) ? tp[item.Key] : item.Key;
-                //var key = item.Key;
-                //if (tp.Any(q => q.Key.ToString() == item.Key.ToString()))
-                //{
-                //    key = tp[item.Key];
-                //}
                 parm[key] = item.Value;
             }
             var d_len = d.Length;
-            var d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
-            //todo:需要处理
-            if (d_len >= 3)
+           var dArr = d.ToCharArray();
+            var f = "";
+            for (var e = 0; e < (d_len / 2); e++)
             {
-                //d = d[d_f: 2 * d_f] + d[2 * d_f:d_len] + d[0: d_f]
-                d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
+                if (e % 2 == 0)
+                {
+                    f = dArr[e].ToString();
+                    dArr[e] = dArr[d_len - 1 - e];
+                    dArr[d_len - 1 - e] = dArr[e];
+                }
             }
-             d_len = d.Length;
-             d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
-            if (d_len >= 3)
+            d = string.Join("", dArr);
+            d_len = d.Length;
+            for (var e = 0; e < d_len; e++)
             {
-                //  d = d[2 * d_f:d_len] + d[0: d_f] + d[1 * d_f: 2 * d_f]
-                d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+                // f = a.charAt(e).charCodeAt(0),
+                f = dArr[e].ToString();
+                //c = 127 === f ? c + String.fromCharCode(0) : c + String.fromCharCode(f + 1);
             }
+            //var d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
+            //if (d_len >= 3)
+            //{
+            //    //d = d[d_f: 2 * d_f] + d[2 * d_f:d_len] + d[0: d_f]
+            //    d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
+            //}
+            // d_len = d.Length;
+            // d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
+            //if (d_len >= 3)
+            //{
+            //    //  d = d[2 * d_f:d_len] + d[0: d_f] + d[1 * d_f: 2 * d_f]
+            //    d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+            //}
             d = Encode_data_str(d);
-            //d = Encode_data_str(d);
-          //  d = Encode_data_str(d);
+            d = Encode_data_str(d);
+            d = Encode_data_str(d);
             var data_str = Encode_string(d);
             //parm["hashCode"] = data_str;
             hashCode = data_str;
