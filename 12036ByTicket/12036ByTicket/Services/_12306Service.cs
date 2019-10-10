@@ -304,13 +304,13 @@ namespace _12036ByTicket.Services
             {
                 adblock = "0",
                 browserLanguage = "zh-CN",
-                cookieCode = "FGGXbCxK2hrKDYXLQausT6kXhPzixKe_",
+                cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "49a9fbfe2beb0490836324ceb234fef4",
+                jsFonts = "4902a61a235fbb59700072139347967d",
                 localCode = "3232235853",
                 mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
                 os = "Win32",
@@ -322,7 +322,7 @@ namespace _12036ByTicket.Services
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
                 userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
-                webSmartID = "378d1309184d0ecf2116f28a5caa05ba",
+                webSmartID = "c771787ccad2c9e0d94d8c96428743ec",
             };
             var data_trans = new
             {
@@ -380,40 +380,38 @@ namespace _12036ByTicket.Services
             }
             var d_len = d.Length;
            var dArr = d.ToCharArray();
-            var f = "";
-            for (var e = 0; e < (d_len / 2); e++)
-            {
-                if (e % 2 == 0)
-                {
-                    f = dArr[e].ToString();
+           
+            for (var e = 0; e < (d_len / 2); e++) {
+                if (e % 2 == 0){
+                   var f = dArr[e].ToString();
                     dArr[e] = dArr[d_len - 1 - e];
                     dArr[d_len - 1 - e] = dArr[e];
                 }
             }
             d = string.Join("", dArr);
             d_len = d.Length;
+            var c = "";
             for (var e = 0; e < d_len; e++)
             {
-                // f = a.charAt(e).charCodeAt(0),
-                f = dArr[e].ToString();
-                //c = 127 === f ? c + String.fromCharCode(0) : c + String.fromCharCode(f + 1);
+               var f = System.Text.Encoding.Unicode.GetBytes(new char[] { dArr[e] })[0];
+                 c = Encoding.Unicode.GetString(new byte[] { 0 }) + Encoding.Unicode.GetString(new byte[] { (byte)(f + 1) });
             }
-            //var d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
-            //if (d_len >= 3)
-            //{
-            //    //d = d[d_f: 2 * d_f] + d[2 * d_f:d_len] + d[0: d_f]
-            //    d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
-            //}
-            // d_len = d.Length;
-            // d_f = d_len % 3 == 0 ? (int)d_len / 3 : (int)(d_len / 3) + 1;
-            //if (d_len >= 3)
-            //{
-            //    //  d = d[2 * d_f:d_len] + d[0: d_f] + d[1 * d_f: 2 * d_f]
-            //    d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
-            //}
-            d = Encode_data_str(d);
-            d = Encode_data_str(d);
-            d = Encode_data_str(d);
+            d = Encode_string(c);
+            d_len = d.Length;
+            var d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
+            if (d_len >= 3)
+            {
+                d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
+            }
+            d_len = d.Length;
+            d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
+            if (d_len >= 3)
+            {
+                d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+            }
+            //  d = Encode_data_str(d);
+            //d = Encode_data_str(d);
+            //d = Encode_data_str(d);
             var data_str = Encode_string(d);
             //parm["hashCode"] = data_str;
             hashCode = data_str;
