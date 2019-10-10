@@ -254,7 +254,7 @@ namespace _12036ByTicket.Services
               //  hashCode = "xdKLi0yvdjLmIbtiI4ADBNy61PTUvIyUmq-TVrOaIdE";
                 var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{src}";
                 var response = HttpHelper.StringGet(url, _cookie);
-                if (response.IndexOf("callbackFunction") >= 0&& response.IndexOf("cookieCode")>0)
+                if (response.IndexOf("callbackFunction") >= 0)
                 {
                     response= response.Split('(')[1].Split(')')[0].Replace("'",string.Empty);
                     var r = JsonConvert.DeserializeObject<logdevice>(response);
