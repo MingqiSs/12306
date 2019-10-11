@@ -88,7 +88,6 @@ namespace _12036ByTicket
         private void LoginForm_Load(object sender, EventArgs e)
         {
             #region Login_init
-
             try
             {
                 string cookieStr = string.Empty;
@@ -112,9 +111,9 @@ namespace _12036ByTicket
             catch (Exception ex)
             {
             }
-            finally {
-                if (webBrowser1 != null) webBrowser1.Dispose();
-            }
+            //finally {
+            //    if (webBrowser1 != null) webBrowser1.Dispose();
+            //}
 
           
             #endregion
