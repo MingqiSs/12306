@@ -127,6 +127,11 @@ namespace _12036ByTicket.Common
         public string Zy_Num { get; set; }
         [Seat(Code = "9", Name = "商务座")]
         public string Swz_Num { get; set; }
+
+        /// <summary>
+        /// 是否可以候补  判断该车次是否可候补（0：不可以，1： 可以）
+        /// </summary>
+        public string IsWait { get; set; }
     }
 
     public static class ExtensionMethods

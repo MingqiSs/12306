@@ -538,4 +538,42 @@ namespace _12036ByTicket.LogicModel
 
         public object hbTrainList { get; set; }
     }
+
+    public class confirmHBResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public confirmHBData data { get; set; }
+    }
+
+    public class confirmHBData
+    {
+        [Description("true表示接口请求成功, 否则需要打印messages or validateMessages信息")]
+        public bool flag { get; set; }
+
+        public string trace_id { get; set; }
+
+        public bool isAsync { get; set; }
+    }
+
+    public class queryQueueResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public queryQueueData data { get; set; }
+    }
+
+    public class queryQueueData
+    {
+        [Description("true表示接口请求成功, 否则需要打印messages or validateMessages信息")]
+        public bool flag { get; set; }
+
+        public string status { get; set; }
+
+        public bool isAsync { get; set; }
+    }
 }

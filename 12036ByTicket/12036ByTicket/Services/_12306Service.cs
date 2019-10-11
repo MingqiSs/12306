@@ -224,6 +224,7 @@ namespace _12036ByTicket.Services
                         ticket.Zy_Num = item[31];
                         ticket.Swz_Num = item[32];
                         ticket.Dw_Num = item[33];
+                        ticket.IsWait = item[37];
                         tickets.Add(ticket);
                     }
                 }
@@ -993,7 +994,70 @@ namespace _12036ByTicket.Services
             return null;
         }
 
+        /// <summary>
+        /// 候补-提交候补信息
+        /// </summary>
+        /// <param name="passengerInfo">乘客信息</param>
+        /// <param name="jzParam">passengerInitApi中获取的jzdhDate</param>
+        /// <param name="hbTrain">车次代号+”,”+坐次编号+ “#”</param>
+        /// <param name="lkParam">”</param>
+        /// <returns></returns>
+        public static confirmHBData confirmHB(string passengerInfo, string jzParam, string hbTrain, string lkParam = "")
+        {
+            // 备注： 多个乘客信息ex: 1#文贤平#1#4305*77X#bf6ae40d3655ae7eff005ee21d95876b38ab97a8031b464bc2f74a067e3ec957;
+            // 1#仓静#1#4301*025#525bee00da98414fffbee6d44d1c15f02ed9388b376db9a1d5d361f9a9d1c60b;
+            //单个乘客信息ex: 1#XXXX#1#*77X#bf6ae40d3655ae7eff005ee21d95876b38ab97a8031b464bc2f74a067e3ec957;
+            //hbTrain ex: (单个)5l000G177230,O# （多个） 5l000G137752,O#5l000G137752,M#
+            var isOk = false;
+            var strDictionary = new BaseDictionary
+            {
+                {"passengerInfo",passengerInfo},
+                {"jzParam",jzParam },
+                {"hbTrain",hbTrain },
+                {"lkParam","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.confirmHB, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<confirmHBResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return response.data;
 
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-提交候补信息:{ex.ToString()}");
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 候补-候补排队
+        /// </summary>
+        /// <returns></returns>
+        public static queryQueueData queryQueue()
+        {
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.queryQueue, "", _cookie);
+                var response = JsonConvert.DeserializeObject<queryQueueResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    return response.data;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 候补-候补排队:{ex.ToString()}");
+            }
+
+            return null;
+        }
         /// <summary>
         /// 获取图片对应坐标
         /// </summary>

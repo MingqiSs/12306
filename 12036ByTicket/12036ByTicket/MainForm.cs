@@ -359,7 +359,7 @@ namespace _12036ByTicket
                 var train_date = dtpicker.Text;
                 lock (lockObj)
                 {
-                    if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg))
+                    if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
                     {
                         buyTimer.Stop();
                     }
@@ -377,12 +377,18 @@ namespace _12036ByTicket
         /// <param name="train_date">行程日期</param>
         /// <returns></returns>
         private bool BuyTicket(string secretStr, List<Normal_passengersItem> selectedPassengers,
-                                   string stationFrom, string stationTo, string train_date, string buySeat, out string msg)
+                                   string stationFrom, string stationTo, string train_date, string buySeat, out string msg, string IsWait)
         {
             msg = "购票失败";
+            //测试候补
+            if (IsWait == "1")
+            {
+                StandbyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg);
+            }
+
             if (_12306Service.Check_User())
             {
-                var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date,out msg);
+                var isSubmintOk = _12306Service.SubmitOrder(secretStr, stationFrom, stationTo, train_date, out msg);
                 if (isSubmintOk)
                 {
                     var from = _12306Service.GetinitDc(out msg);
@@ -390,7 +396,7 @@ namespace _12036ByTicket
                     {
 
                         string passengerTicketStr, oldPassengerStr;
-                        var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr,out msg);
+                        var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr, out msg);
                         if (orderInfo.submitStatus)
                         {
                             var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from);
@@ -423,6 +429,85 @@ namespace _12036ByTicket
                                 }
                             }
                         }
+
+                    }
+                }
+            }
+            else
+            {
+                msg = "状态异常，需重新登录";
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 候补逻辑
+        /// </summary>
+        /// <param name="secretStr"></param>
+        /// <param name="selectedPassengers"></param>
+        /// <param name="stationFrom"></param>
+        /// <param name="stationTo"></param>
+        /// <param name="train_date"></param>
+        /// <param name="buySeat"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private bool StandbyTicket(string secretStr, List<Normal_passengersItem> selectedPassengers,
+            string stationFrom, string stationTo, string train_date, string buySeat, out string msg)
+        {
+            msg = "候补失败";
+            if (_12306Service.Check_User())
+            {
+                //人脸验证
+                var ischechFaceOk = _12306Service.chechFace(secretStr, buySeat);
+                if (ischechFaceOk)
+                {
+                    //加入候补列表
+                    var from = _12306Service.getSuccessRate(secretStr, buySeat);
+
+                    if (from.Count != 0)
+                    {
+                        //提交候补订单
+                        var isSubmitOk = _12306Service.submitOrderRequest(secretStr, buySeat);
+                        if (isSubmitOk)
+                        {
+                            //获取候补信息
+                            var orderInfo = _12306Service.passengerInitApi();
+                            if (orderInfo != null)
+                            {
+                                //提交候补信息
+                                var jzdhDate = string.Format("{0}#{1}", orderInfo.jzdhDateE,
+                                    orderInfo.jzdhHourE.Replace(":", "#"));
+                                var passengerTicketStr = string.Empty;
+                                var oldPassengerStr = string.Empty;
+                                foreach (var passenger in selectedPassengers)
+                                {
+                                    string passengerticket = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", buySeat, "0", "1",
+                                        passenger.passenger_name, passenger.passenger_id_type_code, passenger.passenger_id_no,
+                                        passenger.mobile_no, "N", passenger.allEncStr, "_");
+                                    passengerTicketStr = passengerTicketStr + passengerticket + "_";
+
+                                    string oldPassenger = string.Format("{0},{1},{2},{3}", passenger.passenger_name,
+                                        passenger.passenger_id_type_code, passenger.passenger_id_no, passenger.passenger_type);
+                                    oldPassengerStr = oldPassengerStr + oldPassenger + "_";
+                                }
+
+                                var hbTrain = string.Format("{0},{1}#", secretStr, buySeat);
+                                var hbInfo = _12306Service.confirmHB(passengerTicketStr, jzdhDate, hbTrain);
+                                if (hbInfo.flag)
+                                {
+                                    var standby = _12306Service.queryQueue();
+                                    if (standby.flag)
+                                    {
+                                        return true;
+                                    }
+                                }
+
+                            }
+
+                        }
+
+
+
 
                     }
                 }
