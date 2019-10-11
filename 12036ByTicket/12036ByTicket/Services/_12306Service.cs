@@ -39,21 +39,22 @@ namespace _12036ByTicket.Services
             }
             if (_cookie.Count == 0)
             {
-                var js = GetJs();
+                // var js = GetJs();
+                //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+                //_cookie.Add(new Cookie("RAIL_DEVICEID",
+                // js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
                 var response = HttpHelper.Get(string.Format(UrlConfig.left_Ticket_init), _cookie);
                 foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
-                _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
-                _cookie.Add(new Cookie("RAIL_DEVICEID",
-                  js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
-                //string[] cookstr = cookieStr.Split(';');
-                //foreach (string str in cookstr)
-                //{
-                //    string[] cookieNameValue = str.Split('=');
-                //    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
-                //    {
-                //        _cookie1.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
-                //    }
-                //}
+
+                string[] cookstr = cookieStr.Split(';');
+                foreach (string str in cookstr)
+                {
+                    string[] cookieNameValue = str.Split('=');
+                    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
+                    {
+                        _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
+                    }
+                }
                 //_cookie.Add(new Cookie("RAIL_EXPIRATION", "1570250612845", "", "kyfw.12306.cn"));
                 //_cookie.Add(new Cookie("RAIL_DEVICEID",
                 //   "P5tZtyDuDXprQSTtbaN5n1ObGAYshM1K5EL_D-1Og_ye2D_xFWHwlQfQK9Pn7JsO0JbqasfqHMiH3BB8mGgXdPMJYTeb_iiwVgcVuZF_pj6vji-hvEKfVgyxw4lOeWsLAd6yxaenbGCJMBnaulieOEIdW8NA-hWk",
@@ -401,13 +402,16 @@ namespace _12036ByTicket.Services
             var d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
             if (d_len<3)
             {
-                d = d.Substring(d_f, (2 * d_f - d_f)) + d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f);
+                var e = d.Substring(0, 1 * d_f);
+                var f = d.Substring(1 * d_f, 2 * d_f);
+                d = d.Substring(2 * d_f, d_len) + e + f;
             }
             d_len = d.Length;
             d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
             if (d_len >= 3)
             {
-                d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+               d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+               // d = d.Substring(0, 1 * d_f) + d.Substring(1 * d_f, 2 * d_f) + d.Substring(2 * d_f, d_len);
             }
             //  d = Encode_data_str(d);
             //d = Encode_data_str(d);
