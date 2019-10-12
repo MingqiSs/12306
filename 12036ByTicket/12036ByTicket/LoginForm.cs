@@ -87,7 +87,10 @@ namespace _12036ByTicket
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
+            string authHeader = "Accept:text/html,application/xhtml+xml"+ "\r\n" +
+                  "User-Agent: Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Mobile Safari/537.36 \r\n";
+            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", "", null, authHeader);//打开网页
+
             Thread.Sleep(2000);
         }
 
