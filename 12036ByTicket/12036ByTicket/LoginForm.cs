@@ -87,26 +87,30 @@ namespace _12036ByTicket
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
+            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
+            Thread.Sleep(2000);
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
             #region Login_init
             try
             {
                 string cookieStr = string.Empty;
-                //webBrowser1.Dispose();
-                //webBrowser1.Hide();
-               webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
-                Thread.Sleep(2000);
+                
                 while (string.IsNullOrEmpty(cookieStr))
                 {
                     if (webBrowser1.Document == null)
                     {
                         Logger.Info("当前未获取到:webBrowser数据");
-                        webBrowser1.Refresh();
+                       webBrowser1.Refresh();
                        // webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
                         Thread.Sleep(2000);
                     }
                     if (webBrowser1.Document != null)
                     {
                         cookieStr = webBrowser1.Document.Cookie;
+                        Logger.Info($"获取当前cookie:{cookieStr}");
                     }
                 }
                 _12306Service.Ticket_Init(cookieStr);
@@ -118,10 +122,7 @@ namespace _12036ByTicket
             {
                 if (webBrowser1 != null) webBrowser1.Dispose();
             }
-
-
             #endregion
         }
-
     }
 }
