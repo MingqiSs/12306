@@ -125,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Static\click.png" />
-    <Content Include="Static\getjs.js" />
+    <Content Include="Static\GetJS.js" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSScriptControl">

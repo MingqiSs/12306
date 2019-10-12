@@ -39,12 +39,15 @@ namespace _12036ByTicket.Services
             }
             if (_cookie.Count == 0)
             {
-                // var js = GetJs();
+               
+                var response = HttpHelper.Get(string.Format(UrlConfig.left_Ticket_init), _cookie);
+                foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
+
+                ///初始化cookie
+                //var js = GetJs();
                 //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
                 //_cookie.Add(new Cookie("RAIL_DEVICEID",
                 // js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
-                var response = HttpHelper.Get(string.Format(UrlConfig.left_Ticket_init), _cookie);
-                foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
 
                 string[] cookstr = cookieStr.Split(';');
                 foreach (string str in cookstr)
@@ -55,6 +58,7 @@ namespace _12036ByTicket.Services
                         _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
                     }
                 }
+
                 //_cookie.Add(new Cookie("RAIL_EXPIRATION", "1570250612845", "", "kyfw.12306.cn"));
                 //_cookie.Add(new Cookie("RAIL_DEVICEID",
                 //   "P5tZtyDuDXprQSTtbaN5n1ObGAYshM1K5EL_D-1Og_ye2D_xFWHwlQfQK9Pn7JsO0JbqasfqHMiH3BB8mGgXdPMJYTeb_iiwVgcVuZF_pj6vji-hvEKfVgyxw4lOeWsLAd6yxaenbGCJMBnaulieOEIdW8NA-hWk",
@@ -249,20 +253,21 @@ namespace _12036ByTicket.Services
                 var result = Regex.Match(script, @"algID\\x3d(.*?)\\x26").Groups["1"];
                 System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
                 long timeStamp = (long)(DateTime.Now - startTime).TotalMilliseconds; // 相差毫秒数
-                var data= Get_hash_code_params(out  string hashCode);
-               // data["algID"] = result.ToString();
-                data["timestamp"] = timeStamp;
-                var src= PramHelper.GetParamSrc(data);
-              //  hashCode = "xdKLi0yvdjLmIbtiI4ADBNy61PTUvIyUmq-TVrOaIdE";
-                var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{src}";
+                //var data= Get_hash_code_params(out  string hashCode);
+                //data["timestamp"] = timeStamp;
+                //var src= PramHelper.GetParamSrc(data);
+                //var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{src}";
+
+                var data = Get_hash_code_params(out string hashCode);
+                var url = $"https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={result.ToString()}&hashCode={hashCode}&{data}&timestamp={timeStamp}";
+
                 var response = HttpHelper.StringGet(url, _cookie);
+
                 if (response.IndexOf("callbackFunction") >= 0)
                 {
                     response= response.Split('(')[1].Split(')')[0].Replace("'",string.Empty);
                     var r = JsonConvert.DeserializeObject<logdevice>(response);
-                    // { "exp":"1570275482048","dfp":"lOK22HkENhX6nUe53AQ8UGn80mfuwWiJxY_YYD3xp1r5tUGwkrtlO2uj_Ek9Bayb7mwhHvY-bMEBq52IBFVr-95XehQUAUfgVwzyVSNsMkxrz07TktLfDUt87P4-aQf_bPqznQLZKNb8eyYQbZWHMENPNpH0GMKX"}
-                   // rdata.RAIL_EXPIRATION = "1570275482048";
-                  //  rdata.RAIL_DEVICEID = "lOK22HkENhX6nUe53AQ8UGn80mfuwWiJxY_YYD3xp1r5tUGwkrtlO2uj_Ek9Bayb7mwhHvY-bMEBq52IBFVr-95XehQUAUfgVwzyVSNsMkxrz07TktLfDUt87P4-aQf_bPqznQLZKNb8eyYQbZWHMENPNpH0GMKX";
+                 
                    rdata.RAIL_EXPIRATION = r.exp;
                   rdata.RAIL_DEVICEID = r.dfp;
                     return rdata;
@@ -276,7 +281,7 @@ namespace _12036ByTicket.Services
             return new Rail();
         }
         #region 获取加密指纹处理
-        private static Dictionary<object, object> Get_hash_code_params(out string hashCode)
+        private static Dictionary<object, object> Get_hash_code_params1(out string hashCode)
         {
             var parm = new Dictionary<object, object>();
             #region desc 12306解析出来的数据
@@ -306,7 +311,7 @@ namespace _12036ByTicket.Services
             {
                 adblock = "0",
                 browserLanguage = "zh-CN",
-               // cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
+                // cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
@@ -334,7 +339,7 @@ namespace _12036ByTicket.Services
                 browserLanguage = "q4f3",
                 browserName = "-UVA",
                 browserVersion = "d435",
-              //  cookieCode = "VySQ",
+                //  cookieCode = "VySQ",
                 cookieEnabled = "VPIf",
                 cpuClass = "Md7A",
                 doNotTrack = "VEek",
@@ -381,11 +386,13 @@ namespace _12036ByTicket.Services
                 parm[key] = item.Value;
             }
             var d_len = d.Length;
-           var dArr = d.ToCharArray();
-           
-            for (var e = 0; e < (d_len / 2); e++) {
-                if (e % 2 == 0){
-                   var f = dArr[e].ToString();
+            var dArr = d.ToCharArray();
+
+            for (var e = 0; e < (d_len / 2); e++)
+            {
+                if (e % 2 == 0)
+                {
+                    var f = dArr[e].ToString();
                     dArr[e] = dArr[d_len - 1 - e];
                     dArr[d_len - 1 - e] = dArr[e];
                 }
@@ -395,13 +402,13 @@ namespace _12036ByTicket.Services
             var c = "";
             for (var e = 0; e < d_len; e++)
             {
-               var f = System.Text.Encoding.Unicode.GetBytes(new char[] { dArr[e] })[0];
-                 c = Encoding.Unicode.GetString(new byte[] { 0 }) + Encoding.Unicode.GetString(new byte[] { (byte)(f + 1) });
+                var f = System.Text.Encoding.Unicode.GetBytes(new char[] { dArr[e] })[0];
+                c = Encoding.Unicode.GetString(new byte[] { 0 }) + Encoding.Unicode.GetString(new byte[] { (byte)(f + 1) });
             }
             d = Encode_string(c);
             d_len = d.Length;
             var d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
-            if (d_len<3)
+            if (d_len < 3)
             {
                 var e = d.Substring(0, 1 * d_f);
                 var f = d.Substring(1 * d_f, 2 * d_f);
@@ -411,19 +418,68 @@ namespace _12036ByTicket.Services
             d_f = d_len % 3 == 0 ? d_len / 3 : (d_len / 3) + 1;
             if (d_len >= 3)
             {
-               d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
-               // d = d.Substring(0, 1 * d_f) + d.Substring(1 * d_f, 2 * d_f) + d.Substring(2 * d_f, d_len);
+                d = d.Substring(2 * d_f, d_len - 2 * d_f) + d.Substring(0, d_f) + d.Substring(d_f, d_f);
+                // d = d.Substring(0, 1 * d_f) + d.Substring(1 * d_f, 2 * d_f) + d.Substring(2 * d_f, d_len);
             }
             //  d = Encode_data_str(d);
             //d = Encode_data_str(d);
             //d = Encode_data_str(d);
             var data_str = Encode_string(d);
-           // hashCode = "A4S453b4O6k_Wttu_c3BlTYKQrxOUDgJy-Xuywi9Tok";
+            // hashCode = "A4S453b4O6k_Wttu_c3BlTYKQrxOUDgJy-Xuywi9Tok";
             hashCode = data_str;
             //排序
             var parms = (from objDic in parm orderby objDic.Value ascending select objDic).ToDictionary(pair => pair.Key, pair => pair.Value);
 
             return parm;
+        }
+        private static string Get_hash_code_params(out string hashCode)
+        {
+            var parm = new Dictionary<object, object>();
+            var data = new
+            {
+                adblock = "0",
+                browserLanguage = "zh-CN",
+                //cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
+                cookieEnabled = "1",
+                custID = "133",
+                doNotTrack = "unknown",
+                flashVersion = "0",
+                javaEnabled = "0",
+                jsFonts = "fbf5a5c1c431242e4cafe058437e57fe",
+                localCode = "192.168.1.77",
+                mimeTypes = "7a77bed77b8a754e25607cdff0d60b53",
+                os = "Win32",
+                platform = "WEB",
+                plugins = "fb329fb69c673472d8e00e2754af8f68",
+                scrAvailSize = "1040x1920",
+                srcScreenSize = "24xx1080x1920",
+                storeDb = "i1l1o1s1",
+                timeZone = "-8",
+                touchSupport = "99115dfb07133750ba677d055874de87",
+                userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
+                webSmartID = "10a80dd2be952bd770087661d30694ac",
+            };
+            var p = PramHelper.GetProperties(data);
+
+            #region  调用js获取hashCode
+            string path = AppDomain.CurrentDomain.BaseDirectory + "../../Static/GetJS.js";
+            string str2 = File.ReadAllText(path);
+            var a = new StringBuilder();
+            foreach (var i in p)
+            {
+                a.Append("{" + $"'key':'{i.Key}',value:'{i.Value}'" + "},");
+            }
+            var aa = a.ToString().TrimEnd(',');
+            //aa = "{'key':'adblock','value':'0'},{'key':'browserLanguage','value':'zh-CN'},{'key':'cookieCode','value':'FGGXbCxK2hrKDYXLQausT6kXhPzixKe_'},{'key':'cookieEnabled','value':'1'},{'key':'custID','value':'133'},{'key':'doNotTrack','value':'unknown'},{'key':'flashVersion','value':0},{'key':'javaEnabled','value':'0'},{'key':'jsFonts','value':'49a9fbfe2beb0490836324ceb234fef4'},{'key':'mimeTypes','value':'52d67b2a5aa5e031084733d5006cc664'},{'key':'os','value':'Win32'},{'key':'platform','value':'WEB'},{'key':'plugins','value':'d22ca0b81584fbea62237b14bd04c866'},{'key':'timeZone','value':-8},{'key':'touchSupport','value':'99115dfb07133750ba677d055874de87'},{'key':'userAgent','value':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'},{'key':'webSmartID','value':'378d1309184d0ecf2116f28a5caa05ba'},{'key':'storeDb','value':'i1l1o1s1'},{'key':'srcScreenSize','value':'24xx1080x1920'},{'key':'scrAvailSize','value':'1040x1920'},{'key':'localCode','value':3232235853}";
+            string fun = string.Format(@"hashAlg([{0}])", aa);
+            string result = Logic.ExecuteScript(fun, str2);
+            var ccc = result.Split('|');
+            var data_str = Encode_string(ccc[1]);
+            result = Logic.ExecuteScript(string.Format(@"Ra('{0}')", data_str), str2);
+            data_str = Encode_string(result);
+            #endregion
+            hashCode = data_str;
+            return ccc[0].Replace("undefined&", "");
         }
         private static string Encode_data_str(string d)
         {
@@ -440,7 +496,7 @@ namespace _12036ByTicket.Services
             byte[] bytes = Encoding.UTF8.GetBytes(str);
             byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
             var result = System.Convert.ToBase64String(hash);
-            return result.Replace('+', '-').Replace('/', '_').Replace("=", "");
+            return result;
         }
         #endregion
         /// <summary>

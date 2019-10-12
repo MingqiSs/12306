@@ -87,11 +87,13 @@ namespace _12036ByTicket
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            string authHeader = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36\n" +
-                "Referer: https://kyfw.12306.cn/otn/resources/login.html";
-            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", "", null, authHeader);//打开网页
+           // string authHeader = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
+            webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", "", null, "");//打开网页
 
             Thread.Sleep(2000);
+
+            // string cookieStr = string.Empty;
+            //_12306Service.Ticket_Init(cookieStr);
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -100,20 +102,28 @@ namespace _12036ByTicket
             try
             {
                 string cookieStr = string.Empty;
-                
+
                 while (string.IsNullOrEmpty(cookieStr))
                 {
                     if (webBrowser1.Document == null)
                     {
                         Logger.Info("当前未获取到:webBrowser数据");
-                       webBrowser1.Refresh();
-                       // webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
+                        webBrowser1.Refresh();
+                        // webBrowser1.Navigate("https://kyfw.12306.cn/otn/resources/login.html", null, null, @"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8" + System.Environment.NewLine + "Referer: https://www.12306.cn/index/");//打开网页
                         Thread.Sleep(2000);
                     }
                     if (webBrowser1.Document != null)
                     {
-                        cookieStr = webBrowser1.Document.Cookie;
-                        Logger.Info($"获取当前cookie:{cookieStr}");
+                        if (webBrowser1.Document.Cookie == null)
+                        {
+                            //webBrowser1.Refresh();
+                        }
+                        else
+                        {
+                            cookieStr = webBrowser1.Document.Cookie;
+                            Logger.Info($"获取当前cookie:{cookieStr}");
+                        }
+
                     }
                 }
                 _12306Service.Ticket_Init(cookieStr);
@@ -123,7 +133,7 @@ namespace _12036ByTicket
             }
             finally
             {
-                if (webBrowser1 != null) webBrowser1.Dispose();
+              if (webBrowser1 != null) webBrowser1.Dispose();
             }
             #endregion
         }
