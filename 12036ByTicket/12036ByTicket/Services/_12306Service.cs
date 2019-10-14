@@ -39,27 +39,26 @@ namespace _12036ByTicket.Services
             }
             if (_cookie.Count == 0)
             {
-               
                 var response = HttpHelper.Get(string.Format(UrlConfig.left_Ticket_init), _cookie);
                 foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
 
                 ///初始化cookie
-                //var js = GetJs();
-                //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
-                //_cookie.Add(new Cookie("RAIL_DEVICEID",
-                // js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
+                var js = GetJs();
+                _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+                _cookie.Add(new Cookie("RAIL_DEVICEID",
+                 js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
 
-                string[] cookstr = cookieStr.Split(';');
-                foreach (string str in cookstr)
-                {
-                    string[] cookieNameValue = str.Split('=');
-                    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
-                    {
-                        _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
-                    }
-                }
+                //string[] cookstr = cookieStr.Split(';');
+                //foreach (string str in cookstr)
+                //{
+                //    string[] cookieNameValue = str.Split('=');
+                //    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
+                //    {
+                //        _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
+                //    }
+                //}
 
-                //_cookie.Add(new Cookie("RAIL_EXPIRATION", "1570250612845", "", "kyfw.12306.cn"));
+                //_cookie.Add(new Cookie("RAIL_EXPIRATION", "1571290413014", "", "kyfw.12306.cn"));
                 //_cookie.Add(new Cookie("RAIL_DEVICEID",
                 //   "P5tZtyDuDXprQSTtbaN5n1ObGAYshM1K5EL_D-1Og_ye2D_xFWHwlQfQK9Pn7JsO0JbqasfqHMiH3BB8mGgXdPMJYTeb_iiwVgcVuZF_pj6vji-hvEKfVgyxw4lOeWsLAd6yxaenbGCJMBnaulieOEIdW8NA-hWk",
                 //    "", "kyfw.12306.cn"));
@@ -439,25 +438,25 @@ namespace _12036ByTicket.Services
             {
                 adblock = "0",
                 browserLanguage = "zh-CN",
-                //cookieCode = "FGH3w5gCR83DsyZAceWHAvBC4kmTuBL4",
+                cookieCode = "FGGXbCxK2hrKDYXLQausT6kXhPzixKe_",
                 cookieEnabled = "1",
                 custID = "133",
                 doNotTrack = "unknown",
                 flashVersion = "0",
                 javaEnabled = "0",
-                jsFonts = "fbf5a5c1c431242e4cafe058437e57fe",
+                jsFonts = "49a9fbfe2beb0490836324ceb234fef4",
                 localCode = "192.168.1.77",
-                mimeTypes = "7a77bed77b8a754e25607cdff0d60b53",
+                mimeTypes = "52d67b2a5aa5e031084733d5006cc664",
                 os = "Win32",
                 platform = "WEB",
-                plugins = "fb329fb69c673472d8e00e2754af8f68",
+                plugins = "d22ca0b81584fbea62237b14bd04c866",
                 scrAvailSize = "1040x1920",
                 srcScreenSize = "24xx1080x1920",
                 storeDb = "i1l1o1s1",
                 timeZone = "-8",
                 touchSupport = "99115dfb07133750ba677d055874de87",
                 userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36",
-                webSmartID = "10a80dd2be952bd770087661d30694ac",
+                webSmartID = "378d1309184d0ecf2116f28a5caa05ba",
             };
             var p = PramHelper.GetProperties(data);
 
@@ -470,8 +469,8 @@ namespace _12036ByTicket.Services
                 a.Append("{" + $"'key':'{i.Key}',value:'{i.Value}'" + "},");
             }
             var aa = a.ToString().TrimEnd(',');
-            //aa = "{'key':'adblock','value':'0'},{'key':'browserLanguage','value':'zh-CN'},{'key':'cookieCode','value':'FGGXbCxK2hrKDYXLQausT6kXhPzixKe_'},{'key':'cookieEnabled','value':'1'},{'key':'custID','value':'133'},{'key':'doNotTrack','value':'unknown'},{'key':'flashVersion','value':0},{'key':'javaEnabled','value':'0'},{'key':'jsFonts','value':'49a9fbfe2beb0490836324ceb234fef4'},{'key':'mimeTypes','value':'52d67b2a5aa5e031084733d5006cc664'},{'key':'os','value':'Win32'},{'key':'platform','value':'WEB'},{'key':'plugins','value':'d22ca0b81584fbea62237b14bd04c866'},{'key':'timeZone','value':-8},{'key':'touchSupport','value':'99115dfb07133750ba677d055874de87'},{'key':'userAgent','value':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'},{'key':'webSmartID','value':'378d1309184d0ecf2116f28a5caa05ba'},{'key':'storeDb','value':'i1l1o1s1'},{'key':'srcScreenSize','value':'24xx1080x1920'},{'key':'scrAvailSize','value':'1040x1920'},{'key':'localCode','value':3232235853}";
-            string fun = string.Format(@"hashAlg([{0}])", aa);
+          //  aa = "{'key':'adblock','value':'0'},{'key':'browserLanguage','value':'zh-CN'},{'key':'cookieCode','value':'FGGXbCxK2hrKDYXLQausT6kXhPzixKe_'},{'key':'cookieEnabled','value':'1'},{'key':'custID','value':'133'},{'key':'doNotTrack','value':'unknown'},{'key':'flashVersion','value':0},{'key':'javaEnabled','value':'0'},{'key':'jsFonts','value':'49a9fbfe2beb0490836324ceb234fef4'},{'key':'mimeTypes','value':'d41d8cd98f00b204e9800998ecf8427e'},{'key':'os','value':'Win32'},{'key':'platform','value':'WAP'},{'key':'plugins','value':'d41d8cd98f00b204e9800998ecf8427e'},{'key':'timeZone','value':-8},{'key':'touchSupport','value':'43b910dd8545535a83b0e957bed55965'},{'key':'userAgent','value':'Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Mobile Safari/537.36'},{'key':'wapSmartID','value':'ba73e2cb3c15f90e0abad2f996f0e9b4'},{'key':'storeDb','value':'i1l1o1s1'},{'key':'srcScreenSize','value':'24xx640x360'},{'key':'scrAvailSize','value':'640x360'},{'key':'localCode','value':3232235853}";
+            string fun = string.Format(@"hashAlg([{0}],'','')", aa);
             string result = Logic.ExecuteScript(fun, str2);
             var ccc = result.Split('|');
             var data_str = Encode_string(ccc[1]);
@@ -479,7 +478,7 @@ namespace _12036ByTicket.Services
             data_str = Encode_string(result);
             #endregion
             hashCode = data_str;
-            return ccc[0].Replace("undefined&", "");
+            return ccc[0];
         }
         private static string Encode_data_str(string d)
         {
@@ -496,7 +495,7 @@ namespace _12036ByTicket.Services
             byte[] bytes = Encoding.UTF8.GetBytes(str);
             byte[] hash = SHA256Managed.Create().ComputeHash(bytes);
             var result = System.Convert.ToBase64String(hash);
-            return result;
+            return result.Replace('+', '-').Replace('/', '_').Replace("=", "");
         }
         #endregion
         /// <summary>

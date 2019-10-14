@@ -1,4 +1,4 @@
-﻿function hashAlg (a, b, c) {
+﻿function hashAlg(a, b, c) {  
     a.sort(function (a, b) {
         var c, d;
         if ("object" === typeof a && "object" === typeof b && a && b)
@@ -15,31 +15,30 @@
             b += "\x26" + (void 0 == ib[e] ? e : ib[e]) + "\x3d" + f)
     }
     a = c;
-    c = a.length;
-    d = "";
-    a = d = 0 == a.length % 2 ? a.substring(c / 2, c) + a.substring(0, c / 2) : a.substring(c / 2 + 1, c) + a.charAt(c / 2) + a.substring(0, c / 2);
     c = "";
-    for (d = a.length - 1; 0 <= d; d--)
-        c += a.charAt(d);
-    a = Ra(c);
-    //a = R.SHA256(a).toString(R.enc.Base64);
-    //c = Ra(a);
-    //c = R.SHA256(c).toString(R.enc.Base64);
-    return b+"|"+a
-  //  return c
+    d = a.length;
+    for (e = 0; e < d; e++)
+        f = a.charAt(e).charCodeAt(0),
+            c = 127 === f ? c + String.fromCharCode(0) : c + String.fromCharCode(f + 1);
+    a = c;
+    c = a.length;
+    d = a.split("");
+    for (e = 0; e < parseInt(c / 2); e++)
+        0 == e % 2 && (f = a.charAt(e),
+            d[e] = d[c - 1 - e],
+            d[c - 1 - e] = f);
+    a = d.join("");
+    a = Ra(a);
+    return b + "|" + a
 }
 function n(a, b) {
     this.key = a;
     this.value = b
 }
 function Ra(a) {
-    var b = a.length
-        , c = 0 == b % 3 ? parseInt(b / 3) : parseInt(b / 3) + 1;
-    if (3 > b)
-        return a;
-    var d = a.substring(0, 1 * c)
-        , e = a.substring(1 * c, 2 * c);
-    return a.substring(2 * c, b) + d + e
+    for (var b = "", c = a.length - 1; 0 <= c; c--)
+        b += a.charAt(c);
+    return b
 }
 var ib = {
     srcScreenSize: "tOHY",
@@ -54,7 +53,7 @@ var ib = {
     hasLiedLanguages: "j5po",
     userLanguage: "hLzX",
     storeDb: "Fvje",
-   // cookieCode: "VySQ",
+    cookieCode: "VySQ",
     doNotTrack: "VEek",
     flashVersion: "dzuS",
     browserLanguage: "q4f3",
