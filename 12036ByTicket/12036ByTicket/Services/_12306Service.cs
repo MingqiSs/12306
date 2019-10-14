@@ -461,7 +461,7 @@ namespace _12036ByTicket.Services
             var p = PramHelper.GetProperties(data);
 
             #region  调用js获取hashCode
-            string path = AppDomain.CurrentDomain.BaseDirectory + "../../Static/GetJS.js";
+            string path = System.Environment.CurrentDirectory + "/Static/GetJS.js";
             string str2 = File.ReadAllText(path);
             var a = new StringBuilder();
             foreach (var i in p)
