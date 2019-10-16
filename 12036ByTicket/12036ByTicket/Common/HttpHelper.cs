@@ -107,9 +107,9 @@ namespace _12036ByTicket.Common
             try
             {
                var response= Post(url, data, cookie);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK&&!response.ResponseUri.AbsoluteUri.Contains("error.html"))
                 {
-                    Stream responseStream = response.GetResponseStream();
+                       Stream responseStream = response.GetResponseStream();
                     if (responseStream != null)
                     {
                         StreamReader responseStreamReader = new StreamReader(responseStream, Encoding.UTF8);

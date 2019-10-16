@@ -43,7 +43,7 @@ namespace _12036ByTicket
             else
             {
                 Image clickImg =
-                    new Bitmap("../../Static/click.png");
+                    new Bitmap(System.Environment.CurrentDirectory + "/Static/click.png");
 
                 g.DrawImage(clickImg, new Point(x - 10, y - 10));
                 _clickPoints.Add(new Point(x - 10, y - 10));

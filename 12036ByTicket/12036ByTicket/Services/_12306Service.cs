@@ -43,20 +43,20 @@ namespace _12036ByTicket.Services
                 foreach (Cookie cookie in response.Cookies) _cookie.Add(cookie);
 
                 ///初始化cookie
-                var js = GetJs();
-                _cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
-                _cookie.Add(new Cookie("RAIL_DEVICEID",
-                 js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
+                //var js = GetJs();
+                //_cookie.Add(new Cookie("RAIL_EXPIRATION", js.RAIL_EXPIRATION, "", "kyfw.12306.cn"));
+                //_cookie.Add(new Cookie("RAIL_DEVICEID",
+                // js.RAIL_DEVICEID, "", "kyfw.12306.cn"));
 
-                //string[] cookstr = cookieStr.Split(';');
-                //foreach (string str in cookstr)
-                //{
-                //    string[] cookieNameValue = str.Split('=');
-                //    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
-                //    {
-                //        _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
-                //    }
-                //}
+                string[] cookstr = cookieStr.Split(';');
+                foreach (string str in cookstr)
+                {
+                    string[] cookieNameValue = str.Split('=');
+                    if (cookieNameValue[0].Trim() == "RAIL_EXPIRATION" || cookieNameValue[0].Trim() == "RAIL_DEVICEID")
+                    {
+                        _cookie.Add(new Cookie(cookieNameValue[0].Trim(), cookieNameValue[1].Trim(), "", "kyfw.12306.cn"));
+                    }
+                }
 
                 //_cookie.Add(new Cookie("RAIL_EXPIRATION", "1571290413014", "", "kyfw.12306.cn"));
                 //_cookie.Add(new Cookie("RAIL_DEVICEID",
@@ -100,7 +100,7 @@ namespace _12036ByTicket.Services
             try
             {
                 var rq = new { imageFile = baseImgStr };
-                var response = HttpClientHelper.PostResponse("http://34.97.127.118:8000/verify/base64/", JsonConvert.SerializeObject(rq));
+                var response = HttpClientHelper.PostResponse("http://161.117.202.218:8000/verify/base64/", JsonConvert.SerializeObject(rq));
                 //{"code":0,"massage":"","data":["1","6"]}
                 resut = JsonConvert.DeserializeObject<CerifyCaptchaCodeRP>(response);
             }
@@ -541,7 +541,6 @@ namespace _12036ByTicket.Services
              msg = "登录失败";
             string postData = string.Format("username={0}&password={1}&answer={2}&appid={3}", userName,
                 passWord, randCode, appId);
-            string responseContent = string.Empty;
             var response = HttpHelper.StringPost( UrlConfig.login, postData, _cookie);
             var retDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
             if (retDic == null)
