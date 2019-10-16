@@ -197,7 +197,7 @@ namespace _12036ByTicket.Services
                     to_code = toCode.code;
                 }
 
-                var r = HttpHelper.StringGet(string.Format(UrlConfig.query, train_date, from_code, to_code, "A"), _cookie);
+                var r = HttpHelper.StringGet(string.Format(UrlConfig.query, train_date, from_code, to_code, ""), _cookie);
                 var response = JsonConvert.DeserializeObject<stationData>(r);
                 var map = response.data.map;
                 if (response.status && response.data.result != null)
