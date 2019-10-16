@@ -23,6 +23,7 @@ namespace _12036ByTicket
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Login_init();
+
             var randCode = string.Empty;
             if (string.IsNullOrWhiteSpace(tb_userName.Text))
             {
@@ -57,23 +58,47 @@ namespace _12036ByTicket
                     {
                         //跳转主页
                         MainForm logForm = new MainForm();
+                        this.Hide();//隐藏现在这个窗口
                         logForm.Show();
                         return;
                     }
                 }
-            }
-            //手动输入验证码逻辑
-            CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
-            DialogResult ddr = captchaCheckForm.ShowDialog();
-            if (ddr == DialogResult.OK)
-            {
-                //登录
-                if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
+                else
                 {
-                    //跳转主页
-                    MainForm logForm = new MainForm();
-                    logForm.Show();
-                    return;
+                    //手动输入验证码逻辑
+                    CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
+                    DialogResult ddr = captchaCheckForm.ShowDialog();
+                    if (ddr == DialogResult.OK)
+                    {
+                        //登录
+                        if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
+                        {
+                            //跳转主页
+                            MainForm logForm = new MainForm();
+
+                            this.Hide();//隐藏现在这个窗口
+                            logForm.Show();
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //手动输入验证码逻辑
+                CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
+                DialogResult ddr = captchaCheckForm.ShowDialog();
+                if (ddr == DialogResult.OK)
+                {
+                    //登录
+                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
+                    {
+                        //跳转主页
+                        MainForm logForm = new MainForm();
+                        logForm.Show();
+                        
+                        return;
+                    }
                 }
             }
             //登录失败
@@ -178,6 +203,7 @@ namespace _12036ByTicket
                     //跳转主页
                     MainForm logForm = new MainForm();
                     logForm.Show();
+                    this.Hide();
                     return;
                 }
             }
