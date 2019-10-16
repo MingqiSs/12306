@@ -419,12 +419,18 @@ namespace _12036ByTicket
                                     if (!string.IsNullOrEmpty(order.orderId))
                                     {
                                         var s = order;//这个是订单的信息
-                                        msg = "购票成功,请及时前往12306处理订单";
+                                        msg = "购票成功,请及时前往12306处理订单,订单号"+ order.orderId;
                                         return true;
                                     }
                                     else
                                     {
                                         var orderWait = _12306Service.taskqueryOrderWaitTime(out msg);
+                                        if(!string.IsNullOrEmpty(orderWait.orderId))
+                                        {
+                                            var s = order;//这个是订单的信息
+                                            msg = "购票成功,请及时前往12306处理订单,订单号" + order.orderId;
+                                            return true;
+                                        }
                                     }
                                 }
                             }
