@@ -380,11 +380,11 @@ namespace _12036ByTicket
                                    string stationFrom, string stationTo, string train_date, string buySeat, out string msg, string IsWait)
         {
             msg = "购票失败";
-            //测试候补
-            if (IsWait == "1")
-            {
-                StandbyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg);
-            }
+            ////测试候补
+            //if (IsWait == "1")
+            //{
+            //    StandbyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg);
+            //}
 
             if (_12306Service.Check_User())
             {
@@ -410,12 +410,12 @@ namespace _12036ByTicket
                             {
                                 var passengerStr = passengerTicketStr.Split('_');
                                 var oldpassengerStr = oldPassengerStr.Split('_');
-                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from);
+                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from,out msg);
                                 if (isOk)//这时候 12306 就会有订单了 让你去支付
                                 {
                                     //返回车票的信息 
                                     //留着 出票的接口
-                                    var order = _12306Service.queryOrderWaitTime();
+                                    var order = _12306Service.queryOrderWaitTime(out msg);
                                     if (!string.IsNullOrEmpty(order.orderId))
                                     {
                                         var s = order;//这个是订单的信息
@@ -424,7 +424,7 @@ namespace _12036ByTicket
                                     }
                                     else
                                     {
-                                        var orderWait = _12306Service.taskqueryOrderWaitTime();
+                                        var orderWait = _12306Service.taskqueryOrderWaitTime(out msg);
                                     }
                                 }
                             }

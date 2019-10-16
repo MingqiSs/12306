@@ -811,7 +811,7 @@ namespace _12036ByTicket.Services
         /// <param name="from"></param>
         /// <returns></returns>
 
-        public static bool  confirmSingleForQueue(string passengerTicketStr,string oldPassengerStr, ticketInfoForPassengerForm from)
+        public static bool  confirmSingleForQueue(string passengerTicketStr,string oldPassengerStr, ticketInfoForPassengerForm from,out string msg)
         {
             var isOk = false;
             var strDictionary = new Dictionary<string, object>
@@ -832,19 +832,24 @@ namespace _12036ByTicket.Services
                 {"REPEAT_SUBMIT_TOKEN",from.token },
             };
             var postData = BaseDictionary.GetParmarStrs(strDictionary);
+            var msgs = string.Empty;
             try
             {
                 var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
-                var responses = JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
+                msgs = JsonConvert.SerializeObject(r); 
+               var responses = JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
+               
                 if (responses.status == "true" && responses.httpstatus == "200")
                 {
                     isOk = responses.data.submitStatus;
+                    
                 }
+                msg = "确定下单成功";
             }
             catch (Exception ex)
             {
                 Logger.Error($"确认是否下单成功,发生错误:{ex.ToString()}");
-                //  msg = "下单-预售下单-订单排队"; //返回给用户的错误
+                 msg = "下单-预售下单-订单排队"+ msgs; //返回给用户的错误
             }
           
             return isOk;
@@ -853,7 +858,7 @@ namespace _12036ByTicket.Services
         /// 下单-预售下单-等待出票
         /// </summary>
         /// <returns></returns>
-        public static queryOrderWaitTimeResponseData queryOrderWaitTime()
+        public static queryOrderWaitTimeResponseData queryOrderWaitTime(out string msg)
         {
             var random = RandomHelper.GenerateRandomCode(13);
             var strDictionary = new BaseDictionary()
@@ -871,15 +876,19 @@ namespace _12036ByTicket.Services
                 {
                     if (Convert.ToInt32(response.data.waitTime) > 1000)
                     {
+                        msg = "等待时长超过1000S，放弃排队，去订单中心取消此订单";
                         //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
                     }
+                    msg = "购票成功";
                     return response.data;
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error($" 下单-预售下单-等待出票:{ex.ToString()}");
+                msg =string.Format("等待出票出错{0},{1}", ex.Message,ex.StackTrace);
             }
+            msg = "出票失败";
             return null;
         }
 
@@ -887,7 +896,7 @@ namespace _12036ByTicket.Services
         /// 下单-预售下单-等待出票 重复10次
         /// </summary>
         /// <returns></returns>
-        public static queryOrderWaitTimeResponseData taskqueryOrderWaitTime()
+        public static queryOrderWaitTimeResponseData taskqueryOrderWaitTime(out string msg)
         {
             var order = new queryOrderWaitTimeResponseData();
             var isContinue = true;
@@ -897,7 +906,7 @@ namespace _12036ByTicket.Services
                 while (isContinue)
                 {
                     Thread.Sleep(1000);
-                    var orderInfo = queryOrderWaitTime();
+                    var orderInfo = queryOrderWaitTime(out msg);
                     if (!string.IsNullOrEmpty(orderInfo.orderId))
                     {
                         isContinue = false;
