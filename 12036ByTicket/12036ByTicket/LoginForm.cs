@@ -89,7 +89,8 @@ namespace _12036ByTicket
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-           // string authHeader = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
+            // string authHeader = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36";
+            webBrowser1.Hide();
             webBrowser1.Navigate("https://www.12306.cn/index/index.html", "", null, "");//打开网页
             Thread.Sleep(2000);
         }
