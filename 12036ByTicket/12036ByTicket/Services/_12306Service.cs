@@ -920,7 +920,7 @@ namespace _12036ByTicket.Services
                     }
                 }
             }
-
+            msg = JsonConvert.SerializeObject(order); 
             return order;
         }
 
