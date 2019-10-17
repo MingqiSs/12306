@@ -207,6 +207,7 @@ namespace _12036ByTicket.Services
                     {
                         QueryTicket ticket = new QueryTicket();
                         string[] item = result.Split('|');
+                        var isWait = item[37] == "1" ;//是否有候补
                         ticket.SecretStr = item[0];
                         ticket.Remark = item[1];
                         ticket.Train_No = item[2];
@@ -216,17 +217,17 @@ namespace _12036ByTicket.Services
                         ticket.Start_Time = item[8];
                         ticket.Arrive_Time = item[9];
                         ticket.LastedTime = item[10];
-                        ticket.Gr_Num = item[21];
-                        ticket.Qt_Num = item[22];
-                        ticket.Rw_Num = item[23];
-                        ticket.Rz_Num = item[25];
-                        ticket.Wz_Num = item[26];
-                        ticket.Yw_Num = item[28];
-                        ticket.Yz_Num = item[29];
-                        ticket.Ze_Num = item[30];
-                        ticket.Zy_Num = item[31];
-                        ticket.Swz_Num = item[32];
-                        ticket.Dw_Num = item[33];
+                        ticket.Gr_Num = GetTicketSeatName(item[21],isWait) ;
+                        ticket.Qt_Num = GetTicketSeatName(item[22], isWait);
+                        ticket.Rw_Num = GetTicketSeatName(item[23], isWait);
+                        ticket.Rz_Num = GetTicketSeatName(item[25], isWait);
+                        ticket.Wz_Num = GetTicketSeatName(item[26], isWait);
+                        ticket.Yw_Num = GetTicketSeatName(item[28], isWait);
+                        ticket.Yz_Num = GetTicketSeatName(item[29], isWait);
+                        ticket.Ze_Num = GetTicketSeatName(item[30], isWait);
+                        ticket.Zy_Num = GetTicketSeatName(item[31], isWait);
+                        ticket.Swz_Num = GetTicketSeatName(item[32], isWait);
+                        ticket.Dw_Num = GetTicketSeatName(item[33], isWait);
                         ticket.IsWait = item[37];
                         tickets.Add(ticket);
                     }
@@ -238,7 +239,10 @@ namespace _12036ByTicket.Services
             }
             return tickets;
         }
-
+        private static string GetTicketSeatName(string seat,bool isWait)
+        {
+            return seat == "无" && isWait ? "候补" : seat;
+        }
         /// <summary>
         /// 获取加密指纹 
         /// </summary>
@@ -902,7 +906,7 @@ namespace _12036ByTicket.Services
         {
             var order = new queryOrderWaitTimeResponseData();
             var isContinue = true;
-
+            msg = string.Empty;
             for (int i = 0; i < 10; i++)
             {
                 while (isContinue)
