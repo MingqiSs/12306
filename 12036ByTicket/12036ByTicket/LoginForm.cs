@@ -46,7 +46,7 @@ namespace _12036ByTicket
             btn_Login.Text = "登陆中..";
 
             btn_Login.Enabled = false;
-            BeginLogin();
+            Login();
             //var   thread = new Thread(new ThreadStart(Login));
             //thread.IsBackground = true;
             //thread.Start();
@@ -111,7 +111,7 @@ namespace _12036ByTicket
                 if (webBrowser1 != null) webBrowser1.Dispose();
             }
         }
-        private void BeginLogin()
+        private void Login()
         {
             var randCode = string.Empty;
             var msg = string.Empty;

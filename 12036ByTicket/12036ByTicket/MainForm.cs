@@ -527,9 +527,10 @@ namespace _12036ByTicket
 
         private void login_out_Click(object sender, EventArgs e)
         {
-         
-            LogoutMethod.Invoke();
+            LogoutMethod?.Invoke();
             this.Close();
         }
+
+      
     }
 }
