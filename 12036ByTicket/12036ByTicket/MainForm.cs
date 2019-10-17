@@ -22,13 +22,8 @@ namespace _12036ByTicket
         {
             InitializeComponent();
         }
-        public delegate void InitMethodInvoker();
-        public InitMethodInvoker LogoutMethod;
-        public MainForm(InitMethodInvoker LogoutMethod)
-        {
-            InitializeComponent();
-            this.LogoutMethod = LogoutMethod;
-        }
+        public event Action LogoutMethod;
+     
         private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
         private List<QueryTicket> tickets = new List<QueryTicket>();

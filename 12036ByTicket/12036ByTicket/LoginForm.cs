@@ -46,7 +46,7 @@ namespace _12036ByTicket
             btn_Login.Text = "登陆中..";
 
             btn_Login.Enabled = false;
-            Login();
+            BeginLogin();
             //var   thread = new Thread(new ThreadStart(Login));
             //thread.IsBackground = true;
             //thread.Start();
@@ -111,7 +111,7 @@ namespace _12036ByTicket
                 if (webBrowser1 != null) webBrowser1.Dispose();
             }
         }
-        private void Login()
+        private void BeginLogin()
         {
             var randCode = string.Empty;
             var msg = string.Empty;
@@ -133,7 +133,8 @@ namespace _12036ByTicket
                     if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode, out msg))
                     {
                         //跳转主页
-                       MainForm logForm = new MainForm(ShowLoginForm);
+                       MainForm logForm = new MainForm();
+                        logForm.LogoutMethod += ShowLoginForm;
                         this.Visible = false;
                         logForm.Show();
                         return;
@@ -150,7 +151,8 @@ namespace _12036ByTicket
                         if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
                         {
                             //跳转主页
-                            MainForm logForm = new MainForm(ShowLoginForm);
+                            MainForm logForm = new MainForm();
+                            logForm.LogoutMethod += ShowLoginForm;
                             this.Visible = false;
                             logForm.Show();
                             return;
@@ -170,7 +172,8 @@ namespace _12036ByTicket
                     {
 
                         //跳转主页
-                        MainForm logForm = new MainForm(ShowLoginForm);
+                        MainForm logForm = new MainForm();
+                        logForm.LogoutMethod += ShowLoginForm;
                         this.Visible = false;
                         logForm.Show();
                         return;
