@@ -144,7 +144,6 @@
             this.gb_main.TabIndex = 1;
             this.gb_main.TabStop = false;
             this.gb_main.Text = "抢票页面";
-            this.gb_main.Enter += new System.EventHandler(this.gb_main_Enter);
             // 
             // lb_from
             // 
@@ -276,6 +275,7 @@
             this.login_out.Size = new System.Drawing.Size(29, 12);
             this.login_out.TabIndex = 24;
             this.login_out.Text = "退出";
+            this.login_out.Click += new System.EventHandler(this.login_out_Click);
             // 
             // dgv_tickets
             // 

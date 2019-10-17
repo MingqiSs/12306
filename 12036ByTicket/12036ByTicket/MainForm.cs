@@ -17,9 +17,17 @@ namespace _12036ByTicket
 {
     public partial class MainForm : Form
     {
+       
         public MainForm()
         {
             InitializeComponent();
+        }
+        public delegate void InitMethodInvoker();
+        public InitMethodInvoker LogoutMethod;
+        public MainForm(InitMethodInvoker LogoutMethod)
+        {
+            InitializeComponent();
+            this.LogoutMethod = LogoutMethod;
         }
         private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
@@ -31,10 +39,6 @@ namespace _12036ByTicket
         private System.Windows.Forms.Timer buyTimer;
          static object lockObj = new object();
         private int j = 0;
-        private void gb_main_Enter(object sender, EventArgs e)
-        {
-
-        }
         /// <summary>
         /// 窗体初始化
         /// </summary>
@@ -525,5 +529,12 @@ namespace _12036ByTicket
             return false;
         }
         #endregion
+
+        private void login_out_Click(object sender, EventArgs e)
+        {
+         
+            LogoutMethod.Invoke();
+            this.Close();
+        }
     }
 }

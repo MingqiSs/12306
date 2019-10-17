@@ -16,14 +16,11 @@ namespace _12036ByTicket
 {
     public partial class LoginForm : Form
     {
-
         public LoginForm()
         {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
         }
-        private delegate void ThreadWork(int i);//声明委托类型
-        
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Login_init();
@@ -47,15 +44,15 @@ namespace _12036ByTicket
             }
             var msg = string.Empty;
             btn_Login.Text = "登陆中..";
-            btn_Login.Enabled = false;
-            Thread thread = new Thread(new ThreadStart(Login));
-            thread.IsBackground = true;//后台执行线程
-            thread.Start();//启动线程
-        }
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
 
+            btn_Login.Enabled = false;
+            Login();
+            //var   thread = new Thread(new ThreadStart(Login));
+            //thread.IsBackground = true;
+            //thread.Start();
+            
         }
+      
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
@@ -136,8 +133,8 @@ namespace _12036ByTicket
                     if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode, out msg))
                     {
                         //跳转主页
-                        MainForm logForm = new MainForm();
-                        this.Hide();//隐藏现在这个窗口
+                       MainForm logForm = new MainForm(ShowLoginForm);
+                        this.Visible = false;
                         logForm.Show();
                         return;
                     }
@@ -153,9 +150,8 @@ namespace _12036ByTicket
                         if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
                         {
                             //跳转主页
-                            MainForm logForm = new MainForm();
-
-                            this.Hide();//隐藏现在这个窗口
+                            MainForm logForm = new MainForm(ShowLoginForm);
+                            this.Visible = false;
                             logForm.Show();
                             return;
                         }
@@ -172,10 +168,11 @@ namespace _12036ByTicket
                     //登录
                     if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
                     {
-                        //跳转主页
-                        MainForm logForm = new MainForm();
-                        logForm.Show();
 
+                        //跳转主页
+                        MainForm logForm = new MainForm(ShowLoginForm);
+                        this.Visible = false;
+                        logForm.Show();
                         return;
                     }
                 }
@@ -189,6 +186,12 @@ namespace _12036ByTicket
         private void remove_err_lb_MouseDown(object sender, MouseEventArgs e)
         {
             err_lb.Text = string.Empty;
+        }
+        private void ShowLoginForm()
+        {
+            this.Visible = true;
+            btn_Login.Text = "登录";
+            btn_Login.Enabled = true;
         }
     }
 }
