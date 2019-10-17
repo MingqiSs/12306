@@ -35,6 +35,7 @@
             this.btn_Login = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.err_lb = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +61,7 @@
             this.tb_userName.Name = "tb_userName";
             this.tb_userName.Size = new System.Drawing.Size(190, 23);
             this.tb_userName.TabIndex = 6;
+            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.remove_err_lb_MouseDown);
             // 
             // label2
             // 
@@ -84,6 +86,7 @@
             this.tb_passWord.PasswordChar = '*';
             this.tb_passWord.Size = new System.Drawing.Size(190, 23);
             this.tb_passWord.TabIndex = 8;
+            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.remove_err_lb_MouseDown);
             // 
             // btn_Login
             // 
@@ -97,6 +100,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.err_lb);
             this.groupBox1.Controls.Add(this.webBrowser1);
             this.groupBox1.Controls.Add(this.btn_Login);
             this.groupBox1.Controls.Add(this.tb_passWord);
@@ -123,6 +127,14 @@
             this.webBrowser1.TabIndex = 9;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
+            // err_lb
+            // 
+            this.err_lb.AutoSize = true;
+            this.err_lb.Location = new System.Drawing.Point(96, 207);
+            this.err_lb.Name = "err_lb";
+            this.err_lb.Size = new System.Drawing.Size(0, 19);
+            this.err_lb.TabIndex = 10;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.Button btn_Login;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Label err_lb;
     }
 }
 
