@@ -20,8 +20,10 @@ namespace _12036ByTicket
         public LoginForm()
         {
             InitializeComponent();
-         
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
+        private delegate void ThreadWork(int i);//声明委托类型
+        
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Login_init();
@@ -46,18 +48,10 @@ namespace _12036ByTicket
             var msg = string.Empty;
             btn_Login.Text = "登陆中..";
             btn_Login.Enabled = false;
-            Task task = new Task(() =>
-            {
-                Thread.Sleep(30);//模拟耗时操作
-                MethodInvoker mi = new MethodInvoker(() =>
-                {
-                    Login();
-                });
-                this.BeginInvoke(mi);
-            });
-            task.Start();
+            Thread thread = new Thread(new ThreadStart(Login));
+            thread.IsBackground = true;//后台执行线程
+            thread.Start();//启动线程
         }
-
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -187,9 +181,7 @@ namespace _12036ByTicket
                 }
             }
             //登录失败
-            MessageBox.Show(msg);
             err_lb.Text = msg;
-            err_lb.ForeColor = Color.Red;
             btn_Login.Text = "登录";
             btn_Login.Enabled = true;
         }
