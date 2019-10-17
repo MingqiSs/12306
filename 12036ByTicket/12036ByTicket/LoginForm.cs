@@ -18,9 +18,9 @@ namespace _12036ByTicket
     {
         public LoginForm()
         {
-            InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
+            InitializeComponent();         
         }
+       
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Login_init();
@@ -46,13 +46,10 @@ namespace _12036ByTicket
             btn_Login.Text = "登陆中..";
 
             btn_Login.Enabled = false;
-            Login();
-            //var   thread = new Thread(new ThreadStart(Login));
-            //thread.IsBackground = true;
-            //thread.Start();
-            
+            Task task = new Task(Login);
+            task.Start();
         }
-      
+       
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
@@ -70,7 +67,9 @@ namespace _12036ByTicket
         {
            
         }
-       
+       /// <summary>
+       /// 初始化登录数据
+       /// </summary>
         private void Login_init()
         {
 
@@ -111,12 +110,20 @@ namespace _12036ByTicket
                 if (webBrowser1 != null) webBrowser1.Dispose();
             }
         }
+       /// <summary>
+       /// 登录操作
+       /// </summary>
         private void Login()
         {
             var randCode = string.Empty;
             var msg = string.Empty;
+            LoginLoadingMsg("正在加载验证码..");
+           
             var captchaImgStr = _12306Service.GetCaptcha();
+            
+            
             var captchaCode = _12306Service.CerifyCaptchaCode(captchaImgStr);
+            LoginLoadingMsg("云打码..");
             if (captchaCode.Data != null && captchaCode.Data.Any())
             {
                 //处理云打码逻辑
@@ -126,39 +133,31 @@ namespace _12036ByTicket
                     randCode = randCode + coords + ",";
                 }
                 randCode = randCode.TrimEnd(',');
+                LoginLoadingMsg("正在校验验证码..");
                 var isCheck = _12306Service.CheckCaptcha(randCode);
-                if (isCheck)
-                {
-                    //登录
+                LoginLoadingMsg("继续登陆中..");
+                if (isCheck) //登录
                     if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, randCode, out msg))
                     {
-                        //跳转主页
-                       MainForm logForm = new MainForm();
-                        logForm.LogoutMethod += ShowLoginForm;
-                        this.Visible = false;
-                        logForm.Show();
+                        LoginSuccess();
                         return;
                     }
-                }
-                else
-                {
-                    //手动输入验证码逻辑
-                    CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
-                    DialogResult ddr = captchaCheckForm.ShowDialog();
-                    if (ddr == DialogResult.OK)
+                    else
                     {
-                        //登录
-                        if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
+                        //手动输入验证码逻辑
+                        CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
+                        DialogResult ddr = captchaCheckForm.ShowDialog();
+                        if (ddr == DialogResult.OK)
                         {
-                            //跳转主页
-                            MainForm logForm = new MainForm();
-                            logForm.LogoutMethod += ShowLoginForm;
-                            this.Visible = false;
-                            logForm.Show();
-                            return;
+                            //登录
+                            if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
+                            {
+                                LoginSuccess();
+                                return;
+                            }
+
                         }
                     }
-                }
             }
             else
             {
@@ -166,29 +165,44 @@ namespace _12036ByTicket
                 CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
                 DialogResult ddr = captchaCheckForm.ShowDialog();
                 if (ddr == DialogResult.OK)
-                {
                     //登录
-                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg))
-                    {
-
-                        //跳转主页
-                        MainForm logForm = new MainForm();
-                        logForm.LogoutMethod += ShowLoginForm;
-                        this.Visible = false;
-                        logForm.Show();
+                    if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg)) {
+                        LoginSuccess();
                         return;
                     }
-                }
             }
             //登录失败
-            err_lb.Text = msg;
-            btn_Login.Text = "登录";
-            btn_Login.Enabled = true;
+            btn_Login.Invoke(new Action(() =>
+            {
+                //登录失败
+                err_lb.Text = msg;
+                ShowLoginForm();
+            }));
+           
         }
 
-        private void remove_err_lb_MouseDown(object sender, MouseEventArgs e)
+        private void Remove_err_lb_MouseDown(object sender, MouseEventArgs e)
         {
             err_lb.Text = string.Empty;
+        }
+        private void LoginSuccess()
+        {
+            btn_Login.Invoke(new Action(() =>
+            {
+                //跳转主页
+                MainForm logForm = new MainForm();
+                logForm.LogoutMethod += ShowLoginForm;
+                this.Visible = false;
+                logForm.Show();               
+            }));
+           
+        }
+        private void LoginLoadingMsg(string msg)
+        {
+            btn_Login.Invoke(new Action(() =>
+            {
+                btn_Login.Text = msg;
+            }));
         }
         private void ShowLoginForm()
         {

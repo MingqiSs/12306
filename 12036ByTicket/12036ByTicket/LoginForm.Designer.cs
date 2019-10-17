@@ -61,7 +61,7 @@
             this.tb_userName.Name = "tb_userName";
             this.tb_userName.Size = new System.Drawing.Size(190, 23);
             this.tb_userName.TabIndex = 6;
-            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.remove_err_lb_MouseDown);
+            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Remove_err_lb_MouseDown);
             // 
             // label2
             // 
@@ -86,7 +86,7 @@
             this.tb_passWord.PasswordChar = '*';
             this.tb_passWord.Size = new System.Drawing.Size(190, 23);
             this.tb_passWord.TabIndex = 8;
-            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.remove_err_lb_MouseDown);
+            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Remove_err_lb_MouseDown);
             // 
             // btn_Login
             // 
