@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.lb_from = new System.Windows.Forms.ListBox();
@@ -99,11 +100,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.cms_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除选中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清空列表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.flp_seatTypes.SuspendLayout();
             this.flp_trainType.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.cms_menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_main
@@ -851,6 +856,26 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "出发地：";
             // 
+            // cms_menu
+            // 
+            this.cms_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除选中ToolStripMenuItem,
+            this.清空列表ToolStripMenuItem});
+            this.cms_menu.Name = "cms_menu";
+            this.cms_menu.Size = new System.Drawing.Size(125, 48);
+            // 
+            // 删除选中ToolStripMenuItem
+            // 
+            this.删除选中ToolStripMenuItem.Name = "删除选中ToolStripMenuItem";
+            this.删除选中ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.删除选中ToolStripMenuItem.Text = "删除选中";
+            // 
+            // 清空列表ToolStripMenuItem
+            // 
+            this.清空列表ToolStripMenuItem.Name = "清空列表ToolStripMenuItem";
+            this.清空列表ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.清空列表ToolStripMenuItem.Text = "清空列表";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -869,6 +894,7 @@
             this.flp_trainType.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.cms_menu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -945,5 +971,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Log_txb;
         private System.Windows.Forms.Button Ticket_Buy_btn;
+        private System.Windows.Forms.ContextMenuStrip cms_menu;
+        private System.Windows.Forms.ToolStripMenuItem 删除选中ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 清空列表ToolStripMenuItem;
     }
 }
