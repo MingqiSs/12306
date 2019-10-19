@@ -22,7 +22,7 @@ namespace _12036ByTicket.Common
         {
             try
             {
-                Logger.Info($"请求地址:{url},请求方式:Get");
+              //  Logger.Info($"请求地址:{url},请求方式:Get");
                 ServicePointManager.Expect100Continue = false;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = userAgent;
@@ -56,7 +56,7 @@ namespace _12036ByTicket.Common
                 StreamReader queryReader = new StreamReader(queryStream, Encoding.UTF8);
                  content = queryReader.ReadToEnd();
                 queryReader.Close();
-                Logger.Info($"请求地址:{url},response:{content}");
+              //  Logger.Info($"请求地址:{url},response:{content}");
             }
             return content;
         }
