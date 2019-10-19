@@ -34,8 +34,8 @@
             this.tb_passWord = new System.Windows.Forms.TextBox();
             this.btn_Login = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.err_lb = new System.Windows.Forms.Label();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,7 +86,7 @@
             this.tb_passWord.PasswordChar = '*';
             this.tb_passWord.Size = new System.Drawing.Size(190, 23);
             this.tb_passWord.TabIndex = 8;
-            this.tb_userName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Remove_err_lb_MouseDown);
+            this.tb_passWord.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_passWord_KeyDown);
             // 
             // btn_Login
             // 
@@ -117,6 +117,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "12306";
             // 
+            // err_lb
+            // 
+            this.err_lb.AutoSize = true;
+            this.err_lb.Location = new System.Drawing.Point(96, 207);
+            this.err_lb.Name = "err_lb";
+            this.err_lb.Size = new System.Drawing.Size(0, 19);
+            this.err_lb.TabIndex = 10;
+            // 
             // webBrowser1
             // 
             this.webBrowser1.Location = new System.Drawing.Point(50, 21);
@@ -125,14 +133,6 @@
             this.webBrowser1.Size = new System.Drawing.Size(343, 80);
             this.webBrowser1.TabIndex = 9;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-            // 
-            // err_lb
-            // 
-            this.err_lb.AutoSize = true;
-            this.err_lb.Location = new System.Drawing.Point(96, 207);
-            this.err_lb.Name = "err_lb";
-            this.err_lb.Size = new System.Drawing.Size(0, 19);
-            this.err_lb.TabIndex = 10;
             // 
             // LoginForm
             // 

@@ -210,5 +210,13 @@ namespace _12036ByTicket
             btn_Login.Text = "登录";
             btn_Login.Enabled = true;
         }
+
+        private void tb_passWord_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.btn_Login_Click(sender, e);
+            }
+        }
     }
 }

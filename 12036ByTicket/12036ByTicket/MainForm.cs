@@ -57,6 +57,8 @@ namespace _12036ByTicket
             }
             //初始化日期
             dtpicker.Value = DateTime.Now.Date;
+            //初始化查询
+            _12306Service.getQuery(dtpicker.Text, "", "");
             //已选车次选项
             //日志输出
             FormatLogInfo("登录成功");
