@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.lb_from = new System.Windows.Forms.ListBox();
@@ -68,17 +69,6 @@
             this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.flp_seatTypes = new System.Windows.Forms.FlowLayoutPanel();
-            this.ck_9 = new System.Windows.Forms.CheckBox();
-            this.ck_M = new System.Windows.Forms.CheckBox();
-            this.ck_O = new System.Windows.Forms.CheckBox();
-            this.ck_6 = new System.Windows.Forms.CheckBox();
-            this.ck_4 = new System.Windows.Forms.CheckBox();
-            this.ck_F = new System.Windows.Forms.CheckBox();
-            this.ck_3 = new System.Windows.Forms.CheckBox();
-            this.ck_99 = new System.Windows.Forms.CheckBox();
-            this.ck_1 = new System.Windows.Forms.CheckBox();
-            this.ck_wz = new System.Windows.Forms.CheckBox();
             this.flp_trainType = new System.Windows.Forms.FlowLayoutPanel();
             this.ckb_Gc = new System.Windows.Forms.CheckBox();
             this.chb_D = new System.Windows.Forms.CheckBox();
@@ -86,7 +76,6 @@
             this.ckb_T = new System.Windows.Forms.CheckBox();
             this.ckb_K = new System.Windows.Forms.CheckBox();
             this.ckb_Other = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rb_normal = new System.Windows.Forms.RadioButton();
@@ -99,11 +88,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.cms_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除选中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清空列表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
-            this.flp_seatTypes.SuspendLayout();
             this.flp_trainType.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.cms_menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_main
@@ -123,9 +115,7 @@
             this.gb_main.Controls.Add(this.lb_to);
             this.gb_main.Controls.Add(this.login_out);
             this.gb_main.Controls.Add(this.dgv_tickets);
-            this.gb_main.Controls.Add(this.flp_seatTypes);
             this.gb_main.Controls.Add(this.flp_trainType);
-            this.gb_main.Controls.Add(this.label6);
             this.gb_main.Controls.Add(this.label5);
             this.gb_main.Controls.Add(this.groupBox1);
             this.gb_main.Controls.Add(this.ckb_autoQuery);
@@ -522,125 +512,6 @@
             this.Column22.ReadOnly = true;
             this.Column22.Visible = false;
             // 
-            // flp_seatTypes
-            // 
-            this.flp_seatTypes.Controls.Add(this.ck_9);
-            this.flp_seatTypes.Controls.Add(this.ck_M);
-            this.flp_seatTypes.Controls.Add(this.ck_O);
-            this.flp_seatTypes.Controls.Add(this.ck_6);
-            this.flp_seatTypes.Controls.Add(this.ck_4);
-            this.flp_seatTypes.Controls.Add(this.ck_F);
-            this.flp_seatTypes.Controls.Add(this.ck_3);
-            this.flp_seatTypes.Controls.Add(this.ck_99);
-            this.flp_seatTypes.Controls.Add(this.ck_1);
-            this.flp_seatTypes.Controls.Add(this.ck_wz);
-            this.flp_seatTypes.Location = new System.Drawing.Point(68, 120);
-            this.flp_seatTypes.Name = "flp_seatTypes";
-            this.flp_seatTypes.Size = new System.Drawing.Size(673, 28);
-            this.flp_seatTypes.TabIndex = 20;
-            // 
-            // ck_9
-            // 
-            this.ck_9.AutoSize = true;
-            this.ck_9.Location = new System.Drawing.Point(3, 3);
-            this.ck_9.Name = "ck_9";
-            this.ck_9.Size = new System.Drawing.Size(60, 16);
-            this.ck_9.TabIndex = 0;
-            this.ck_9.Text = "商务座";
-            this.ck_9.UseVisualStyleBackColor = true;
-            // 
-            // ck_M
-            // 
-            this.ck_M.AutoSize = true;
-            this.ck_M.Location = new System.Drawing.Point(69, 3);
-            this.ck_M.Name = "ck_M";
-            this.ck_M.Size = new System.Drawing.Size(60, 16);
-            this.ck_M.TabIndex = 1;
-            this.ck_M.Text = "一等座";
-            this.ck_M.UseVisualStyleBackColor = true;
-            // 
-            // ck_O
-            // 
-            this.ck_O.AutoSize = true;
-            this.ck_O.Checked = true;
-            this.ck_O.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ck_O.Location = new System.Drawing.Point(135, 3);
-            this.ck_O.Name = "ck_O";
-            this.ck_O.Size = new System.Drawing.Size(60, 16);
-            this.ck_O.TabIndex = 2;
-            this.ck_O.Text = "二等座";
-            this.ck_O.UseVisualStyleBackColor = true;
-            // 
-            // ck_6
-            // 
-            this.ck_6.AutoSize = true;
-            this.ck_6.Location = new System.Drawing.Point(201, 3);
-            this.ck_6.Name = "ck_6";
-            this.ck_6.Size = new System.Drawing.Size(72, 16);
-            this.ck_6.TabIndex = 3;
-            this.ck_6.Text = "高级软卧";
-            this.ck_6.UseVisualStyleBackColor = true;
-            // 
-            // ck_4
-            // 
-            this.ck_4.AutoSize = true;
-            this.ck_4.Location = new System.Drawing.Point(279, 3);
-            this.ck_4.Name = "ck_4";
-            this.ck_4.Size = new System.Drawing.Size(48, 16);
-            this.ck_4.TabIndex = 4;
-            this.ck_4.Text = "软卧";
-            this.ck_4.UseVisualStyleBackColor = true;
-            // 
-            // ck_F
-            // 
-            this.ck_F.AutoSize = true;
-            this.ck_F.Location = new System.Drawing.Point(333, 3);
-            this.ck_F.Name = "ck_F";
-            this.ck_F.Size = new System.Drawing.Size(48, 16);
-            this.ck_F.TabIndex = 5;
-            this.ck_F.Text = "动卧";
-            this.ck_F.UseVisualStyleBackColor = true;
-            // 
-            // ck_3
-            // 
-            this.ck_3.AutoSize = true;
-            this.ck_3.Location = new System.Drawing.Point(387, 3);
-            this.ck_3.Name = "ck_3";
-            this.ck_3.Size = new System.Drawing.Size(48, 16);
-            this.ck_3.TabIndex = 6;
-            this.ck_3.Text = "硬卧";
-            this.ck_3.UseVisualStyleBackColor = true;
-            // 
-            // ck_99
-            // 
-            this.ck_99.AutoSize = true;
-            this.ck_99.Location = new System.Drawing.Point(441, 3);
-            this.ck_99.Name = "ck_99";
-            this.ck_99.Size = new System.Drawing.Size(48, 16);
-            this.ck_99.TabIndex = 7;
-            this.ck_99.Text = "软座";
-            this.ck_99.UseVisualStyleBackColor = true;
-            // 
-            // ck_1
-            // 
-            this.ck_1.AutoSize = true;
-            this.ck_1.Location = new System.Drawing.Point(495, 3);
-            this.ck_1.Name = "ck_1";
-            this.ck_1.Size = new System.Drawing.Size(48, 16);
-            this.ck_1.TabIndex = 8;
-            this.ck_1.Text = "硬座";
-            this.ck_1.UseVisualStyleBackColor = true;
-            // 
-            // ck_wz
-            // 
-            this.ck_wz.AutoSize = true;
-            this.ck_wz.Location = new System.Drawing.Point(549, 3);
-            this.ck_wz.Name = "ck_wz";
-            this.ck_wz.Size = new System.Drawing.Size(48, 16);
-            this.ck_wz.TabIndex = 9;
-            this.ck_wz.Text = "无座";
-            this.ck_wz.UseVisualStyleBackColor = true;
-            // 
             // flp_trainType
             // 
             this.flp_trainType.Controls.Add(this.ckb_Gc);
@@ -725,15 +596,6 @@
             this.ckb_Other.TabIndex = 6;
             this.ckb_Other.Text = "其他";
             this.ckb_Other.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 125);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 12);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "座位：";
             // 
             // label5
             // 
@@ -851,6 +713,26 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "出发地：";
             // 
+            // cms_menu
+            // 
+            this.cms_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除选中ToolStripMenuItem,
+            this.清空列表ToolStripMenuItem});
+            this.cms_menu.Name = "cms_menu";
+            this.cms_menu.Size = new System.Drawing.Size(125, 48);
+            // 
+            // 删除选中ToolStripMenuItem
+            // 
+            this.删除选中ToolStripMenuItem.Name = "删除选中ToolStripMenuItem";
+            this.删除选中ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.删除选中ToolStripMenuItem.Text = "删除选中";
+            // 
+            // 清空列表ToolStripMenuItem
+            // 
+            this.清空列表ToolStripMenuItem.Name = "清空列表ToolStripMenuItem";
+            this.清空列表ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.清空列表ToolStripMenuItem.Text = "清空列表";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -863,12 +745,11 @@
             this.gb_main.ResumeLayout(false);
             this.gb_main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).EndInit();
-            this.flp_seatTypes.ResumeLayout(false);
-            this.flp_seatTypes.PerformLayout();
             this.flp_trainType.ResumeLayout(false);
             this.flp_trainType.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.cms_menu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -904,17 +785,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column20;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column21;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column22;
-        private System.Windows.Forms.FlowLayoutPanel flp_seatTypes;
-        private System.Windows.Forms.CheckBox ck_9;
-        private System.Windows.Forms.CheckBox ck_M;
-        private System.Windows.Forms.CheckBox ck_O;
-        private System.Windows.Forms.CheckBox ck_6;
-        private System.Windows.Forms.CheckBox ck_4;
-        private System.Windows.Forms.CheckBox ck_F;
-        private System.Windows.Forms.CheckBox ck_3;
-        private System.Windows.Forms.CheckBox ck_99;
-        private System.Windows.Forms.CheckBox ck_1;
-        private System.Windows.Forms.CheckBox ck_wz;
         private System.Windows.Forms.FlowLayoutPanel flp_trainType;
         private System.Windows.Forms.CheckBox ckb_Gc;
         private System.Windows.Forms.CheckBox chb_D;
@@ -922,7 +792,6 @@
         private System.Windows.Forms.CheckBox ckb_T;
         private System.Windows.Forms.CheckBox ckb_K;
         private System.Windows.Forms.CheckBox ckb_Other;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rb_normal;
@@ -945,5 +814,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Log_txb;
         private System.Windows.Forms.Button Ticket_Buy_btn;
+        private System.Windows.Forms.ContextMenuStrip cms_menu;
+        private System.Windows.Forms.ToolStripMenuItem 删除选中ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 清空列表ToolStripMenuItem;
     }
 }
