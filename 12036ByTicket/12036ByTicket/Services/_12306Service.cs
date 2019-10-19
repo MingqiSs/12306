@@ -723,7 +723,7 @@ namespace _12036ByTicket.Services
                 string passengerticket = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", buySeat, "0", "1",
                     passenger.passenger_name, passenger.passenger_id_type_code, passenger.passenger_id_no,
                     passenger.mobile_no,"N", passenger.allEncStr,"_");
-                passengerTicketStr = passengerTicketStr + passengerticket + "_";
+                passengerTicketStr = passengerTicketStr + passengerticket;
 
                 string oldPassenger = string.Format("{0},{1},{2},{3}", passenger.passenger_name,
                     passenger.passenger_id_type_code, passenger.passenger_id_no, passenger.passenger_type);
@@ -777,7 +777,7 @@ namespace _12036ByTicket.Services
         /// <param name="train_location">乘客编号代码</param>
         /// <param name="REPEAT_SUBMIT_TOKEN">token</param>
         /// <returns></returns>
-        public static getQueueCountResponseData GetQueueCount(string train_date,string seatType, ticketInfoForPassengerForm from)
+        public static getQueueCountResponseData GetQueueCount(string train_date,string seatType, ticketInfoForPassengerForm from,out string msg)
         {
             train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
             //var myDTFI = new System.Globalization.CultureInfo("en-US", false).DateTimeFormat;
@@ -806,14 +806,17 @@ namespace _12036ByTicket.Services
                 var responses = JsonConvert.DeserializeObject<getQueueCountResponse>(r);
                 if (responses.httpstatus == "200" && responses.status == "true")
                 {
+                    msg = "下单-预售下单-订单排队中";
                     return responseData = responses.data;
                 }
+                
             }
             catch (Exception ex)
             {
                 Logger.Error($"下单-预售下单-进入订单生成页发生错误:{ex.ToString()}");
-              //  msg = "下单-预售下单-订单排队"; //返回给用户的错误
+                msg = "下单-预售下单-订单排队"+ex.Message; //返回给用户的错误
             }
+            msg = "下单-预售下单-订单排队错误";
             return responseData;
         }
 

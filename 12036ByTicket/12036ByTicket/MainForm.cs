@@ -380,7 +380,7 @@ namespace _12036ByTicket
                         var orderInfo = _12306Service.checkOrderInfo(selectedPassengers, buySeat, from.token, out passengerTicketStr, out oldPassengerStr, out msg);
                         if (orderInfo.submitStatus)
                         {
-                            var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from);
+                            var queueInfo = _12306Service.GetQueueCount(train_date, buySeat, from,out msg);
                             var ticket = queueInfo.ticket.ToString().Split(',');// ticket[0] 代表 有对应的座位票 ticket[1] 代表 有站票
                             if (Convert.ToInt32(ticket[0]) == 0)//这个地方判断还需要明确
                             {
