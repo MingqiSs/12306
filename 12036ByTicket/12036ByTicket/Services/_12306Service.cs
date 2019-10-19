@@ -773,9 +773,9 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static getQueueCountResponseData GetQueueCount(string train_date,string seatType, ticketInfoForPassengerForm from)
         {
-            //train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
-            var myDTFI = new System.Globalization.CultureInfo("en-US", false).DateTimeFormat;
-            train_date = Convert.ToDateTime(train_date).ToString("ddd MMM dd yyyy", myDTFI) + " 00:00:00 GMT+0800 (中国标准时间)";
+            train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
+            //var myDTFI = new System.Globalization.CultureInfo("en-US", false).DateTimeFormat;
+            //train_date = Convert.ToDateTime(train_date).ToString("ddd MMM dd yyyy", myDTFI) + " 00:00:00 GMT+0800 (中国标准时间)";
             var data = from.queryLeftTicketRequestDTO;
             var responseData = new getQueueCountResponseData();
             var strDictionary = new BaseDictionary()
