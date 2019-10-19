@@ -17,13 +17,13 @@ namespace _12036ByTicket
 {
     public partial class MainForm : Form
     {
-       
+
         public MainForm()
         {
             InitializeComponent();
         }
         public event Action LogoutMethod;
-     
+
         private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
         private List<QueryTicket> tickets = new List<QueryTicket>();
@@ -32,7 +32,7 @@ namespace _12036ByTicket
         private List<Normal_passengersItem> _lsPassenger;//乘客
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Timer buyTimer;
-         static object lockObj = new object();
+        static object lockObj = new object();
         private int j = 0;
         /// <summary>
         /// 窗体初始化
@@ -57,8 +57,8 @@ namespace _12036ByTicket
             }
             //初始化日期
             dtpicker.Value = DateTime.Now.Date;
-            //初始化查询
-            _12306Service.getQuery(dtpicker.Text, "", "");
+            //初始化站点的代码
+            _12306Service.getFavoriteName();
             //已选车次选项
             //日志输出
             FormatLogInfo("登录成功");
@@ -83,7 +83,8 @@ namespace _12036ByTicket
                 tickets = list;
                 FormatLogInfo("余票查询成功！");
             }
-            else {
+            else
+            {
                 FormatLogInfo("很抱歉，按您的查询条件，当前未找到列车！");
             }
         }
@@ -92,7 +93,7 @@ namespace _12036ByTicket
             if (!string.IsNullOrEmpty(arginfo))
             {
                 string time = DateTime.Now.ToString("hh:mm:ss");
-              
+
                 Log_txb.AppendText(string.Format("{0}  {1}\r\n", time, arginfo));
             }
         }
@@ -181,7 +182,7 @@ namespace _12036ByTicket
                 //buyTimer.Start();
                 //j = 0;
                 //FormatLogInfo("开始抢票");
-                 buyTimer_Tick(null, null);
+                buyTimer_Tick(null, null);
             }
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -198,41 +199,6 @@ namespace _12036ByTicket
 
 
         }
-
-        private void dgv_tickets_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //try
-            //{
-            //    if (dgv_tickets.CurrentRow == null) return;
-            //    if (dgv_tickets.SelectedRows.Count > 1 || isAutoBuy)
-            //    {
-            //        return;
-            //    }
-            //    string secretStr = dgv_tickets.CurrentRow.Cells["SecretStr"].Value.ToString();
-            //    Logger.Info("车次secretStr：" + secretStr);
-
-            //    QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.SecretStr.Equals(secretStr));
-            //    if (CheckIsNoTicket(selectedTrain))
-            //    {
-            //        MessageBox.Show("此车次无票！");
-            //        return;
-            //    }
-            //    //已选车次选项
-            //    if (!select_train_lb.Items.Contains(selectedTrain.Station_Train_Code))
-            //    {
-            //        select_train_lb.Items.Add(selectedTrain.Station_Train_Code);
-            //    }
-
-            //}
-            //catch (Exception exception)
-            //{
-            //    MessageBox.Show("系统异常,请重试！");
-            //    Logger.Error($"error:{exception}");
-            //}
-
-        }
-
-
 
         #region Common
         private bool CheckValue()
@@ -297,10 +263,10 @@ namespace _12036ByTicket
             var list = new List<SeatTypeDto>();
             for (int i = 0; i < seat_ck_b.CheckedItems.Count; i++)
             {
-               var seatType =_12306Service.GetSeatType(seat_ck_b.CheckedItems[i] as string as string).FirstOrDefault();
+                var seatType = _12306Service.GetSeatType(seat_ck_b.CheckedItems[i] as string as string).FirstOrDefault();
                 if (seatType != null) list.Add(seatType);
             }
-            return list; 
+            return list;
         }
         private void QueryTickets()
         {
@@ -331,7 +297,7 @@ namespace _12036ByTicket
                 QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.Station_Train_Code.Equals(trian));
                 if (selectedTrain == null || string.IsNullOrEmpty(selectedTrain.SecretStr))
                 {
-                     QueryTickets();
+                    QueryTickets();
                     Thread.Sleep(1000);
                     continue;
                 }
@@ -340,33 +306,47 @@ namespace _12036ByTicket
                 FormatLogInfo(logMsg);
                 bool ticket = CheckTicket(selectedTrain);
                 var buySeat = string.Empty;//座位号
-               var seats= GetCheckSeatTypes();
+                var seats = GetCheckSeatTypes();
                 buySeat = seats.FirstOrDefault()?.SeatCode;
                 if (!ticket || string.IsNullOrEmpty(buySeat))
                 {
                     logMsg = selectedTrain.Station_Train_Code + "无票";
                     FormatLogInfo(logMsg);
-                      QueryTickets();
+                    QueryTickets();
                     Thread.Sleep(1000);
                     continue;
                 }
                 var selectedPassengers = GetPassaPassengers();
-                string msg = string.Empty;
                 //出发地
                 var stationFrom = tb_stationFrom.Text;
                 //结束地
                 var stationTo = tb_stationTo.Text;
                 //行程日期
+                string msg = string.Empty;
                 var train_date = dtpicker.Text;
-                lock (lockObj)
+                if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
                 {
-                    if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
-                    {
-                        buyTimer.Stop();
-                    }
-                    FormatLogInfo(msg);
+                    buyTimer.Stop();
                 }
+                FormatLogInfo(msg);
+                //Task task = new Task(StratRunButTicket);
+                //task.Start();
             }
+        }
+        private void StratRunButTicket()
+        {
+            //string msg = string.Empty;
+            ////出发地
+            //var stationFrom = tb_stationFrom.Text;
+            ////结束地
+            //var stationTo = tb_stationTo.Text;
+            ////行程日期
+            //var train_date = dtpicker.Text;
+            //if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
+            //{
+            //    buyTimer.Stop();
+            //}
+            //FormatLogInfo(msg);
         }
         /// <summary>
         /// 购票逻辑
@@ -411,7 +391,7 @@ namespace _12036ByTicket
                             {
                                 var passengerStr = passengerTicketStr.Split('_');
                                 var oldpassengerStr = oldPassengerStr.Split('_');
-                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from,out msg);
+                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from, out msg);
                                 if (isOk)//这时候 12306 就会有订单了 让你去支付
                                 {
                                     //返回车票的信息 
@@ -420,13 +400,13 @@ namespace _12036ByTicket
                                     if (!string.IsNullOrEmpty(order.orderId))
                                     {
                                         var s = order;//这个是订单的信息
-                                        msg = "购票成功,请及时前往12306处理订单,订单号"+ order.orderId;
+                                        msg = "购票成功,请及时前往12306处理订单,订单号" + order.orderId;
                                         return true;
                                     }
                                     else
                                     {
                                         var orderWait = _12306Service.taskqueryOrderWaitTime(out msg);
-                                        if(!string.IsNullOrEmpty(orderWait.orderId))
+                                        if (!string.IsNullOrEmpty(orderWait.orderId))
                                         {
                                             var s = order;//这个是订单的信息
                                             msg = "购票成功,请及时前往12306处理订单,订单号" + order.orderId;
@@ -526,13 +506,32 @@ namespace _12036ByTicket
             return false;
         }
         #endregion
-
+        /// <summary>
+        /// 退出操作
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void login_out_Click(object sender, EventArgs e)
         {
             LogoutMethod?.Invoke();
             this.Close();
         }
 
-      
+        private void tb_station_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                TextBox text = sender as TextBox;
+                if (text.Name.Equals("tb_stationFrom"))
+                {
+                    lb_from.Focus();
+                }
+                else
+                {
+                    lb_to.Focus();
+                }
+
+            }
+        }
     }
 }

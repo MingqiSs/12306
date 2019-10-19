@@ -320,7 +320,6 @@
             this.dgv_tickets.Size = new System.Drawing.Size(1109, 313);
             this.dgv_tickets.TabIndex = 21;
             this.dgv_tickets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_tickets_CellClick);
-            this.dgv_tickets.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_tickets_CellDoubleClick);
             // 
             // TrianCode
             // 
@@ -823,6 +822,7 @@
             this.tb_stationTo.Size = new System.Drawing.Size(80, 21);
             this.tb_stationTo.TabIndex = 5;
             this.tb_stationTo.TextChanged += new System.EventHandler(this.tb_station_TextChanged);
+            this.tb_stationTo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_station_KeyDown);
             // 
             // label3
             // 
@@ -840,6 +840,7 @@
             this.tb_stationFrom.Size = new System.Drawing.Size(80, 21);
             this.tb_stationFrom.TabIndex = 3;
             this.tb_stationFrom.TextChanged += new System.EventHandler(this.tb_station_TextChanged);
+            this.tb_stationFrom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_station_KeyDown);
             // 
             // label2
             // 
