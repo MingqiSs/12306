@@ -405,6 +405,7 @@ namespace _12036ByTicket
                                     }
                                     else
                                     {
+                                        Thread.Sleep(1000);
                                         var orderWait = _12306Service.taskqueryOrderWaitTime(out msg);
                                         if (!string.IsNullOrEmpty(orderWait.orderId))
                                         {
