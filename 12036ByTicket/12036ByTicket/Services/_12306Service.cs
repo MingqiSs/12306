@@ -648,7 +648,9 @@ namespace _12036ByTicket.Services
                 {"undefined",model.undefined },
                 };
                 var postData = strDictionary.GetParmarStr();
+                Logger.Info($"下单-预售下单-提交订单_SubmitOrder参数:{postData},时间{DateTime.Now.ToString()}");
                 var r = HttpHelper.StringPost(UrlConfig.submitOrderRequest, postData, _cookie);
+                Logger.Info($"下单-预售下单-提交订单_SubmitOrder返回时间:{DateTime.Now.ToString()}");
                 var response = JsonConvert.DeserializeObject<SubmitOrderResponse>(r);
                 msg = response.messages.ToString();
                 if (response.status == "true" && response.data == "N")
@@ -675,7 +677,9 @@ namespace _12036ByTicket.Services
              msg = string.Empty;
             try
             {
+                Logger.Info($"下单-预售下单-进入订单生成页_GetinitDc参数,时间{DateTime.Now.ToString()}");
                 var response = HttpHelper.StringGet(UrlConfig.initDc, _cookie).Split('\n');
+                Logger.Info($"下单-预售下单-进入订单生成页_GetinitDc参数,返回时间{DateTime.Now.ToString()}");
                 var strToken = response[11].Split('=');
                 var token = Regex.Replace(Regex.Replace(strToken[1], @"'", ""), @";", "").Trim();
                 // orderRequestDTO  ticketInfoForPassengerForm 暂时不用 用到的时候再说
@@ -740,7 +744,9 @@ namespace _12036ByTicket.Services
             var postData = strDictionary.GetParmarStr();
             try
             {
+                Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo参数{postData},时间{DateTime.Now.ToString()}");
                 var responses = HttpHelper.StringPost(UrlConfig.checkOrderInfo, postData, _cookie);
+                Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo返回时间{DateTime.Now.ToString()}");
                 var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
                 if (response.httpstatus == "200" && response.status == "true")
                 {
@@ -794,7 +800,9 @@ namespace _12036ByTicket.Services
             var postData = strDictionary.GetParmarStr();
             try
             {
+                Logger.Info($"下单-预售下单-订单排队_GetQueueCount参数{postData},时间{DateTime.Now.ToString()}");
                 var r = HttpHelper.StringPost(UrlConfig.getQueueCount, postData, _cookie);
+                Logger.Info($"下单-预售下单-订单排队_GetQueueCount返回时间{DateTime.Now.ToString()}");
                 var responses = JsonConvert.DeserializeObject<getQueueCountResponse>(r);
                 if (responses.httpstatus == "200" && responses.status == "true")
                 {
@@ -841,7 +849,9 @@ namespace _12036ByTicket.Services
             var msgs = string.Empty;
             try
             {
+                Logger.Info($"确认是否下单成功_confirmSingleForQueue参数{postData},时间{DateTime.Now.ToString()}");
                 var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
+                Logger.Info($"确认是否下单成功_confirmSingleForQueue返回时间{DateTime.Now.ToString()}");
                 msgs = JsonConvert.SerializeObject(r); 
                var responses = JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
                
@@ -876,7 +886,9 @@ namespace _12036ByTicket.Services
             var postData = strDictionary.GetParmarStr();
             try
             {
+                Logger.Info($"下单-预售下单-等待出票_queryOrderWaitTime参数{postData},时间{DateTime.Now.ToString()}");
                 var responses = HttpHelper.StringPost(UrlConfig.queryOrderWaitTime, postData, _cookie);
+                Logger.Info($"下单-预售下单-等待出票_queryOrderWaitTime返回时间{DateTime.Now.ToString()}");
                 var response = JsonConvert.DeserializeObject<queryOrderWaitTimeResponse>(responses);
                 if (response.httpstatus == "200" && response.status == "true")
                 {
@@ -907,7 +919,7 @@ namespace _12036ByTicket.Services
             var order = new queryOrderWaitTimeResponseData();
             var isContinue = true;
             msg = string.Empty;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
                 while (isContinue)
                 {
@@ -920,7 +932,7 @@ namespace _12036ByTicket.Services
                         continue;
                     }
 
-                    if (i == 9)
+                    if (i == 2)
                     {
                         isContinue = false;
                     }
