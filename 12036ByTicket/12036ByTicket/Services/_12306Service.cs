@@ -922,7 +922,7 @@ namespace _12036ByTicket.Services
             var order = new queryOrderWaitTimeResponseData();
             var isContinue = true;
             msg = string.Empty;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 10; i++)
             {
                 while (isContinue)
                 {
@@ -935,7 +935,7 @@ namespace _12036ByTicket.Services
                         continue;
                     }
 
-                    if (i == 2)
+                    if (i == 9)
                     {
                         isContinue = false;
                     }
