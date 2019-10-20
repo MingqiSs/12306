@@ -252,9 +252,10 @@ namespace _12036ByTicket
         /// <returns></returns>
         private bool CheckTicket(QueryTicket ticket)
         {
-            var dic = PramHelper.GetProperties(ticket);
-            var parmStr = PramHelper.GetParamSrc(dic);
-            return parmStr.Contains("有");
+            return true;
+            //var dic = PramHelper.GetProperties(ticket);
+            //var parmStr = PramHelper.GetParamSrc(dic);
+            //return parmStr.Contains("有");
         }
         /// <summary>
         /// 获取选择的乘车人
