@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.lb_from = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -88,14 +88,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cms_menu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.删除选中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.清空列表ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cms_train = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.flp_trainType.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.cms_menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // gb_main
@@ -181,6 +178,7 @@
             this.select_train_lb.Name = "select_train_lb";
             this.select_train_lb.Size = new System.Drawing.Size(78, 100);
             this.select_train_lb.TabIndex = 36;
+            this.select_train_lb.MouseDown += new System.Windows.Forms.MouseEventHandler(this.select_train_lb_MouseDown);
             // 
             // label8
             // 
@@ -302,8 +300,8 @@
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgv_tickets.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -713,25 +711,10 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "出发地：";
             // 
-            // cms_menu
+            // cms_train
             // 
-            this.cms_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.删除选中ToolStripMenuItem,
-            this.清空列表ToolStripMenuItem});
-            this.cms_menu.Name = "cms_menu";
-            this.cms_menu.Size = new System.Drawing.Size(125, 48);
-            // 
-            // 删除选中ToolStripMenuItem
-            // 
-            this.删除选中ToolStripMenuItem.Name = "删除选中ToolStripMenuItem";
-            this.删除选中ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.删除选中ToolStripMenuItem.Text = "删除选中";
-            // 
-            // 清空列表ToolStripMenuItem
-            // 
-            this.清空列表ToolStripMenuItem.Name = "清空列表ToolStripMenuItem";
-            this.清空列表ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.清空列表ToolStripMenuItem.Text = "清空列表";
+            this.cms_train.Name = "cms_menu";
+            this.cms_train.Size = new System.Drawing.Size(181, 26);
             // 
             // MainForm
             // 
@@ -749,7 +732,6 @@
             this.flp_trainType.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.cms_menu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -814,8 +796,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox Log_txb;
         private System.Windows.Forms.Button Ticket_Buy_btn;
-        private System.Windows.Forms.ContextMenuStrip cms_menu;
-        private System.Windows.Forms.ToolStripMenuItem 删除选中ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 清空列表ToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip cms_train;
     }
 }

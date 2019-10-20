@@ -24,7 +24,7 @@ namespace _12036ByTicket
         }
         public event Action LogoutMethod;
 
-        private List<string> _lsTrainCode = new List<string>();
+       // private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
         private List<QueryTicket> tickets = new List<QueryTicket>();
         // private Dictionary<string, string> leftSeat;
@@ -55,6 +55,14 @@ namespace _12036ByTicket
             {
                 seat_ck_b.Items.Add(item.SeatName);
             }
+            #region 初始化车次点击事件
+            ToolStripMenuItem tsMenumItem = new ToolStripMenuItem("删除选中");
+            tsMenumItem.Click += ToolStripMenuItem_Click;
+            this.cms_train.Items.Add(tsMenumItem);
+            tsMenumItem = new ToolStripMenuItem("清空列表");
+            tsMenumItem.Click += ToolStripMenuItem_Click;
+            this.cms_train.Items.Add(tsMenumItem);
+            #endregion
             //初始化日期
             dtpicker.Value = DateTime.Now.Date;
             //初始化站点的代码
@@ -64,8 +72,7 @@ namespace _12036ByTicket
             FormatLogInfo("登录成功");
 
 
-        }
-
+        }     
         private void btn_search_Click(object sender, EventArgs e)
         {
             if (!CheckValue()) return;
@@ -150,7 +157,7 @@ namespace _12036ByTicket
         private void Ticket_Buy_btn_Click(object sender, EventArgs e)
         {
             if (!CheckValue()) return;
-            if (_lsTrainCode.Count == 0)
+            if (select_train_lb.Items.Count == 0)
             {
                 MessageBox.Show("请先选择车次！");
                 return;
@@ -187,13 +194,16 @@ namespace _12036ByTicket
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            _lsTrainCode = new List<string>();
-            select_train_lb.Items.Clear();
+            //_lsTrainCode = new List<string>();
+           // select_train_lb.Items.Clear();
             var rows = dgv_tickets.SelectedRows;
             foreach (DataGridViewRow row in rows)
             {
                 string trainNo = row.Cells["TrianCode"].Value.ToString();
-                _lsTrainCode.Add(trainNo);
+                // _lsTrainCode.Add(trainNo);
+                if (select_train_lb.Items.Contains(trainNo))
+                    select_train_lb.Items.Remove(trainNo);
+                else
                 select_train_lb.Items.Add(trainNo);
             }
 
@@ -291,7 +301,7 @@ namespace _12036ByTicket
         }
         private void buyTimer_Tick(object sender, EventArgs e)
         {
-            foreach (string trian in _lsTrainCode)
+            foreach (string trian in select_train_lb.Items)
             {
                 j++;
                 QueryTicket selectedTrain = tickets.FirstOrDefault(x => x.Station_Train_Code.Equals(trian));
@@ -532,6 +542,38 @@ namespace _12036ByTicket
                     lb_to.Focus();
                 }
 
+            }
+        }
+
+        private void select_train_lb_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.cms_train.Show(Control.MousePosition.X, Control.MousePosition.Y);
+
+            }
+        }
+        /// <summary>
+        /// 设定右键菜单勾选项,设置ListView列表显示样式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsMenumItem = sender as ToolStripMenuItem;
+            if (tsMenumItem.Text == "清空列表")
+            {
+                select_train_lb.Items.Clear();
+            }
+            if (tsMenumItem.Text == "删除选中")
+            {
+                for(int i = 0;i< select_train_lb.Items.Count; i++)
+                {
+                    if (select_train_lb.GetSelected(i)) {
+                        select_train_lb.Items.RemoveAt(i);
+                    }
+                }
+                
             }
         }
     }
