@@ -189,10 +189,9 @@ namespace _12036ByTicket
             {
                 j = 0;
                 FormatLogInfo("开始抢票");
-                buyTimer_Tick(null, null);
-
+               // buyTimer_Tick(null, null);
                 buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 10000;
+                buyTimer.Interval = 8000;
                 buyTimer.Tick += buyTimer_Tick;
                 isAutoBuy = true;
                 Ticket_Buy_btn.Text = "暂停";
