@@ -750,6 +750,12 @@ namespace _12036ByTicket.Services
                 var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
                 if (response.httpstatus == "200" && response.status == "true")
                 {
+                    if(!string.IsNullOrEmpty(response.data.ifShowPassCodeTime))
+                    {
+                        Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo安全等待时间{response.data.ifShowPassCodeTime},时间{DateTime.Now.ToString()}");
+                        Thread.Sleep(Convert.ToInt32(response.data.ifShowPassCodeTime));
+                        Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo安全等待时间结束,时间{DateTime.Now.ToString()}");
+                    }
                     return orderInfo = response.data;
                 }
             }
