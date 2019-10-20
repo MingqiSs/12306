@@ -161,11 +161,13 @@ namespace _12036ByTicket
             }
             else
             {
+                LoginLoadingMsg("手动输入验证码..");
                 //手动输入验证码逻辑
                 CaptchaCheckForm captchaCheckForm = new CaptchaCheckForm();
                 DialogResult ddr = captchaCheckForm.ShowDialog();
                 if (ddr == DialogResult.OK)
                     //登录
+                    LoginLoadingMsg("继续登陆中..");
                     if (_12306Service.Login(tb_userName.Text, tb_passWord.Text, captchaCheckForm.RandCode, out msg)) {
                         LoginSuccess();
                         return;

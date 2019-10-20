@@ -55,6 +55,7 @@ namespace _12036ByTicket
             {
                 seat_ck_b.Items.Add(item.SeatName);
             }
+            groupBox1.Hide();
             #region 初始化车次点击事件
             ToolStripMenuItem tsMenumItem = new ToolStripMenuItem("删除选中");
             tsMenumItem.Click += ToolStripMenuItem_Click;
@@ -77,10 +78,15 @@ namespace _12036ByTicket
         {
             if (!CheckValue()) return;
             var train_date = dtpicker.Text;
-            //var train_date = "2019-09-18";
+           
             var from_station = tb_stationFrom.Text;
             var to_station = tb_stationTo.Text;
             var list = _12306Service.getQuery(train_date, from_station, to_station);
+            if(!ckb_Gc.Checked) list= list.Where(q => !q.Train_No.Contains("G")).ToList();
+            if (!chb_D.Checked) list=list.Where(q => !q.Train_No.Contains("D")).ToList();
+            if (!ckb_K.Checked) list=list.Where(q => !q.Train_No.Contains("K")).ToList();
+            if (!ckb_T.Checked) list=list.Where(q => !q.Train_No.Contains("T")).ToList();
+            if (!ckb_Z.Checked) list=list.Where(q => !q.Train_No.Contains("Z")).ToList();
             if (list != null && list.Count > 0)
             {
                 dgv_tickets.AutoGenerateColumns = false;

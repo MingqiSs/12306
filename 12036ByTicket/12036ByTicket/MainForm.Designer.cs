@@ -42,7 +42,6 @@
             this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.userinfo_tb = new System.Windows.Forms.Label();
-            this.ckb_multiBuy = new System.Windows.Forms.CheckBox();
             this.lb_to = new System.Windows.Forms.ListBox();
             this.login_out = new System.Windows.Forms.Label();
             this.dgv_tickets = new System.Windows.Forms.DataGridView();
@@ -80,7 +79,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rb_normal = new System.Windows.Forms.RadioButton();
             this.rb_student = new System.Windows.Forms.RadioButton();
-            this.ckb_autoQuery = new System.Windows.Forms.CheckBox();
             this.btn_search = new System.Windows.Forms.Button();
             this.dtpicker = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
@@ -108,14 +106,12 @@
             this.gb_main.Controls.Add(this.pass_ck_b);
             this.gb_main.Controls.Add(this.label1);
             this.gb_main.Controls.Add(this.userinfo_tb);
-            this.gb_main.Controls.Add(this.ckb_multiBuy);
             this.gb_main.Controls.Add(this.lb_to);
             this.gb_main.Controls.Add(this.login_out);
             this.gb_main.Controls.Add(this.dgv_tickets);
             this.gb_main.Controls.Add(this.flp_trainType);
             this.gb_main.Controls.Add(this.label5);
             this.gb_main.Controls.Add(this.groupBox1);
-            this.gb_main.Controls.Add(this.ckb_autoQuery);
             this.gb_main.Controls.Add(this.btn_search);
             this.gb_main.Controls.Add(this.dtpicker);
             this.gb_main.Controls.Add(this.label4);
@@ -231,16 +227,6 @@
             this.userinfo_tb.Size = new System.Drawing.Size(59, 12);
             this.userinfo_tb.TabIndex = 30;
             this.userinfo_tb.Text = "当前账户:";
-            // 
-            // ckb_multiBuy
-            // 
-            this.ckb_multiBuy.AutoSize = true;
-            this.ckb_multiBuy.Location = new System.Drawing.Point(775, 119);
-            this.ckb_multiBuy.Name = "ckb_multiBuy";
-            this.ckb_multiBuy.Size = new System.Drawing.Size(72, 16);
-            this.ckb_multiBuy.TabIndex = 28;
-            this.ckb_multiBuy.Text = "选择多列";
-            this.ckb_multiBuy.UseVisualStyleBackColor = true;
             // 
             // lb_to
             // 
@@ -518,7 +504,7 @@
             this.flp_trainType.Controls.Add(this.ckb_T);
             this.flp_trainType.Controls.Add(this.ckb_K);
             this.flp_trainType.Controls.Add(this.ckb_Other);
-            this.flp_trainType.Location = new System.Drawing.Point(68, 80);
+            this.flp_trainType.Location = new System.Drawing.Point(68, 115);
             this.flp_trainType.Name = "flp_trainType";
             this.flp_trainType.Size = new System.Drawing.Size(405, 28);
             this.flp_trainType.TabIndex = 19;
@@ -598,7 +584,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(4, 85);
+            this.label5.Location = new System.Drawing.Point(3, 120);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 16;
@@ -635,16 +621,6 @@
             this.rb_student.TabStop = true;
             this.rb_student.Text = "学生";
             this.rb_student.UseVisualStyleBackColor = true;
-            // 
-            // ckb_autoQuery
-            // 
-            this.ckb_autoQuery.AutoSize = true;
-            this.ckb_autoQuery.Location = new System.Drawing.Point(775, 83);
-            this.ckb_autoQuery.Name = "ckb_autoQuery";
-            this.ckb_autoQuery.Size = new System.Drawing.Size(72, 16);
-            this.ckb_autoQuery.TabIndex = 25;
-            this.ckb_autoQuery.Text = "自动查询";
-            this.ckb_autoQuery.UseVisualStyleBackColor = true;
             // 
             // btn_search
             // 
@@ -714,7 +690,7 @@
             // cms_train
             // 
             this.cms_train.Name = "cms_menu";
-            this.cms_train.Size = new System.Drawing.Size(181, 26);
+            this.cms_train.Size = new System.Drawing.Size(61, 4);
             // 
             // MainForm
             // 
@@ -739,7 +715,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gb_main;
-        private System.Windows.Forms.CheckBox ckb_multiBuy;
         private System.Windows.Forms.ListBox lb_to;
         private System.Windows.Forms.ListBox lb_from;
         private System.Windows.Forms.Label login_out;
@@ -778,7 +753,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton rb_normal;
         private System.Windows.Forms.RadioButton rb_student;
-        private System.Windows.Forms.CheckBox ckb_autoQuery;
         private System.Windows.Forms.Button btn_search;
         private System.Windows.Forms.DateTimePicker dtpicker;
         private System.Windows.Forms.Label label4;
