@@ -300,7 +300,7 @@ namespace _12036ByTicket.LogicModel
 
         public string httpstatus { get; set; }
 
-        public queryOrderWaitTimeResponseData data { get; set; }
+        public object data { get; set; }
     }
 
     public class queryOrderWaitTimeResponseData
@@ -329,7 +329,7 @@ namespace _12036ByTicket.LogicModel
 
         public string httpstatus { get; set; }
 
-        public checkOrderInfoResponseData data { get; set; }
+        public object data { get; set; }
 
     }
 
@@ -403,7 +403,7 @@ namespace _12036ByTicket.LogicModel
 
         public string httpstatus { get; set; }
 
-        public getQueueCountResponseData data { get; set; }
+        public object data { get; set; }
     }
 
     public class getQueueCountResponseData
@@ -431,7 +431,7 @@ namespace _12036ByTicket.LogicModel
 
         public string httpstatus { get; set; }
 
-        public confirmSingleForQueueData data { get; set; }
+        public object data { get; set; }
     }
 
     public class confirmSingleForQueueData

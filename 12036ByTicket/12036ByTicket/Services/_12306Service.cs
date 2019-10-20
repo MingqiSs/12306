@@ -657,6 +657,7 @@ namespace _12036ByTicket.Services
                 {
                     return true;
                 }
+
                
             }
             catch (Exception ex)
@@ -750,13 +751,18 @@ namespace _12036ByTicket.Services
                 var response = JsonConvert.DeserializeObject<checkOrderInfoResponse>(responses);
                 if (response.httpstatus == "200" && response.status == "true")
                 {
-                    if(!string.IsNullOrEmpty(response.data.ifShowPassCodeTime))
+                    var data = JsonConvert.DeserializeObject<checkOrderInfoResponseData>(response.data.ToString());
+                    if(!string.IsNullOrEmpty(data.ifShowPassCodeTime))
                     {
-                        Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo安全等待时间{response.data.ifShowPassCodeTime},时间{DateTime.Now.ToString()}");
-                        Thread.Sleep(Convert.ToInt32(response.data.ifShowPassCodeTime));
+                        Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo安全等待时间{data.ifShowPassCodeTime},时间{DateTime.Now.ToString()}");
+                        Thread.Sleep(Convert.ToInt32(data.ifShowPassCodeTime));
                         Logger.Info($"下单-预售下单-校验订单信息_checkOrderInfo安全等待时间结束,时间{DateTime.Now.ToString()}");
                     }
-                    return orderInfo = response.data;
+                    return orderInfo = data;
+                }
+                else
+                {
+                    throw new Exception(response.data.ToString());
                 }
             }
             catch (Exception ex)
@@ -813,7 +819,12 @@ namespace _12036ByTicket.Services
                 if (responses.httpstatus == "200" && responses.status == "true")
                 {
                     msg = "下单-预售下单-订单排队中";
-                    return responseData = responses.data;
+
+                    return responseData =JsonConvert.DeserializeObject<getQueueCountResponseData>(responses.data.ToString());
+                }
+                else
+                {
+                    throw new Exception(responses.data.ToString());
                 }
                 
             }
@@ -861,20 +872,24 @@ namespace _12036ByTicket.Services
                 Logger.Info($"确认是否下单成功_confirmSingleForQueue参数{postData},时间{DateTime.Now.ToString()}");
                 var r = HttpHelper.StringPost(UrlConfig.confirmSingleForQueue, postData, _cookie);
                 Logger.Info($"确认是否下单成功_confirmSingleForQueue返回时间{DateTime.Now.ToString()}");
-                msgs = JsonConvert.SerializeObject(r); 
                var responses = JsonConvert.DeserializeObject<confirmSingleForQueueResponse>(r);
                
                 if (responses.status == "true" && responses.httpstatus == "200")
                 {
-                    isOk = responses.data.submitStatus;
-                    
+                    var data =JsonConvert.DeserializeObject<confirmSingleForQueueData>(responses.data.ToString());
+                    isOk = data.submitStatus;
+                    msg = "确定下单成功";
                 }
-                msg = "确定下单成功";
+                else
+                {
+                    throw new Exception(responses.data.ToString());
+                }
+              
             }
             catch (Exception ex)
             {
                 Logger.Error($"确认是否下单成功,发生错误:{ex.ToString()}");
-                 msg = "下单-预售下单-订单排队"+ msgs; //返回给用户的错误
+                 msg = "下单-预售下单-订单排队"+ ex.Message; //返回给用户的错误
             }
           
             return isOk;
@@ -901,13 +916,22 @@ namespace _12036ByTicket.Services
                 var response = JsonConvert.DeserializeObject<queryOrderWaitTimeResponse>(responses);
                 if (response.httpstatus == "200" && response.status == "true")
                 {
-                    if (Convert.ToInt32(response.data.waitTime) > 1000)
+                    var data = JsonConvert.DeserializeObject<queryOrderWaitTimeResponseData>(response.data.ToString());
+                    if (Convert.ToInt32(data.waitTime) > 1000)
                     {
                         msg = "等待时长超过1000S，放弃排队，去订单中心取消此订单";
                         //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
                     }
+                    else
+                    {
+                        Thread.Sleep(Convert.ToInt32(data.waitTime));
+                    }
                     msg = "购票成功";
-                    return response.data;
+                    return data;
+                }
+                else
+                {
+                    throw new Exception(response.data.ToString());
                 }
             }
             catch (Exception ex)
