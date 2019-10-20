@@ -889,7 +889,7 @@ namespace _12036ByTicket.Services
             catch (Exception ex)
             {
                 Logger.Error($"确认是否下单成功,发生错误:{ex.ToString()}");
-                 msg = "下单-预售下单-订单排队"+ ex.Message; //返回给用户的错误
+                 msg = "下单-预售下单-确认是否下单成功" + ex.Message; //返回给用户的错误
             }
           
             return isOk;
