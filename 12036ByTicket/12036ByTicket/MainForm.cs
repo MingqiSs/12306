@@ -187,15 +187,19 @@ namespace _12036ByTicket
             }
             else
             {
+                j = 0;
+                FormatLogInfo("开始抢票");
+                buyTimer_Tick(null, null);
+
                 buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 8000;
+                buyTimer.Interval = 10000;
                 buyTimer.Tick += buyTimer_Tick;
                 isAutoBuy = true;
                 Ticket_Buy_btn.Text = "暂停";
                 buyTimer.Start();
-                j = 0;
-                FormatLogInfo("开始抢票");
-                // buyTimer_Tick(null, null);
+             
+              
+               
             }
         }
         private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
