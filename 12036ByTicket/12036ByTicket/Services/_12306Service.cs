@@ -100,7 +100,7 @@ namespace _12036ByTicket.Services
             try
             {
                 var rq = new { imageFile = baseImgStr };
-                var response = HttpClientHelper.PostResponse("http://161.117.202.218:8000/verify/base64/", JsonConvert.SerializeObject(rq));
+                var response = HttpClientHelper.PostResponse("http://47.107.170.81:8000/verify/base64/", JsonConvert.SerializeObject(rq));
                 //{"code":0,"massage":"","data":["1","6"]}
                 resut = JsonConvert.DeserializeObject<CerifyCaptchaCodeRP>(response);
             }
