@@ -410,8 +410,8 @@ namespace _12036ByTicket
                             else
                             {
                                 var passengerStr = passengerTicketStr.Split('_');
-                                var oldpassengerStr = oldPassengerStr.Split('_');
-                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldpassengerStr[0], from, out msg);
+                                //var oldpassengerStr = oldPassengerStr.Split('_');
+                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldPassengerStr, from, out msg);
                                 if (isOk)//这时候 12306 就会有订单了 让你去支付
                                 {
                                     //返回车票的信息 
