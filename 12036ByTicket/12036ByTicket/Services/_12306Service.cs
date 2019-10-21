@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace _12036ByTicket.Services
@@ -791,9 +792,11 @@ namespace _12036ByTicket.Services
         /// <returns></returns>
         public static getQueueCountResponseData GetQueueCount(string train_date,string seatType, ticketInfoForPassengerForm from,out string msg)
         {
-            train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
-            //var myDTFI = new System.Globalization.CultureInfo("en-US", false).DateTimeFormat;
-            //train_date = Convert.ToDateTime(train_date).ToString("ddd MMM dd yyyy", myDTFI) + " 00:00:00 GMT+0800 (中国标准时间)";
+            //train_date = Convert.ToDateTime(train_date).ToUniversalTime().ToString("r");
+            var myDTFI = new System.Globalization.CultureInfo("en-US", false).DateTimeFormat;
+      
+            train_date = Convert.ToDateTime(train_date).ToString("ddd MMM dd yyyy", myDTFI) + " 00:00:00 GMT+0800(中国标准时间)";
+            train_date = HttpUtility.UrlEncode(train_date, Encoding.UTF8);
             var data = from.queryLeftTicketRequestDTO;
             var responseData = new getQueueCountResponseData();
             var strDictionary = new BaseDictionary()
@@ -922,10 +925,10 @@ namespace _12036ByTicket.Services
                         msg = "等待时长超过1000S，放弃排队，去订单中心取消此订单";
                         //go to 如果等待时长超过1000S，放弃排队，去订单中心取消此订单
                     }
-                    else
-                    {
-                        Thread.Sleep(Convert.ToInt32(data.waitTime));
-                    }
+                    //else
+                    //{
+                    //    Thread.Sleep(Convert.ToInt32(data.waitTime));
+                    //}
                     msg = "购票成功";
                     return data;
                 }
@@ -962,12 +965,14 @@ namespace _12036ByTicket.Services
                     {
                         isContinue = false;
                         order = orderInfo;
-                        continue;
+                        i = 9;
+                        break;
                     }
 
                     if (i == 9)
                     {
                         isContinue = false;
+                        break;
                     }
                 }
             }
