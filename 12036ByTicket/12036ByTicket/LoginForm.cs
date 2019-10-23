@@ -1,5 +1,6 @@
 ﻿using _12036ByTicket.Common;
 using _12036ByTicket.Services;
+using CCWin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Windows.Forms;
 
 namespace _12036ByTicket
 {
-    public partial class LoginForm : Form
+    public partial class LoginForm : Skin_Mac
     {
         public LoginForm()
         {
@@ -58,7 +59,7 @@ namespace _12036ByTicket
             webBrowser1.Hide();
             webBrowser1.Navigate("https://www.12306.cn/index/index.html", "", null, "");//打开网页
             Thread.Sleep(2000);
-
+            err_lb.Text = string.Empty;
             //默认错误文案颜色
             err_lb.ForeColor = Color.Red;
         }
@@ -220,5 +221,6 @@ namespace _12036ByTicket
                 this.btn_Login_Click(sender, e);
             }
         }
+        
     }
 }
