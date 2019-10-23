@@ -191,7 +191,7 @@ namespace _12036ByTicket
                 FormatLogInfo("开始抢票");
                // buyTimer_Tick(null, null);
                 buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 8000;
+                buyTimer.Interval = 1000;
                 buyTimer.Tick += buyTimer_Tick;
                 isAutoBuy = true;
                 Ticket_Buy_btn.Text = "暂停";
@@ -311,6 +311,8 @@ namespace _12036ByTicket
         }
         private void buyTimer_Tick(object sender, EventArgs e)
         {
+            //第一次执行后修改为8秒
+            if (buyTimer.Interval == 1000) buyTimer.Interval = 8000;
             foreach (string trian in select_train_lb.Items)
             {
                 j++;
