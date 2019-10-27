@@ -193,7 +193,7 @@ namespace _12036ByTicket
             btn_Login.Invoke(new Action(() =>
             {
                 //跳转主页
-                MainForm logForm = new MainForm();
+                Form1 logForm = new Form1();
                 logForm.LogoutMethod += ShowLoginForm;
                 this.Visible = false;
                 logForm.Show();               

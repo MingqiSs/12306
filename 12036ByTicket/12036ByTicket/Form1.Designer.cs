@@ -29,30 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.Log_txb = new CCWin.SkinControl.SkinTextBox();
             this.skinListBox4 = new CCWin.SkinControl.SkinListBox();
             this.skinListBox2 = new CCWin.SkinControl.SkinListBox();
-            this.skinDataGridView1 = new CCWin.SkinControl.SkinDataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_tickets = new CCWin.SkinControl.SkinDataGridView();
             this.dtpicker = new CCWin.SkinControl.SkinDateTimePicker();
             this.skinButton3 = new CCWin.SkinControl.SkinButton();
             this.skinCheckBox9 = new CCWin.SkinControl.SkinCheckBox();
@@ -64,21 +51,34 @@
             this.skinButton2 = new CCWin.SkinControl.SkinButton();
             this.skinFlowLayoutPanel1 = new CCWin.SkinControl.SkinFlowLayoutPanel();
             this.skinCheckBox1 = new CCWin.SkinControl.SkinCheckBox();
-            this.skinCheckBox2 = new CCWin.SkinControl.SkinCheckBox();
-            this.skinCheckBox3 = new CCWin.SkinControl.SkinCheckBox();
-            this.skinCheckBox4 = new CCWin.SkinControl.SkinCheckBox();
-            this.skinCheckBox5 = new CCWin.SkinControl.SkinCheckBox();
-            this.skinCheckBox6 = new CCWin.SkinControl.SkinCheckBox();
+            this.ckb_Gc = new CCWin.SkinControl.SkinCheckBox();
+            this.chb_D = new CCWin.SkinControl.SkinCheckBox();
+            this.ckb_K = new CCWin.SkinControl.SkinCheckBox();
+            this.ckb_T = new CCWin.SkinControl.SkinCheckBox();
+            this.ckb_Z = new CCWin.SkinControl.SkinCheckBox();
             this.skinCheckBox7 = new CCWin.SkinControl.SkinCheckBox();
             this.skinCheckBox8 = new CCWin.SkinControl.SkinCheckBox();
             this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
-            this.cb_stationTo = new CCWin.SkinControl.SkinComboBox();
+            this.tb_stationTo = new CCWin.SkinControl.SkinComboBox();
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
             this.skinButton1 = new CCWin.SkinControl.SkinButton();
             this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
-            this.cb_stationFrom = new CCWin.SkinControl.SkinComboBox();
+            this.tb_stationFrom = new CCWin.SkinControl.SkinComboBox();
+            this.Station_Train_Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.From_Station_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.skinGroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.skinDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.skinFlowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,7 +90,7 @@
             this.skinGroupBox1.Controls.Add(this.Log_txb);
             this.skinGroupBox1.Controls.Add(this.skinListBox4);
             this.skinGroupBox1.Controls.Add(this.skinListBox2);
-            this.skinGroupBox1.Controls.Add(this.skinDataGridView1);
+            this.skinGroupBox1.Controls.Add(this.dgv_tickets);
             this.skinGroupBox1.Controls.Add(this.dtpicker);
             this.skinGroupBox1.Controls.Add(this.skinButton3);
             this.skinGroupBox1.Controls.Add(this.skinCheckBox9);
@@ -102,11 +102,11 @@
             this.skinGroupBox1.Controls.Add(this.skinButton2);
             this.skinGroupBox1.Controls.Add(this.skinFlowLayoutPanel1);
             this.skinGroupBox1.Controls.Add(this.skinLabel3);
-            this.skinGroupBox1.Controls.Add(this.cb_stationTo);
+            this.skinGroupBox1.Controls.Add(this.tb_stationTo);
             this.skinGroupBox1.Controls.Add(this.skinLabel2);
             this.skinGroupBox1.Controls.Add(this.skinButton1);
             this.skinGroupBox1.Controls.Add(this.skinLabel1);
-            this.skinGroupBox1.Controls.Add(this.cb_stationFrom);
+            this.skinGroupBox1.Controls.Add(this.tb_stationFrom);
             this.skinGroupBox1.ForeColor = System.Drawing.Color.DodgerBlue;
             this.skinGroupBox1.Location = new System.Drawing.Point(26, 46);
             this.skinGroupBox1.Name = "skinGroupBox1";
@@ -194,26 +194,26 @@
             this.skinListBox2.Size = new System.Drawing.Size(74, 134);
             this.skinListBox2.TabIndex = 25;
             // 
-            // skinDataGridView1
+            // dgv_tickets
             // 
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
-            this.skinDataGridView1.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.skinDataGridView1.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.skinDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.skinDataGridView1.ColumnFont = null;
-            this.skinDataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.skinDataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
-            this.skinDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.skinDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
+            this.dgv_tickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_tickets.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dgv_tickets.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgv_tickets.ColumnFont = null;
+            this.dgv_tickets.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_tickets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_tickets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Station_Train_Code,
+            this.From_Station_Name,
             this.Column3,
             this.Column4,
             this.Column5,
@@ -225,114 +225,34 @@
             this.Column11,
             this.Column12,
             this.Column13});
-            this.skinDataGridView1.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.skinDataGridView1.DefaultCellStyle = dataGridViewCellStyle9;
-            this.skinDataGridView1.EnableHeadersVisualStyles = false;
-            this.skinDataGridView1.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.skinDataGridView1.HeadFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinDataGridView1.HeadSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            this.skinDataGridView1.Location = new System.Drawing.Point(21, 110);
-            this.skinDataGridView1.Name = "skinDataGridView1";
-            this.skinDataGridView1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.skinDataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.skinDataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle10;
-            this.skinDataGridView1.RowTemplate.Height = 23;
-            this.skinDataGridView1.Size = new System.Drawing.Size(861, 202);
-            this.skinDataGridView1.TabIndex = 24;
-            this.skinDataGridView1.TitleBack = null;
-            this.skinDataGridView1.TitleBackColorBegin = System.Drawing.Color.White;
-            this.skinDataGridView1.TitleBackColorEnd = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(196)))), ((int)(((byte)(242)))));
-            // 
-            // Column1
-            // 
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Column1.HeaderText = "车次";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 60;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "出发地目的地";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 70;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "出发时间到达时间";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 80;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "历时";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 60;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "商务座特等座";
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 70;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "一等座";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 65;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "二等座";
-            this.Column7.Name = "Column7";
-            this.Column7.Width = 65;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "软卧";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 60;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "硬卧";
-            this.Column9.Name = "Column9";
-            this.Column9.Width = 60;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "软座";
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 60;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "硬座";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 60;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "无座";
-            this.Column12.Name = "Column12";
-            this.Column12.Width = 60;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "操作";
-            this.Column13.Name = "Column13";
-            this.Column13.Width = 60;
+            this.dgv_tickets.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_tickets.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgv_tickets.EnableHeadersVisualStyles = false;
+            this.dgv_tickets.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.dgv_tickets.HeadFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.HeadSelectForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgv_tickets.Location = new System.Drawing.Point(21, 110);
+            this.dgv_tickets.Name = "dgv_tickets";
+            this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dgv_tickets.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_tickets.RowTemplate.Height = 23;
+            this.dgv_tickets.Size = new System.Drawing.Size(861, 202);
+            this.dgv_tickets.TabIndex = 24;
+            this.dgv_tickets.TitleBack = null;
+            this.dgv_tickets.TitleBackColorBegin = System.Drawing.Color.White;
+            this.dgv_tickets.TitleBackColorEnd = System.Drawing.Color.FromArgb(((int)(((byte)(83)))), ((int)(((byte)(196)))), ((int)(((byte)(242)))));
             // 
             // dtpicker
             // 
@@ -461,11 +381,11 @@
             // 
             this.skinFlowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
             this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox1);
-            this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox2);
-            this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox3);
-            this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox4);
-            this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox5);
-            this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox6);
+            this.skinFlowLayoutPanel1.Controls.Add(this.ckb_Gc);
+            this.skinFlowLayoutPanel1.Controls.Add(this.chb_D);
+            this.skinFlowLayoutPanel1.Controls.Add(this.ckb_K);
+            this.skinFlowLayoutPanel1.Controls.Add(this.ckb_T);
+            this.skinFlowLayoutPanel1.Controls.Add(this.ckb_Z);
             this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox7);
             this.skinFlowLayoutPanel1.Controls.Add(this.skinCheckBox8);
             this.skinFlowLayoutPanel1.ControlState = CCWin.SkinClass.ControlState.Normal;
@@ -497,105 +417,105 @@
             this.skinCheckBox1.Text = "全部";
             this.skinCheckBox1.UseVisualStyleBackColor = false;
             // 
-            // skinCheckBox2
+            // ckb_Gc
             // 
-            this.skinCheckBox2.AutoSize = true;
-            this.skinCheckBox2.BackColor = System.Drawing.Color.Transparent;
-            this.skinCheckBox2.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinCheckBox2.DownBack = null;
-            this.skinCheckBox2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinCheckBox2.ForeColor = System.Drawing.Color.Black;
-            this.skinCheckBox2.Location = new System.Drawing.Point(60, 3);
-            this.skinCheckBox2.MouseBack = null;
-            this.skinCheckBox2.Name = "skinCheckBox2";
-            this.skinCheckBox2.NormlBack = null;
-            this.skinCheckBox2.SelectedDownBack = null;
-            this.skinCheckBox2.SelectedMouseBack = null;
-            this.skinCheckBox2.SelectedNormlBack = null;
-            this.skinCheckBox2.Size = new System.Drawing.Size(107, 21);
-            this.skinCheckBox2.TabIndex = 1;
-            this.skinCheckBox2.Text = "G/C-高铁/城际";
-            this.skinCheckBox2.UseVisualStyleBackColor = false;
+            this.ckb_Gc.AutoSize = true;
+            this.ckb_Gc.BackColor = System.Drawing.Color.Transparent;
+            this.ckb_Gc.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.ckb_Gc.DownBack = null;
+            this.ckb_Gc.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ckb_Gc.ForeColor = System.Drawing.Color.Black;
+            this.ckb_Gc.Location = new System.Drawing.Point(60, 3);
+            this.ckb_Gc.MouseBack = null;
+            this.ckb_Gc.Name = "ckb_Gc";
+            this.ckb_Gc.NormlBack = null;
+            this.ckb_Gc.SelectedDownBack = null;
+            this.ckb_Gc.SelectedMouseBack = null;
+            this.ckb_Gc.SelectedNormlBack = null;
+            this.ckb_Gc.Size = new System.Drawing.Size(107, 21);
+            this.ckb_Gc.TabIndex = 1;
+            this.ckb_Gc.Text = "G/C-高铁/城际";
+            this.ckb_Gc.UseVisualStyleBackColor = false;
             // 
-            // skinCheckBox3
+            // chb_D
             // 
-            this.skinCheckBox3.AutoSize = true;
-            this.skinCheckBox3.BackColor = System.Drawing.Color.Transparent;
-            this.skinCheckBox3.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinCheckBox3.DownBack = null;
-            this.skinCheckBox3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinCheckBox3.ForeColor = System.Drawing.Color.Black;
-            this.skinCheckBox3.Location = new System.Drawing.Point(173, 3);
-            this.skinCheckBox3.MouseBack = null;
-            this.skinCheckBox3.Name = "skinCheckBox3";
-            this.skinCheckBox3.NormlBack = null;
-            this.skinCheckBox3.SelectedDownBack = null;
-            this.skinCheckBox3.SelectedMouseBack = null;
-            this.skinCheckBox3.SelectedNormlBack = null;
-            this.skinCheckBox3.Size = new System.Drawing.Size(65, 21);
-            this.skinCheckBox3.TabIndex = 2;
-            this.skinCheckBox3.Text = "D-动车";
-            this.skinCheckBox3.UseVisualStyleBackColor = false;
+            this.chb_D.AutoSize = true;
+            this.chb_D.BackColor = System.Drawing.Color.Transparent;
+            this.chb_D.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.chb_D.DownBack = null;
+            this.chb_D.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chb_D.ForeColor = System.Drawing.Color.Black;
+            this.chb_D.Location = new System.Drawing.Point(173, 3);
+            this.chb_D.MouseBack = null;
+            this.chb_D.Name = "chb_D";
+            this.chb_D.NormlBack = null;
+            this.chb_D.SelectedDownBack = null;
+            this.chb_D.SelectedMouseBack = null;
+            this.chb_D.SelectedNormlBack = null;
+            this.chb_D.Size = new System.Drawing.Size(65, 21);
+            this.chb_D.TabIndex = 2;
+            this.chb_D.Text = "D-动车";
+            this.chb_D.UseVisualStyleBackColor = false;
             // 
-            // skinCheckBox4
+            // ckb_K
             // 
-            this.skinCheckBox4.AutoSize = true;
-            this.skinCheckBox4.BackColor = System.Drawing.Color.Transparent;
-            this.skinCheckBox4.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinCheckBox4.DownBack = null;
-            this.skinCheckBox4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinCheckBox4.ForeColor = System.Drawing.Color.Black;
-            this.skinCheckBox4.Location = new System.Drawing.Point(244, 3);
-            this.skinCheckBox4.MouseBack = null;
-            this.skinCheckBox4.Name = "skinCheckBox4";
-            this.skinCheckBox4.NormlBack = null;
-            this.skinCheckBox4.SelectedDownBack = null;
-            this.skinCheckBox4.SelectedMouseBack = null;
-            this.skinCheckBox4.SelectedNormlBack = null;
-            this.skinCheckBox4.Size = new System.Drawing.Size(63, 21);
-            this.skinCheckBox4.TabIndex = 3;
-            this.skinCheckBox4.Text = "Z-直达";
-            this.skinCheckBox4.UseVisualStyleBackColor = false;
+            this.ckb_K.AutoSize = true;
+            this.ckb_K.BackColor = System.Drawing.Color.Transparent;
+            this.ckb_K.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.ckb_K.DownBack = null;
+            this.ckb_K.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ckb_K.ForeColor = System.Drawing.Color.Black;
+            this.ckb_K.Location = new System.Drawing.Point(244, 3);
+            this.ckb_K.MouseBack = null;
+            this.ckb_K.Name = "ckb_K";
+            this.ckb_K.NormlBack = null;
+            this.ckb_K.SelectedDownBack = null;
+            this.ckb_K.SelectedMouseBack = null;
+            this.ckb_K.SelectedNormlBack = null;
+            this.ckb_K.Size = new System.Drawing.Size(63, 21);
+            this.ckb_K.TabIndex = 3;
+            this.ckb_K.Text = "Z-直达";
+            this.ckb_K.UseVisualStyleBackColor = false;
             // 
-            // skinCheckBox5
+            // ckb_T
             // 
-            this.skinCheckBox5.AutoSize = true;
-            this.skinCheckBox5.BackColor = System.Drawing.Color.Transparent;
-            this.skinCheckBox5.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinCheckBox5.DownBack = null;
-            this.skinCheckBox5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinCheckBox5.ForeColor = System.Drawing.Color.Black;
-            this.skinCheckBox5.Location = new System.Drawing.Point(313, 3);
-            this.skinCheckBox5.MouseBack = null;
-            this.skinCheckBox5.Name = "skinCheckBox5";
-            this.skinCheckBox5.NormlBack = null;
-            this.skinCheckBox5.SelectedDownBack = null;
-            this.skinCheckBox5.SelectedMouseBack = null;
-            this.skinCheckBox5.SelectedNormlBack = null;
-            this.skinCheckBox5.Size = new System.Drawing.Size(63, 21);
-            this.skinCheckBox5.TabIndex = 4;
-            this.skinCheckBox5.Text = "T-特快";
-            this.skinCheckBox5.UseVisualStyleBackColor = false;
+            this.ckb_T.AutoSize = true;
+            this.ckb_T.BackColor = System.Drawing.Color.Transparent;
+            this.ckb_T.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.ckb_T.DownBack = null;
+            this.ckb_T.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ckb_T.ForeColor = System.Drawing.Color.Black;
+            this.ckb_T.Location = new System.Drawing.Point(313, 3);
+            this.ckb_T.MouseBack = null;
+            this.ckb_T.Name = "ckb_T";
+            this.ckb_T.NormlBack = null;
+            this.ckb_T.SelectedDownBack = null;
+            this.ckb_T.SelectedMouseBack = null;
+            this.ckb_T.SelectedNormlBack = null;
+            this.ckb_T.Size = new System.Drawing.Size(63, 21);
+            this.ckb_T.TabIndex = 4;
+            this.ckb_T.Text = "T-特快";
+            this.ckb_T.UseVisualStyleBackColor = false;
             // 
-            // skinCheckBox6
+            // ckb_Z
             // 
-            this.skinCheckBox6.AutoSize = true;
-            this.skinCheckBox6.BackColor = System.Drawing.Color.Transparent;
-            this.skinCheckBox6.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinCheckBox6.DownBack = null;
-            this.skinCheckBox6.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinCheckBox6.ForeColor = System.Drawing.Color.Black;
-            this.skinCheckBox6.Location = new System.Drawing.Point(382, 3);
-            this.skinCheckBox6.MouseBack = null;
-            this.skinCheckBox6.Name = "skinCheckBox6";
-            this.skinCheckBox6.NormlBack = null;
-            this.skinCheckBox6.SelectedDownBack = null;
-            this.skinCheckBox6.SelectedMouseBack = null;
-            this.skinCheckBox6.SelectedNormlBack = null;
-            this.skinCheckBox6.Size = new System.Drawing.Size(64, 21);
-            this.skinCheckBox6.TabIndex = 5;
-            this.skinCheckBox6.Text = "K-快速";
-            this.skinCheckBox6.UseVisualStyleBackColor = false;
+            this.ckb_Z.AutoSize = true;
+            this.ckb_Z.BackColor = System.Drawing.Color.Transparent;
+            this.ckb_Z.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.ckb_Z.DownBack = null;
+            this.ckb_Z.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.ckb_Z.ForeColor = System.Drawing.Color.Black;
+            this.ckb_Z.Location = new System.Drawing.Point(382, 3);
+            this.ckb_Z.MouseBack = null;
+            this.ckb_Z.Name = "ckb_Z";
+            this.ckb_Z.NormlBack = null;
+            this.ckb_Z.SelectedDownBack = null;
+            this.ckb_Z.SelectedMouseBack = null;
+            this.ckb_Z.SelectedNormlBack = null;
+            this.ckb_Z.Size = new System.Drawing.Size(64, 21);
+            this.ckb_Z.TabIndex = 5;
+            this.ckb_Z.Text = "K-快速";
+            this.ckb_Z.UseVisualStyleBackColor = false;
             // 
             // skinCheckBox7
             // 
@@ -649,15 +569,15 @@
             this.skinLabel3.TabIndex = 9;
             this.skinLabel3.Text = "车型";
             // 
-            // cb_stationTo
+            // tb_stationTo
             // 
-            this.cb_stationTo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb_stationTo.FormattingEnabled = true;
-            this.cb_stationTo.Location = new System.Drawing.Point(289, 22);
-            this.cb_stationTo.Name = "cb_stationTo";
-            this.cb_stationTo.Size = new System.Drawing.Size(121, 22);
-            this.cb_stationTo.TabIndex = 6;
-            this.cb_stationTo.WaterText = "";
+            this.tb_stationTo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.tb_stationTo.FormattingEnabled = true;
+            this.tb_stationTo.Location = new System.Drawing.Point(289, 22);
+            this.tb_stationTo.Name = "tb_stationTo";
+            this.tb_stationTo.Size = new System.Drawing.Size(121, 22);
+            this.tb_stationTo.TabIndex = 6;
+            this.tb_stationTo.WaterText = "";
             // 
             // skinLabel2
             // 
@@ -698,15 +618,96 @@
             this.skinLabel1.TabIndex = 3;
             this.skinLabel1.Text = "出发";
             // 
-            // cb_stationFrom
+            // tb_stationFrom
             // 
-            this.cb_stationFrom.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb_stationFrom.FormattingEnabled = true;
-            this.cb_stationFrom.Location = new System.Drawing.Point(56, 22);
-            this.cb_stationFrom.Name = "cb_stationFrom";
-            this.cb_stationFrom.Size = new System.Drawing.Size(121, 22);
-            this.cb_stationFrom.TabIndex = 2;
-            this.cb_stationFrom.WaterText = "";
+            this.tb_stationFrom.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.tb_stationFrom.FormattingEnabled = true;
+            this.tb_stationFrom.Location = new System.Drawing.Point(56, 22);
+            this.tb_stationFrom.Name = "tb_stationFrom";
+            this.tb_stationFrom.Size = new System.Drawing.Size(121, 22);
+            this.tb_stationFrom.TabIndex = 2;
+            this.tb_stationFrom.WaterText = "";
+            this.tb_stationFrom.TextChanged += new System.EventHandler(this.cb_stationFrom_TextChanged);
+            // 
+            // Station_Train_Code
+            // 
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.Station_Train_Code.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Station_Train_Code.HeaderText = "车次";
+            this.Station_Train_Code.Name = "Station_Train_Code";
+            this.Station_Train_Code.Width = 60;
+            // 
+            // From_Station_Name
+            // 
+            this.From_Station_Name.HeaderText = "出发地目的地";
+            this.From_Station_Name.Name = "From_Station_Name";
+            this.From_Station_Name.Width = 70;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "出发时间到达时间";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 80;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "历时";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 60;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "商务座特等座";
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 70;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "一等座";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 65;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "二等座";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 65;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "软卧";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 60;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "硬卧";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 60;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "软座";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 60;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "硬座";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 60;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "无座";
+            this.Column12.Name = "Column12";
+            this.Column12.Width = 60;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "操作";
+            this.Column13.Name = "Column13";
+            this.Column13.Width = 60;
             // 
             // Form1
             // 
@@ -719,7 +720,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.skinDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).EndInit();
             this.skinFlowLayoutPanel1.ResumeLayout(false);
             this.skinFlowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -730,11 +731,11 @@
 
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private CCWin.SkinControl.SkinLabel skinLabel3;
-        private CCWin.SkinControl.SkinComboBox cb_stationTo;
+        private CCWin.SkinControl.SkinComboBox tb_stationTo;
         private CCWin.SkinControl.SkinLabel skinLabel2;
         private CCWin.SkinControl.SkinButton skinButton1;
         private CCWin.SkinControl.SkinLabel skinLabel1;
-        private CCWin.SkinControl.SkinComboBox cb_stationFrom;
+        private CCWin.SkinControl.SkinComboBox tb_stationFrom;
         private CCWin.SkinControl.SkinListBox skinListBox1;
         private CCWin.SkinControl.SkinLabel skinLabel4;
         private CCWin.SkinControl.SkinButton skinButton2;
@@ -744,9 +745,22 @@
         private CCWin.SkinControl.SkinLabel skinLabel6;
         private CCWin.SkinControl.SkinLabel skinLabel5;
         private CCWin.SkinControl.SkinDateTimePicker dtpicker;
-        private CCWin.SkinControl.SkinDataGridView skinDataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private CCWin.SkinControl.SkinDataGridView dgv_tickets;
+        private CCWin.SkinControl.SkinFlowLayoutPanel skinFlowLayoutPanel1;
+        private CCWin.SkinControl.SkinCheckBox skinCheckBox1;
+        private CCWin.SkinControl.SkinCheckBox ckb_Gc;
+        private CCWin.SkinControl.SkinCheckBox chb_D;
+        private CCWin.SkinControl.SkinCheckBox ckb_K;
+        private CCWin.SkinControl.SkinCheckBox ckb_T;
+        private CCWin.SkinControl.SkinCheckBox ckb_Z;
+        private CCWin.SkinControl.SkinCheckBox skinCheckBox7;
+        private CCWin.SkinControl.SkinCheckBox skinCheckBox8;
+        private CCWin.SkinControl.SkinListBox skinListBox4;
+        private CCWin.SkinControl.SkinListBox skinListBox2;
+        private CCWin.SkinControl.SkinTextBox Log_txb;
+        private CCWin.SkinControl.SkinLabel skinLabel7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Station_Train_Code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn From_Station_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
@@ -758,18 +772,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private CCWin.SkinControl.SkinFlowLayoutPanel skinFlowLayoutPanel1;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox1;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox2;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox3;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox4;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox5;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox6;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox7;
-        private CCWin.SkinControl.SkinCheckBox skinCheckBox8;
-        private CCWin.SkinControl.SkinListBox skinListBox4;
-        private CCWin.SkinControl.SkinListBox skinListBox2;
-        private CCWin.SkinControl.SkinTextBox Log_txb;
-        private CCWin.SkinControl.SkinLabel skinLabel7;
     }
 }
