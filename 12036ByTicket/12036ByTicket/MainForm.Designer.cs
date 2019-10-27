@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.lb_from = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -87,6 +87,7 @@
             this.tb_stationFrom = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cms_train = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.gb_main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tickets)).BeginInit();
             this.flp_trainType.SuspendLayout();
@@ -286,8 +287,8 @@
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgv_tickets.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -771,5 +772,6 @@
         private System.Windows.Forms.TextBox Log_txb;
         private System.Windows.Forms.Button Ticket_Buy_btn;
         private System.Windows.Forms.ContextMenuStrip cms_train;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

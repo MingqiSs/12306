@@ -71,6 +71,12 @@
     <Compile Include="Common\HttpHelper.cs" />
     <Compile Include="Common\Logger.cs" />
     <Compile Include="Common\Util.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\Dto\CerifyCaptchaCodeRP.cs" />
     <Compile Include="Model\LogicModel.cs" />
     <Compile Include="LoginForm.cs">
@@ -93,6 +99,9 @@
     <Compile Include="Services\_12306Service.cs" />
     <EmbeddedResource Include="CaptchaCheckForm.resx">
       <DependentUpon>CaptchaCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
