@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace _12036ByTicket
 {
-    public partial class LoginForm : Skin_Mac
+    public partial class LoginForm : Skin_DevExpress
     {
         public LoginForm()
         {
