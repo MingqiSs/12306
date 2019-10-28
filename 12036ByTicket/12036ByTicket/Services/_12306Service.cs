@@ -240,6 +240,75 @@ namespace _12036ByTicket.Services
             }
             return tickets;
         }
+        /// <summary>
+        /// 查询车次
+        /// </summary>
+        /// <param name="train_date">乘车日期</param>
+        /// <param name="from_station">始发站对应代码</param>
+        /// <param name="to_station">终点站对应代码</param>
+        /// <returns></returns>
+        public static List<NewQueryTicket> GetQuery(string train_date, string from_station, string to_station)
+        {
+            var tickets = new List<NewQueryTicket>();
+            try
+            {
+                if (_stationNames.Count == 0 || _stationNames == null)
+                {
+                    _stationNames = getFavoriteName();
+                }
+                var from_code = string.Empty;
+                var to_code = string.Empty;
+                var fromCode = _stationNames.FirstOrDefault(x => x.name == from_station);
+                if (fromCode != null)
+                {
+                    from_code = fromCode.code;
+                }
+                var toCode = _stationNames.FirstOrDefault(x => x.name == to_station);
+                if (toCode != null)
+                {
+                    to_code = toCode.code;
+                }
+
+                var r = HttpHelper.StringGet(string.Format(UrlConfig.query, train_date, from_code, to_code, ""), _cookie);
+                var response = JsonConvert.DeserializeObject<stationData>(r);
+                var map = response.data.map;
+                if (response.status && response.data.result != null)
+                {
+                    var results = response.data.result;
+                    foreach (var result in results)
+                    {
+                        NewQueryTicket ticket = new NewQueryTicket();
+                        string[] item = result.Split('|');
+                        var isWait = item[37] == "1";//是否有候补
+                        ticket.SecretStr = item[0];
+                        ticket.Remark = item[1];
+                        ticket.Train_No = item[2];
+                        ticket.Station_Train_Code = item[3];
+                        ticket.Station_Name = map[item[6]]+ System.Environment.NewLine + map[item[7]];
+                        ticket.S_time = item[8] + System.Environment.NewLine + item[9];
+                        ticket.LastedTime = item[10];
+                        ticket.Gr_Num = GetTicketSeatName(item[21], isWait);
+                        ticket.Qt_Num = GetTicketSeatName(item[22], isWait);
+                        ticket.Rw_Num = GetTicketSeatName(item[23], isWait);
+                        ticket.Rz_Num = GetTicketSeatName(item[25], isWait);
+                        ticket.Wz_Num = GetTicketSeatName(item[26], isWait);
+                        ticket.Yw_Num = GetTicketSeatName(item[28], isWait);
+                        ticket.Yz_Num = GetTicketSeatName(item[29], isWait);
+                        ticket.Ze_Num = GetTicketSeatName(item[30], isWait);
+                        ticket.Zy_Num = GetTicketSeatName(item[31], isWait);
+                        ticket.Swz_Num = GetTicketSeatName(item[32], isWait);
+                        ticket.Dw_Num = GetTicketSeatName(item[33], isWait);
+                        ticket.IsWait = item[37];
+                        tickets.Add(ticket);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"getQuery{ex.Message}_{ex.StackTrace}");
+            }
+            return tickets;
+        }
         private static string GetTicketSeatName(string seat,bool isWait)
         {
             return seat == "无" && isWait ? "候补" : seat;

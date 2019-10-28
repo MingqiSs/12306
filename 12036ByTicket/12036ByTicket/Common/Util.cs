@@ -133,7 +133,64 @@ namespace _12036ByTicket.Common
         /// </summary>
         public string IsWait { get; set; }
     }
+    public class NewQueryTicket
+    {
+        public string Train_No { get; set; }
+        /// <summary>
+        /// 车次
+        /// </summary>
+        public string Station_Train_Code { get; set; }
+    
+        /// <summary>
+        /// 出发站-到达站
+        /// </summary>
+        public string Station_Name { get; set; }
 
+        /// <summary>
+        /// 出发时间-到达时间
+        /// </summary>
+        public string S_time { get; set; }
+
+        //备注
+        public string Remark { get; set; }
+        /// <summary>
+        /// 历时
+        /// </summary>
+        public string LastedTime { get; set; }
+
+        public int Day_Difference { get; set; }
+         public string SecretStr { get; set; }
+
+        [Seat(Code = "", Name = "其他")]
+        public string Qt_Num { get; set; }
+        [Seat(Code = "WZ", Name = "无座")]
+        public string Wz_Num { get; set; }
+        [Seat(Code = "1", Name = "硬座")]
+        public string Yz_Num { get; set; }
+        [Seat(Code = "99", Name = "软座")]
+        public string Rz_Num { get; set; }
+        [Seat(Code = "3", Name = "硬卧")]
+        public string Yw_Num { get; set; }
+        [Seat(Code = "F", Name = "动卧")]
+        public string Dw_Num { get; set; }
+        [Seat(Code = "4", Name = "软卧")]
+        public string Rw_Num { get; set; }
+        [Seat(Code = "6", Name = "高级软卧")]
+        public string Gr_Num { get; set; }
+        [Seat(Code = "O", Name = "二等座")]
+        public string Ze_Num { get; set; }
+        [Seat(Code = "M", Name = "一等座")]
+        public string Zy_Num { get; set; }
+        /// <summary>
+        /// 商务座-特等座
+        /// </summary>
+        [Seat(Code = "9", Name = "商务座")]
+        public string Swz_Num { get; set; }
+        /// <summary>
+        /// 是否可以候补  判断该车次是否可候补（0：不可以，1： 可以）
+        /// </summary>
+        public string IsWait { get; set; }
+    }
     public static class ExtensionMethods
     {
         public static void DoubleBuffered(this DataGridView dgv, bool setting)

@@ -1,4 +1,5 @@
-﻿using _12036ByTicket.Services;
+﻿using _12036ByTicket.Common;
+using _12036ByTicket.Services;
 using CCWin;
 using CCWin.SkinControl;
 using System;
@@ -20,10 +21,18 @@ namespace _12036ByTicket
             InitializeComponent();
         }
         public event Action LogoutMethod;
+        // private List<string> _lsTrainCode = new List<string>();
+        private bool isAutoBuy = false;
+        private List<NewQueryTicket> tickets = new List<NewQueryTicket>();
+        // private Dictionary<string, string> leftSeat;
+        private const string defaultTicket = "----";
+        private List<Normal_passengersItem> _lsPassenger;//乘客
+        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer buyTimer;
+        static object lockObj = new object();
+        private int j = 0;
         private void Form1_Load(object sender, EventArgs e)
-        {
-            ////登录后获取用户信息
-            //this.userinfo_tb.Text = $"当前账户:【{ _12306Service.UserName}】";
+        {         
             ////乘客列表
             //var passengerlist = _12306Service.GetPassenger();
             //_lsPassenger = passengerlist;
@@ -32,10 +41,10 @@ namespace _12036ByTicket
             //    pass_ck_b.Items.Add(item.passenger_name);
             //}
             ////席位选项
-            //foreach (var item in _12306Service.GetSeatType())
-            //{
-            //    seat_ck_b.Items.Add(item.SeatName);
-            //}
+            foreach (var item in _12306Service.GetSeatType())
+            {
+                seat_ck_b.Items.Add(item.SeatName);
+            }
             //#region 初始化车次点击事件
             //ToolStripMenuItem tsMenumItem = new ToolStripMenuItem("删除选中");
             //tsMenumItem.Click += ToolStripMenuItem_Click;
@@ -48,12 +57,14 @@ namespace _12036ByTicket
             dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
             ////初始化站点的代码
            var stations=  _12306Service.getFavoriteName();
-            tb_stationTo.Items.AddRange(stations.Select(q=>q.name).ToArray());
+            tb_stationFrom.Items.AddRange(stations.Select(q=>q.name).ToArray());
             ////初始化站点的代码
             tb_stationTo.Items.AddRange(stations.Select(q => q.name).ToArray());
             ////已选车次选项
             ////日志输出
-            FormatLogInfo("登录成功");
+            FormatLogInfo($"登录成功 {_12306Service.UserName}");
+
+            _12306Service.Ticket_Init("");
         }
 
         private void skinButton3_Click(object sender, EventArgs e)
@@ -63,12 +74,12 @@ namespace _12036ByTicket
 
         private void skinButton2_Click(object sender, EventArgs e)
         {
+
             if (!CheckValue()) return;
             var train_date = dtpicker.Text;
-
             var from_station = tb_stationFrom.Text;
             var to_station = tb_stationTo.Text;
-            var list = _12306Service.getQuery(train_date, from_station, to_station);
+            var list = _12306Service.GetQuery(train_date, from_station, to_station);
             if (!ckb_Gc.Checked) list = list.Where(q => !q.Train_No.Contains("G")).ToList();
             if (!chb_D.Checked) list = list.Where(q => !q.Train_No.Contains("D")).ToList();
             if (!ckb_K.Checked) list = list.Where(q => !q.Train_No.Contains("K")).ToList();
@@ -78,9 +89,12 @@ namespace _12036ByTicket
             {
                 dgv_tickets.AutoGenerateColumns = false;
                 dgv_tickets.DataSource = list;
-                //dgv_tickets.DoubleBuffered(true);
+                dgv_tickets.DoubleBuffered(true);
                 dgv_tickets.Rows[0].Selected = false;
-                //tickets = list;
+                dgv_tickets.AutoResizeColumns();
+                dgv_tickets.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+                dgv_tickets.ReadOnly = false;
+                tickets = list;
                 FormatLogInfo("余票查询成功！");
             }
             else
@@ -152,6 +166,51 @@ namespace _12036ByTicket
                 return false;
             }
             return true;
+        }
+        /// <summary>
+        /// 全选
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cb_all_Click(object sender, EventArgs e)
+        {
+            if (ckb_all.CheckState == CheckState.Checked)
+            {
+                ckb_Gc.CheckState = CheckState.Checked;
+                chb_D.CheckState = CheckState.Checked;
+                ckb_K.CheckState = CheckState.Checked;
+                ckb_T.CheckState = CheckState.Checked;
+                ckb_Z.CheckState = CheckState.Checked;
+                ckb_P.CheckState = CheckState.Checked;
+                ckb_L.CheckState = CheckState.Checked;
+            }
+            else {
+
+                ckb_Gc.CheckState = CheckState.Unchecked;
+                chb_D.CheckState = CheckState.Unchecked;
+                ckb_K.CheckState = CheckState.Unchecked;
+                ckb_T.CheckState = CheckState.Unchecked;
+                ckb_Z.CheckState = CheckState.Unchecked;
+                ckb_P.CheckState = CheckState.Unchecked;
+                ckb_L.CheckState = CheckState.Unchecked;
+            }
+        }
+
+        private void dgv_tickets_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //_lsTrainCode = new List<string>();
+            // select_train_lb.Items.Clear();
+            var rows = dgv_tickets.SelectedRows;
+            foreach (DataGridViewRow row in rows)
+            {
+                string trainNo = row.Cells["TrianCode"].Value.ToString();
+                // _lsTrainCode.Add(trainNo);
+                if (select_train_lb.Items.Contains(trainNo))
+                    select_train_lb.Items.Remove(trainNo);
+                else
+                    select_train_lb.Items.Add(trainNo);
+            }
+
         }
     }
 }
