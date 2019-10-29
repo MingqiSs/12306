@@ -486,7 +486,7 @@
             this.skinLabel4.Name = "skinLabel4";
             this.skinLabel4.Size = new System.Drawing.Size(61, 17);
             this.skinLabel4.TabIndex = 12;
-            this.skinLabel4.Text = "*选择车型";
+            this.skinLabel4.Text = "*选择乘客";
             // 
             // skinButton2
             // 
@@ -722,6 +722,7 @@
             this.tb_stationTo.Size = new System.Drawing.Size(121, 22);
             this.tb_stationTo.TabIndex = 6;
             this.tb_stationTo.WaterText = "";
+            this.tb_stationTo.TextUpdate += new System.EventHandler(this.station_TextUpdate);
             // 
             // skinLabel2
             // 
@@ -772,7 +773,7 @@
             this.tb_stationFrom.Size = new System.Drawing.Size(121, 22);
             this.tb_stationFrom.TabIndex = 2;
             this.tb_stationFrom.WaterText = "";
-            this.tb_stationFrom.TextChanged += new System.EventHandler(this.cb_stationFrom_TextChanged);
+            this.tb_stationFrom.TextUpdate += new System.EventHandler(this.station_TextUpdate);
             // 
             // cms_train
             // 
@@ -804,7 +805,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(953, 716);
+            this.ClientSize = new System.Drawing.Size(981, 716);
             this.Controls.Add(this.skinGroupBox1);
             this.Name = "Form1";
             this.Text = "创建任务";

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _12036ByTicket.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +40,10 @@ namespace _12036ByTicket
             tsMenumItem.Click += ToolStripMenuItem_Click;
             this.cms_train.Items.Add(tsMenumItem);
             #endregion
+
+            var stations = _12306Service.getFavoriteName();
+            comboBox1.Items.AddRange(stations.Select(q => q.name).ToArray());
+            comboBox1.AutoCompleteCustomSource.AddRange(stations.Select(q => q.name).ToArray());
         }
 
         private void skinDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

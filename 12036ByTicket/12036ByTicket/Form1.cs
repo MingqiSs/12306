@@ -1,4 +1,5 @@
 ﻿using _12036ByTicket.Common;
+using _12036ByTicket.LogicModel;
 using _12036ByTicket.Model;
 using _12036ByTicket.Services;
 using CCWin;
@@ -26,22 +27,21 @@ namespace _12036ByTicket
         // private List<string> _lsTrainCode = new List<string>();
         private bool isAutoBuy = false;
         private List<NewQueryTicket> tickets = new List<NewQueryTicket>();
-        // private Dictionary<string, string> leftSeat;
         private const string defaultTicket = "----";
         private List<Normal_passengersItem> _lsPassenger;//乘客
-        private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Timer buyTimer;
+        List<string> _stationlist = new List<string>();
         static object lockObj = new object();
         private int j = 0;
         private void Form1_Load(object sender, EventArgs e)
-        {         
+        {
             ////乘客列表
-            //var passengerlist = _12306Service.GetPassenger();
-            //_lsPassenger = passengerlist;
-            //foreach (var item in passengerlist)
-            //{
-            //    pass_ck_b.Items.Add(item.passenger_name);
-            //}
+            var passengerlist = _12306Service.GetPassenger();
+            _lsPassenger = passengerlist;
+            foreach (var item in passengerlist)
+            {
+                pass_ck_b.Items.Add(item.passenger_name);
+            }
             ////席位选项
             foreach (var item in _12306Service.GetSeatType())
             {
@@ -58,8 +58,8 @@ namespace _12036ByTicket
             ////初始化日期
             dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
             ////初始化站点的代码
-           var stations=  _12306Service.getFavoriteName();
-            tb_stationFrom.Items.AddRange(stations.Select(q=>q.name).ToArray());
+           var stations =  _12306Service.getFavoriteName();
+           // tb_stationFrom.Items.AddRange(_stations.Select(q=>q.name).ToArray());
             ////初始化站点的代码
             tb_stationTo.Items.AddRange(stations.Select(q => q.name).ToArray());
             ////已选车次选项
@@ -94,32 +94,7 @@ namespace _12036ByTicket
                 Log_txb.Text+= string.Format("{0}  {1}\r\n", time, arginfo);
             }
         }
-
-        private void cb_stationFrom_TextChanged(object sender, EventArgs e)
-        {
-            //SkinComboBox tb = sender as SkinComboBox;
-            //string text = tb.Text.Trim();
-            //if (!string.IsNullOrWhiteSpace(text))
-            //{
-            //    var stations = _12306Service.getFavoriteName().Where(x =>
-            //            x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
-            //            x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
-            //    if (stations.Any())
-            //    {
-            //        if (tb.Name.Equals("cb_stationFrom"))
-            //        {
-            //            cb_stationFrom.Items.Clear();
-            //            cb_stationFrom.Items.AddRange(stations.Select(q => q.name).ToArray());
-            //        }
-            //        else
-            //        {
-                       
-            //        }
-            //    }
-
-            //}
-        }
-
+      
         private bool CheckValue()
         {
             DateTime selected = DateTime.Parse(dtpicker.text);
@@ -460,7 +435,11 @@ namespace _12036ByTicket
             }
             return false;
         }
-
+        /// <summary>
+        /// 数据交换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void switch_bnt_Click(object sender, EventArgs e)
         {
             var stationTo = tb_stationTo.Text;
@@ -468,5 +447,53 @@ namespace _12036ByTicket
             tb_stationFrom.Text = stationTo;
             tb_stationTo.Text = stationFrom;
         }
+
+        private void station_TextUpdate(object sender, EventArgs e)
+        {
+           
+            SkinComboBox comboBox = sender as SkinComboBox;
+            var text = comboBox.Text;
+            if (comboBox.Name.Equals("tb_stationFrom"))
+            {
+                //清空combobox
+                this.tb_stationFrom.Items.Clear();
+                //清空listNew
+                _stationlist.Clear();
+                //遍历全部备查数据
+                var stations = _12306Service.getFavoriteName().Where(x =>
+                             x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
+                             x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
+                if (stations.Count() > 0)
+                {
+                    //符合，插入ListNew
+                    _stationlist.AddRange(stations.Select(q => q.name));
+                }
+                tb_stationFrom.Items.AddRange(_stationlist.ToArray());
+                tb_stationFrom.SelectionStart = this.tb_stationFrom.Text.Length;
+                Cursor = Cursors.Default;
+                this.tb_stationFrom.DroppedDown = true;
+            }
+            else
+            {
+                //清空combobox
+                this.tb_stationTo.Items.Clear();
+                //清空listNew
+                _stationlist.Clear();
+                //遍历全部备查数据
+                var stations = _12306Service.getFavoriteName().Where(x =>
+                             x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
+                             x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
+                if (stations.Count() > 0)
+                {
+                    //符合，插入ListNew
+                    _stationlist.AddRange(stations.Select(q => q.name));
+                }
+                tb_stationTo.Items.AddRange(_stationlist.ToArray());
+                tb_stationTo.SelectionStart = this.tb_stationFrom.Text.Length;
+                Cursor = Cursors.Default;
+                this.tb_stationTo.DroppedDown = true;
+            }
+        }
+
     }
 }
