@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.select_train_lb = new System.Windows.Forms.ListBox();
-            this.skinButton3 = new CCWin.SkinControl.SkinButton();
+            this.Ticket_Buy_btn = new CCWin.SkinControl.SkinButton();
             this.seat_ck_b = new System.Windows.Forms.CheckedListBox();
             this.pass_ck_b = new System.Windows.Forms.CheckedListBox();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
@@ -76,7 +76,7 @@
             this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
             this.tb_stationTo = new CCWin.SkinControl.SkinComboBox();
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
-            this.skinButton1 = new CCWin.SkinControl.SkinButton();
+            this.switch_bnt = new CCWin.SkinControl.SkinButton();
             this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.tb_stationFrom = new CCWin.SkinControl.SkinComboBox();
             this.cms_train = new CCWin.SkinControl.SkinContextMenuStrip();
@@ -90,7 +90,7 @@
             this.skinGroupBox1.BackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox1.BorderColor = System.Drawing.Color.White;
             this.skinGroupBox1.Controls.Add(this.select_train_lb);
-            this.skinGroupBox1.Controls.Add(this.skinButton3);
+            this.skinGroupBox1.Controls.Add(this.Ticket_Buy_btn);
             this.skinGroupBox1.Controls.Add(this.seat_ck_b);
             this.skinGroupBox1.Controls.Add(this.pass_ck_b);
             this.skinGroupBox1.Controls.Add(this.skinLabel7);
@@ -107,7 +107,7 @@
             this.skinGroupBox1.Controls.Add(this.skinLabel3);
             this.skinGroupBox1.Controls.Add(this.tb_stationTo);
             this.skinGroupBox1.Controls.Add(this.skinLabel2);
-            this.skinGroupBox1.Controls.Add(this.skinButton1);
+            this.skinGroupBox1.Controls.Add(this.switch_bnt);
             this.skinGroupBox1.Controls.Add(this.skinLabel1);
             this.skinGroupBox1.Controls.Add(this.tb_stationFrom);
             this.skinGroupBox1.ForeColor = System.Drawing.Color.DodgerBlue;
@@ -133,21 +133,21 @@
             this.select_train_lb.TabIndex = 37;
             this.select_train_lb.MouseDown += new System.Windows.Forms.MouseEventHandler(this.select_train_lb_MouseDown);
             // 
-            // skinButton3
+            // Ticket_Buy_btn
             // 
-            this.skinButton3.BackColor = System.Drawing.Color.Transparent;
-            this.skinButton3.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinButton3.DownBack = null;
-            this.skinButton3.ForeColor = System.Drawing.Color.Azure;
-            this.skinButton3.Location = new System.Drawing.Point(706, 453);
-            this.skinButton3.MouseBack = null;
-            this.skinButton3.Name = "skinButton3";
-            this.skinButton3.NormlBack = null;
-            this.skinButton3.Size = new System.Drawing.Size(176, 118);
-            this.skinButton3.TabIndex = 22;
-            this.skinButton3.Text = "抢票";
-            this.skinButton3.UseVisualStyleBackColor = false;
-            this.skinButton3.Click += new System.EventHandler(this.skinButton3_Click);
+            this.Ticket_Buy_btn.BackColor = System.Drawing.Color.Transparent;
+            this.Ticket_Buy_btn.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.Ticket_Buy_btn.DownBack = null;
+            this.Ticket_Buy_btn.ForeColor = System.Drawing.Color.Azure;
+            this.Ticket_Buy_btn.Location = new System.Drawing.Point(706, 453);
+            this.Ticket_Buy_btn.MouseBack = null;
+            this.Ticket_Buy_btn.Name = "Ticket_Buy_btn";
+            this.Ticket_Buy_btn.NormlBack = null;
+            this.Ticket_Buy_btn.Size = new System.Drawing.Size(176, 118);
+            this.Ticket_Buy_btn.TabIndex = 22;
+            this.Ticket_Buy_btn.Text = "抢票";
+            this.Ticket_Buy_btn.UseVisualStyleBackColor = false;
+            this.Ticket_Buy_btn.Click += new System.EventHandler(this.Ticket_Buy_btn_Click);
             // 
             // seat_ck_b
             // 
@@ -221,20 +221,20 @@
             // 
             // dgv_tickets
             // 
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
-            this.dgv_tickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
+            this.dgv_tickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_tickets.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgv_tickets.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgv_tickets.ColumnFont = null;
             this.dgv_tickets.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_tickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_tickets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_tickets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Station_Train_Code,
@@ -253,14 +253,14 @@
             this.Column1,
             this.Column2});
             this.dgv_tickets.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_tickets.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tickets.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_tickets.EnableHeadersVisualStyles = false;
             this.dgv_tickets.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.dgv_tickets.HeadFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -271,11 +271,11 @@
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_tickets.RowHeadersWidth = 50;
             this.dgv_tickets.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.Size = new System.Drawing.Size(861, 282);
             this.dgv_tickets.TabIndex = 24;
@@ -287,8 +287,8 @@
             // Station_Train_Code
             // 
             this.Station_Train_Code.DataPropertyName = "Station_Train_Code";
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.Station_Train_Code.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.Station_Train_Code.DefaultCellStyle = dataGridViewCellStyle3;
             this.Station_Train_Code.Frozen = true;
             this.Station_Train_Code.HeaderText = "车次";
             this.Station_Train_Code.Name = "Station_Train_Code";
@@ -735,20 +735,21 @@
             this.skinLabel2.TabIndex = 5;
             this.skinLabel2.Text = "目的";
             // 
-            // skinButton1
+            // switch_bnt
             // 
-            this.skinButton1.BackColor = System.Drawing.Color.Transparent;
-            this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinButton1.DownBack = null;
-            this.skinButton1.ForeColor = System.Drawing.Color.Azure;
-            this.skinButton1.Location = new System.Drawing.Point(183, 22);
-            this.skinButton1.MouseBack = null;
-            this.skinButton1.Name = "skinButton1";
-            this.skinButton1.NormlBack = null;
-            this.skinButton1.Size = new System.Drawing.Size(62, 23);
-            this.skinButton1.TabIndex = 4;
-            this.skinButton1.Text = "<->";
-            this.skinButton1.UseVisualStyleBackColor = false;
+            this.switch_bnt.BackColor = System.Drawing.Color.Transparent;
+            this.switch_bnt.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.switch_bnt.DownBack = null;
+            this.switch_bnt.ForeColor = System.Drawing.Color.Azure;
+            this.switch_bnt.Location = new System.Drawing.Point(183, 22);
+            this.switch_bnt.MouseBack = null;
+            this.switch_bnt.Name = "switch_bnt";
+            this.switch_bnt.NormlBack = null;
+            this.switch_bnt.Size = new System.Drawing.Size(62, 23);
+            this.switch_bnt.TabIndex = 4;
+            this.switch_bnt.Text = "<->";
+            this.switch_bnt.UseVisualStyleBackColor = false;
+            this.switch_bnt.Click += new System.EventHandler(this.switch_bnt_Click);
             // 
             // skinLabel1
             // 
@@ -823,12 +824,12 @@
         private CCWin.SkinControl.SkinLabel skinLabel3;
         private CCWin.SkinControl.SkinComboBox tb_stationTo;
         private CCWin.SkinControl.SkinLabel skinLabel2;
-        private CCWin.SkinControl.SkinButton skinButton1;
+        private CCWin.SkinControl.SkinButton switch_bnt;
         private CCWin.SkinControl.SkinLabel skinLabel1;
         private CCWin.SkinControl.SkinComboBox tb_stationFrom;
         private CCWin.SkinControl.SkinLabel skinLabel4;
         private CCWin.SkinControl.SkinButton skinButton2;
-        private CCWin.SkinControl.SkinButton skinButton3;
+        private CCWin.SkinControl.SkinButton Ticket_Buy_btn;
         private CCWin.SkinControl.SkinCheckBox skinCheckBox9;
         private CCWin.SkinControl.SkinLabel skinLabel8;
         private CCWin.SkinControl.SkinLabel skinLabel6;

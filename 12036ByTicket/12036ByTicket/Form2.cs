@@ -20,7 +20,7 @@ namespace _12036ByTicket
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            list.Add(new Test {test=$"10:29{System.Environment.NewLine}10:29",test1="2",test2="3",test3="4",ed="操作" });
+            list.Add(new Test { test = $"10:29{System.Environment.NewLine}10:29", test1 = "2", test2 = "3", test3 = "4", ed = "操作" });
             list.Add(new Test { test = "222", test1 = "2", test2 = "3", test3 = "4", ed = "操作" });
             //设置自动换行  
             this.skinDataGridView1.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
