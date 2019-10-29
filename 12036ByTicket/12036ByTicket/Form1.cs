@@ -59,7 +59,7 @@ namespace _12036ByTicket
             dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
             ////初始化站点的代码
            var stations =  _12306Service.getFavoriteName();
-           // tb_stationFrom.Items.AddRange(_stations.Select(q=>q.name).ToArray());
+            tb_stationFrom.Items.AddRange(stations.Select(q=>q.name).ToArray());
             ////初始化站点的代码
             tb_stationTo.Items.AddRange(stations.Select(q => q.name).ToArray());
             ////已选车次选项
@@ -306,7 +306,12 @@ namespace _12036ByTicket
                 var train_date = dtpicker.Text;
                 if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
                 {
-                    if (buyTimer != null) buyTimer.Stop();
+                    if (buyTimer != null)
+                    {
+                        buyTimer.Stop();
+                        Ticket_Buy_btn.Text = "抢票";
+                        FormatLogInfo("暂停抢票");
+                    }
                 }
                 FormatLogInfo(msg);
                 //Task task = new Task(StratRunButTicket);
@@ -450,48 +455,61 @@ namespace _12036ByTicket
 
         private void station_TextUpdate(object sender, EventArgs e)
         {
-           
             SkinComboBox comboBox = sender as SkinComboBox;
-            var text = comboBox.Text;
+            var text = comboBox.Text.Trim();
             if (comboBox.Name.Equals("tb_stationFrom"))
             {
                 //清空combobox
-                this.tb_stationFrom.Items.Clear();
+                if (tb_stationTo.Items.Count > 0)
+                {
+                    //清空combobox
+                    tb_stationFrom.Items.Clear();
+                }
                 //清空listNew
                 _stationlist.Clear();
                 //遍历全部备查数据
                 var stations = _12306Service.getFavoriteName().Where(x =>
                              x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
                              x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
-                if (stations.Count() > 0)
+                if (stations!=null&&stations.Count() > 0)
                 {
                     //符合，插入ListNew
                     _stationlist.AddRange(stations.Select(q => q.name));
                 }
-                tb_stationFrom.Items.AddRange(_stationlist.ToArray());
-                tb_stationFrom.SelectionStart = this.tb_stationFrom.Text.Length;
-                Cursor = Cursors.Default;
-                this.tb_stationFrom.DroppedDown = true;
+                if (_stationlist != null)
+                {
+                    tb_stationFrom.Items.AddRange(_stationlist.ToArray());
+                   // tb_stationFrom.AutoCompleteCustomSource = true;
+                    tb_stationFrom.SelectionStart = this.tb_stationFrom.Text.Length;
+                    Cursor = Cursors.Default;
+                    this.tb_stationFrom.DroppedDown = true;
+                }
             }
             else
             {
-                //清空combobox
-                this.tb_stationTo.Items.Clear();
+                if (tb_stationTo.Items.Count > 0)
+                {
+                    //清空combobox
+                    tb_stationTo.Items.Clear();
+                }
                 //清空listNew
                 _stationlist.Clear();
                 //遍历全部备查数据
                 var stations = _12306Service.getFavoriteName().Where(x =>
                              x.name.Contains(text) || x.pinYin.ToUpper().Contains(text.ToUpper()) ||
                              x.pinYinInitials.ToUpper().Contains(text.ToUpper()));
-                if (stations.Count() > 0)
+                if (stations != null && stations.Count() > 0)
                 {
                     //符合，插入ListNew
                     _stationlist.AddRange(stations.Select(q => q.name));
                 }
-                tb_stationTo.Items.AddRange(_stationlist.ToArray());
-                tb_stationTo.SelectionStart = this.tb_stationFrom.Text.Length;
-                Cursor = Cursors.Default;
-                this.tb_stationTo.DroppedDown = true;
+                if (_stationlist != null)
+                {
+                    tb_stationTo.Items.AddRange(_stationlist.ToArray());
+                    tb_stationTo.SelectionStart = this.tb_stationFrom.Text.Length;
+                    Cursor = Cursors.Default;
+                    this.tb_stationTo.DroppedDown = true;
+                }
             }
         }
 

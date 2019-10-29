@@ -659,13 +659,17 @@ namespace _12036ByTicket.Services
             string postData = string.Format("_json_att={0}", "");
             var response = HttpHelper.StringPost( UrlConfig.getPassenger, postData, _cookie);
             //validateMessagesShowId":"_validatorMessage","status":true,"httpstatus":200,"data":{ "isExist":false,"exMsg":"用户未登录","noLogin":"true","normal_passengers":null,"dj_passengers":null},"messages":[],"validateMessages":{}}
-          //  if getPassengerDTOsResult.get("data", False) and getPassengerDTOsResult["data"].get("normal_passengers", False):
-            var result = JsonConvert.DeserializeObject<PassengerDto>(response);
-            if (result.data.isExist&&result.data.normal_passengers!=null)
+            //  if getPassengerDTOsResult.get("data", False) and getPassengerDTOsResult["data"].get("normal_passengers", False):
+            if (!string.IsNullOrEmpty(response))
             {
-                list= result.data.normal_passengers;
+                var result = JsonConvert.DeserializeObject<PassengerDto>(response);
+                if (result.data.isExist && result.data.normal_passengers != null)
+                {
+                    list = result.data.normal_passengers;
 
+                }
             }
+            
             return list;
         }
         /// <summary>
