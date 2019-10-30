@@ -576,4 +576,83 @@ namespace _12036ByTicket.LogicModel
 
         public bool isAsync { get; set; }
     }
+    public class queryMyOrderNoCompleteResponse
+    {
+        public string status { get; set; }
+
+        public string httpstatus { get; set; }
+
+        public object data { get; set; }
+    }
+
+    public class queryMyOrderNoCompleteData
+    {
+        public List<orderDB> orderDBList { get; set; }
+
+        public string to_page { get; set; }
+    }
+
+    public class orderDB
+    {
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public string sequence_no { get; set; }
+
+        /// <summary>
+        /// 下单时间
+        /// </summary>
+        public string order_date { get; set; }
+
+        /// <summary>
+        /// 人数 猜的
+        /// </summary>
+        public string ticket_totalnum { get; set; }
+
+
+        /// <summary>
+        /// 乘客名称
+        /// </summary>
+        public object array_passser_name_page { get; set; }
+
+        /// <summary>
+        /// 出发地
+        /// </summary>
+        public object from_station_name_page { get; set; }
+
+        /// <summary>
+        /// 到达地
+        /// </summary>
+        public object to_station_name_page { get; set; }
+
+        /// <summary>
+        /// 出发时间
+        /// </summary>
+        public string start_train_date_page { get; set; }
+
+        /// <summary>
+        /// 出发时间
+        /// </summary>
+        public string start_time_page { get; set; }
+
+        /// <summary>
+        /// 到达时间
+        /// </summary>
+        public string arrive_time_page { get; set; }
+
+        /// <summary>
+        /// 车次编号
+        /// </summary>
+        public string train_code_page { get; set; }
+
+        /// <summary>
+        /// 价格
+        /// </summary>
+        public string ticket_total_price_page { get; set; }
+
+        /// <summary>
+        /// 快去支付吧
+        /// </summary>
+        public string come_go_traveller_order_page { get; set; }
+    }
 }

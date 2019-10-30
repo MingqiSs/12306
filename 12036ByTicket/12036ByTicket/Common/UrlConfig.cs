@@ -147,5 +147,9 @@ namespace _12036ByTicket.Common
         public static string getSuccessRate = $"{baseUrl}/otn/afterNate/getSuccessRate";
 
 
+        /// <summary>
+        /// 查询我的订单
+        /// </summary>
+        public static string queryMyOrderNoComplete = $"{baseUrl}/otn/queryOrder/queryMyOrderNoComplete";
     }
 }

@@ -1251,6 +1251,36 @@ namespace _12036ByTicket.Services
             return null;
         }
         /// <summary>
+        /// 查询我的订单
+        /// </summary>
+        /// <returns></returns>
+        public static queryMyOrderNoCompleteData queryMyOrderNoComplete()
+        {
+
+            var strDictionary = new BaseDictionary
+            {
+                {"_json_att","" },
+            };
+            var postData = strDictionary.GetParmarStr();
+            try
+            {
+                var responses = HttpHelper.StringPost(UrlConfig.queryMyOrderNoComplete, postData, _cookie);
+                var response = JsonConvert.DeserializeObject<queryMyOrderNoCompleteResponse>(responses);
+                if (response.httpstatus == "200" && response.status == "true")
+                {
+                    var Data = JsonConvert.DeserializeObject<queryMyOrderNoCompleteData>(response.data.ToString());
+                    return Data;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($" 查询我的订单:{ex.ToString()}");
+            }
+
+            return null;
+        }
+        /// <summary>
         /// 获取图片对应坐标
         /// </summary>
         /// <param name="offsets"></param>
