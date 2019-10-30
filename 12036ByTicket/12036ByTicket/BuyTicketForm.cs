@@ -22,6 +22,7 @@ namespace _12036ByTicket
         public BuyTicketForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
         public event Action LogoutMethod;
         // private List<string> _lsTrainCode = new List<string>();
@@ -35,6 +36,7 @@ namespace _12036ByTicket
         private int j = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
+           
             #region 初始化数据
             ////乘客列表
             var passengerlist = _12306Service.GetPassenger();
@@ -50,6 +52,7 @@ namespace _12036ByTicket
             }
             ////初始化日期
             dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
+           // dtpicker.MinimumSize
             #endregion
 
             #region 初始化点击事件
@@ -86,7 +89,7 @@ namespace _12036ByTicket
             ////日志输出
             FormatLogInfo($"登录成功 {_12306Service.UserName}");
 
-            //_12306Service.Ticket_Init("");
+          //  _12306Service.Ticket_Init("");
         }
 
         private void skinButton3_Click(object sender, EventArgs e)
@@ -256,13 +259,13 @@ namespace _12036ByTicket
                 j = 0;
                 FormatLogInfo("开始抢票");
                
-                buyTimer_Tick(null, null);
-               //buyTimer = new System.Windows.Forms.Timer();
-               // buyTimer.Interval = 1000;
-               // //buyTimer.Tick += buyTimer_Tick;
-               // isAutoBuy = true;
-               // Ticket_Buy_btn.Text = "暂停";
-               // buyTimer.Start();
+                //buyTimer_Tick(null, null);
+                buyTimer = new System.Windows.Forms.Timer();
+                buyTimer.Interval = 1000;
+                //buyTimer.Tick += buyTimer_Tick;
+                isAutoBuy = true;
+                Ticket_Buy_btn.Text = "暂停";
+                buyTimer.Start();
             }
 
         }

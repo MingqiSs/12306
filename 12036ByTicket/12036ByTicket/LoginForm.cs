@@ -19,13 +19,13 @@ namespace _12036ByTicket
     {
         public LoginForm()
         {
-            InitializeComponent();         
+            InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
        
         private void btn_Login_Click(object sender, EventArgs e)
         {
             Login_init();
-
             var randCode = string.Empty;
             if (string.IsNullOrWhiteSpace(tb_userName.Text))
             {

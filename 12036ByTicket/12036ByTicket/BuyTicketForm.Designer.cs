@@ -266,7 +266,7 @@
             this.dgv_tickets.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.dgv_tickets.HeadFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dgv_tickets.HeadSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgv_tickets.Location = new System.Drawing.Point(21, 110);
+            this.dgv_tickets.Location = new System.Drawing.Point(9, 110);
             this.dgv_tickets.Name = "dgv_tickets";
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -278,7 +278,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_tickets.RowTemplate.Height = 23;
-            this.dgv_tickets.Size = new System.Drawing.Size(861, 282);
+            this.dgv_tickets.Size = new System.Drawing.Size(873, 282);
             this.dgv_tickets.TabIndex = 24;
             this.dgv_tickets.TitleBack = null;
             this.dgv_tickets.TitleBackColorBegin = System.Drawing.Color.White;
@@ -416,7 +416,7 @@
             this.dtpicker.DropDownWidth = 120;
             this.dtpicker.font = new System.Drawing.Font("微软雅黑", 9F);
             this.dtpicker.Items = new string[0];
-            this.dtpicker.Location = new System.Drawing.Point(438, 23);
+            this.dtpicker.Location = new System.Drawing.Point(426, 20);
             this.dtpicker.Name = "dtpicker";
             this.dtpicker.Size = new System.Drawing.Size(120, 22);
             this.dtpicker.TabIndex = 23;
@@ -518,7 +518,7 @@
             this.skinFlowLayoutPanel1.Controls.Add(this.ckb_P);
             this.skinFlowLayoutPanel1.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.skinFlowLayoutPanel1.DownBack = null;
-            this.skinFlowLayoutPanel1.Location = new System.Drawing.Point(56, 62);
+            this.skinFlowLayoutPanel1.Location = new System.Drawing.Point(44, 62);
             this.skinFlowLayoutPanel1.MouseBack = null;
             this.skinFlowLayoutPanel1.Name = "skinFlowLayoutPanel1";
             this.skinFlowLayoutPanel1.NormlBack = null;
@@ -708,7 +708,7 @@
             this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel3.BorderColor = System.Drawing.Color.White;
             this.skinLabel3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinLabel3.Location = new System.Drawing.Point(19, 69);
+            this.skinLabel3.Location = new System.Drawing.Point(6, 69);
             this.skinLabel3.Name = "skinLabel3";
             this.skinLabel3.Size = new System.Drawing.Size(32, 17);
             this.skinLabel3.TabIndex = 9;
@@ -718,7 +718,7 @@
             // 
             this.tb_stationTo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tb_stationTo.FormattingEnabled = true;
-            this.tb_stationTo.Location = new System.Drawing.Point(289, 22);
+            this.tb_stationTo.Location = new System.Drawing.Point(280, 20);
             this.tb_stationTo.Name = "tb_stationTo";
             this.tb_stationTo.Size = new System.Drawing.Size(121, 22);
             this.tb_stationTo.TabIndex = 6;
@@ -730,7 +730,7 @@
             this.skinLabel2.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel2.BorderColor = System.Drawing.Color.White;
             this.skinLabel2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinLabel2.Location = new System.Drawing.Point(251, 25);
+            this.skinLabel2.Location = new System.Drawing.Point(242, 25);
             this.skinLabel2.Name = "skinLabel2";
             this.skinLabel2.Size = new System.Drawing.Size(32, 17);
             this.skinLabel2.TabIndex = 5;
@@ -742,7 +742,7 @@
             this.switch_bnt.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.switch_bnt.DownBack = null;
             this.switch_bnt.ForeColor = System.Drawing.Color.Azure;
-            this.switch_bnt.Location = new System.Drawing.Point(183, 22);
+            this.switch_bnt.Location = new System.Drawing.Point(174, 21);
             this.switch_bnt.MouseBack = null;
             this.switch_bnt.Name = "switch_bnt";
             this.switch_bnt.NormlBack = null;
@@ -758,7 +758,7 @@
             this.skinLabel1.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel1.BorderColor = System.Drawing.Color.White;
             this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinLabel1.Location = new System.Drawing.Point(18, 24);
+            this.skinLabel1.Location = new System.Drawing.Point(6, 25);
             this.skinLabel1.Name = "skinLabel1";
             this.skinLabel1.Size = new System.Drawing.Size(32, 17);
             this.skinLabel1.TabIndex = 3;
@@ -768,7 +768,7 @@
             // 
             this.tb_stationFrom.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.tb_stationFrom.FormattingEnabled = true;
-            this.tb_stationFrom.Location = new System.Drawing.Point(56, 22);
+            this.tb_stationFrom.Location = new System.Drawing.Point(47, 22);
             this.tb_stationFrom.Name = "tb_stationFrom";
             this.tb_stationFrom.Size = new System.Drawing.Size(121, 22);
             this.tb_stationFrom.TabIndex = 2;
