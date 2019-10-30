@@ -312,7 +312,12 @@ namespace _12036ByTicket
                 var train_date = dtpicker.Text;
                 if (BuyTicket(secretStr, selectedPassengers, stationFrom, stationTo, train_date, buySeat, out msg, selectedTrain.IsWait))
                 {
-                    if (buyTimer != null) buyTimer.Stop();
+                    if (buyTimer != null)
+                    {
+                        buyTimer.Stop();
+                        Ticket_Buy_btn.Text = "抢票";
+                        FormatLogInfo("暂停抢票");
+                    }
                 }
                 FormatLogInfo(msg);
                 //Task task = new Task(StratRunButTicket);
