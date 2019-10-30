@@ -193,7 +193,7 @@ namespace _12036ByTicket
             btn_Login.Invoke(new Action(() =>
             {
                 //跳转主页
-                Form1 logForm = new Form1();
+                BuyTicketForm logForm = new BuyTicketForm();
                 logForm.LogoutMethod += ShowLoginForm;
                 this.Visible = false;
                 logForm.Show();               

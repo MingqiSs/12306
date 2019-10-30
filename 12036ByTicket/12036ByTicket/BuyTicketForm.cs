@@ -17,9 +17,9 @@ using System.Windows.Forms;
 
 namespace _12036ByTicket
 {
-    public partial class Form1 : Skin_DevExpress
+    public partial class BuyTicketForm : Skin_DevExpress
     {
-        public Form1()
+        public BuyTicketForm()
         {
             InitializeComponent();
         }

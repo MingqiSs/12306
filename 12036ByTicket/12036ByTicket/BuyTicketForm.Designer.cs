@@ -1,6 +1,6 @@
 ﻿namespace _12036ByTicket
 {
-    partial class Form1
+    partial class BuyTicketForm
     {
         /// <summary>
         /// Required designer variable.
