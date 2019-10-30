@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gb_main = new System.Windows.Forms.GroupBox();
             this.lb_from = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -287,8 +287,8 @@
             this.dgv_tickets.ReadOnly = true;
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgv_tickets.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_tickets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;

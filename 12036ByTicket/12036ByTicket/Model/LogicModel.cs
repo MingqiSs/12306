@@ -613,17 +613,17 @@ namespace _12036ByTicket.LogicModel
         /// <summary>
         /// 乘客名称
         /// </summary>
-        public object array_passser_name_page { get; set; }
+        public string[] array_passser_name_page { get; set; }
 
         /// <summary>
         /// 出发地
         /// </summary>
-        public object from_station_name_page { get; set; }
+        public string [] from_station_name_page { get; set; }
 
         /// <summary>
         /// 到达地
         /// </summary>
-        public object to_station_name_page { get; set; }
+        public string[] to_station_name_page { get; set; }
 
         /// <summary>
         /// 出发时间

@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.select_train_lb = new System.Windows.Forms.ListBox();
             this.Ticket_Buy_btn = new CCWin.SkinControl.SkinButton();
@@ -198,7 +198,7 @@
             this.Log_txb.NormlBack = null;
             this.Log_txb.Padding = new System.Windows.Forms.Padding(5);
             this.Log_txb.ReadOnly = false;
-            this.Log_txb.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.Log_txb.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Log_txb.Size = new System.Drawing.Size(367, 148);
             // 
             // 
@@ -209,6 +209,7 @@
             this.Log_txb.SkinTxt.Location = new System.Drawing.Point(5, 5);
             this.Log_txb.SkinTxt.Multiline = true;
             this.Log_txb.SkinTxt.Name = "BaseText";
+            this.Log_txb.SkinTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Log_txb.SkinTxt.Size = new System.Drawing.Size(357, 138);
             this.Log_txb.SkinTxt.TabIndex = 0;
             this.Log_txb.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
@@ -221,20 +222,20 @@
             // 
             // dgv_tickets
             // 
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
-            this.dgv_tickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(246)))), ((int)(((byte)(253)))));
+            this.dgv_tickets.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_tickets.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgv_tickets.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgv_tickets.ColumnFont = null;
             this.dgv_tickets.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_tickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(246)))), ((int)(((byte)(239)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tickets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_tickets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_tickets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Station_Train_Code,
@@ -253,14 +254,14 @@
             this.Column1,
             this.Column2});
             this.dgv_tickets.ColumnSelectForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.DodgerBlue;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_tickets.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.DodgerBlue;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(188)))), ((int)(((byte)(240)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_tickets.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_tickets.EnableHeadersVisualStyles = false;
             this.dgv_tickets.GridColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.dgv_tickets.HeadFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -271,11 +272,11 @@
             this.dgv_tickets.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dgv_tickets.RowHeadersWidth = 50;
             this.dgv_tickets.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgv_tickets.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_tickets.RowTemplate.Height = 23;
             this.dgv_tickets.Size = new System.Drawing.Size(861, 282);
             this.dgv_tickets.TabIndex = 24;
@@ -287,8 +288,8 @@
             // Station_Train_Code
             // 
             this.Station_Train_Code.DataPropertyName = "Station_Train_Code";
-            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.Station_Train_Code.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(1, 0, 0, 0);
+            this.Station_Train_Code.DefaultCellStyle = dataGridViewCellStyle3;
             this.Station_Train_Code.Frozen = true;
             this.Station_Train_Code.HeaderText = "车次";
             this.Station_Train_Code.Name = "Station_Train_Code";
@@ -799,13 +800,13 @@
             this.cms_train.TitleRadius = 4;
             this.cms_train.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
             // 
-            // Form1
+            // BuyTicketForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 716);
             this.Controls.Add(this.skinGroupBox1);
-            this.Name = "Form1";
+            this.Name = "BuyTicketForm";
             this.Text = "创建任务";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.skinGroupBox1.ResumeLayout(false);

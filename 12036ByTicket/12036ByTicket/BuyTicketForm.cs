@@ -70,7 +70,7 @@ namespace _12036ByTicket
             tb_stationFrom.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             ////初始化站点的代码
             tb_stationTo.Items.AddRange(stationNames);
-            tb_stationFrom.AutoCompleteCustomSource.AddRange(stationNames);
+            tb_stationTo.AutoCompleteCustomSource.AddRange(stationNames);
             tb_stationTo.AutoCompleteSource = AutoCompleteSource.CustomSource;
             tb_stationTo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             #endregion
@@ -236,17 +236,7 @@ namespace _12036ByTicket
                 MessageBox.Show("请选择座位！");
                 return;
             }
-            var newline = System.Environment.NewLine;
-           var passengers = string.Join(",", GetPassaPassengers().Select(q => q.passenger_name));
-            var seats = string.Join(",", GetCheckSeatTypes().Select(q => q.SeatName));
-            //var trains = string.Empty;
-           // foreach (string item in select_train_lb.Items) trains = trains + item;
-            var trains = string.Join(",", select_train_lb.Items.Cast<string>());
-            var dr = MessageBox.Show($@"请确认订单信息!{newline}出发:{tb_stationFrom.Text}{newline}目的:{tb_stationTo.Text}{newline}日期:长沙{newline}乘客:{passengers}{newline}座位:{seats}{newline}车次:{trains}{newline}
-                                       ", "请确认订单!", MessageBoxButtons.OKCancel,
-              MessageBoxIcon.Question);
-            if (dr != DialogResult.OK) return;
-                if (isAutoBuy)
+            if (isAutoBuy)
             {
                 isAutoBuy = false;
                 buyTimer.Stop();
@@ -255,15 +245,24 @@ namespace _12036ByTicket
             }
             else
             {
+                var newline = System.Environment.NewLine;
+                var passengers = string.Join(",", GetPassaPassengers().Select(q => q.passenger_name));
+                var seats = string.Join(",", GetCheckSeatTypes().Select(q => q.SeatName));
+                var trains = string.Join(",", select_train_lb.Items.Cast<string>());
+                var dr = MessageBox.Show($@"出发:{tb_stationFrom.Text}{newline}目的:{tb_stationTo.Text}{newline}日期:{dtpicker.text}{newline}乘客:{passengers}{newline}座位:{seats}{newline}车次:{trains}{newline}
+                                       ", "请确认订单信息!", MessageBoxButtons.OKCancel,
+                  MessageBoxIcon.Question);
+                if (dr != DialogResult.OK) return;
                 j = 0;
                 FormatLogInfo("开始抢票");
-                // buyTimer_Tick(null, null);
-                buyTimer = new System.Windows.Forms.Timer();
-                buyTimer.Interval = 1000;
-                buyTimer.Tick += buyTimer_Tick;
-                isAutoBuy = true;
-                Ticket_Buy_btn.Text = "暂停";
-                buyTimer.Start();
+               
+                buyTimer_Tick(null, null);
+               //buyTimer = new System.Windows.Forms.Timer();
+               // buyTimer.Interval = 1000;
+               // //buyTimer.Tick += buyTimer_Tick;
+               // isAutoBuy = true;
+               // Ticket_Buy_btn.Text = "暂停";
+               // buyTimer.Start();
             }
 
         }
@@ -335,7 +334,6 @@ namespace _12036ByTicket
                     {
                         buyTimer.Stop();
                         Ticket_Buy_btn.Text = "抢票";
-                        
                     }
                     BuyTicketSuccess();
                 }
@@ -480,13 +478,16 @@ namespace _12036ByTicket
             tb_stationTo.Text = stationFrom;
         }
 
-        private void BuyTicketSuccess() {
+        private void BuyTicketSuccess()
+        {
             var order = _12306Service.queryMyOrderNoComplete();
             if (order != null && order.orderDBList != null && order.orderDBList.Count() > 0)
             {
+                //{"sequence_no":"EH07529330","order_date":"2019-10-30 22:35:11","ticket_totalnum":"1","array_passser_name_page":["向明其"],"from_station_name_page":["深圳北"],"to_station_name_page":["长沙南"],"start_train_date_page":"2019-11-21 07:15","start_time_page":"07:15","arrive_time_page":"10:35","train_code_page":"G6012","ticket_total_price_page":"603.5","come_go_traveller_order_page":"N"}
                 var orderinfo = order.orderDBList.First();
                 var newline = System.Environment.NewLine;
-                var dr = MessageBox.Show($@"您已成功下单深圳南至长沙南的车票{newline}乘车日期:2019-10-30{newline}待付款金额:{200}{newline}是否前往官网付款?"
+                var a = orderinfo.from_station_name_page;
+              var dr = MessageBox.Show($@"您已成功下单,{string.Join(",", orderinfo.from_station_name_page)}至{string.Join(",", orderinfo.to_station_name_page)}的车票{newline}乘车日期:{orderinfo.start_train_date_page}{newline}待付款金额:{orderinfo.ticket_total_price_page}￥{newline}是否前往官网付款?"
                                            , "下单成功!", MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Information);
                 if (dr == DialogResult.OK)
