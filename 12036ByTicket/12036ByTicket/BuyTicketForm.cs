@@ -336,6 +336,7 @@ namespace _12036ByTicket
                         Ticket_Buy_btn.Text = "抢票";
                         FormatLogInfo("暂停抢票");
                     }
+                    BuyTicketSuccess();
                 }
                 FormatLogInfo(msg);
                 //Task task = new Task(StratRunButTicket);
@@ -477,6 +478,21 @@ namespace _12036ByTicket
             tb_stationTo.Text = stationFrom;
         }
 
+        private void BuyTicketSuccess() {
+            var order = _12306Service.queryMyOrderNoComplete();
+            if (order != null && order.orderDBList != null && order.orderDBList.Count() > 0)
+            {
+                var orderinfo = order.orderDBList.First();
+                var newline = System.Environment.NewLine;
+                var dr = MessageBox.Show($@"您已成功下单深圳南至长沙南的车票{newline}乘车日期:2019-10-30{newline}待付款金额:{200}{newline}是否前往官网付款?"
+                                           , "下单成功!", MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Information);
+                if (dr == DialogResult.OK)
+                {
+                    BrowserHelper.OpenDefaultBrowserUrl("https://www.12306.cn/index/");
+                }
+            }
+        }
         //private void station_TextUpdate(object sender, EventArgs e)
         //{
            

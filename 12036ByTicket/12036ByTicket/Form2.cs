@@ -47,7 +47,6 @@ namespace _12036ByTicket
             skinComboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
             skinComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
-            
 
         }
 
@@ -97,9 +96,15 @@ namespace _12036ByTicket
         private void skinButton1_Click(object sender, EventArgs e)
         {
             var newline = System.Environment.NewLine;
-            var dr = MessageBox.Show($@"请确认订单信息!{newline}出发:深圳{newline}目的:长沙{newline}日期:长沙{newline}乘客:长沙{newline}座位:长沙{newline}车次:长沙{newline}
-                                       ","请确认订单!", MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question);
+            //var dr = MessageBox.Show($@"请确认订单信息!{newline}出发:深圳{newline}目的:长沙{newline}日期:长沙{newline}乘客:长沙{newline}座位:长沙{newline}车次:长沙{newline}
+            //                           ","请确认订单!", MessageBoxButtons.OKCancel,
+            //    MessageBoxIcon.Question);
+            //if (dr == DialogResult.OK)
+            //    MessageBox.Show("你选择的为“是”按钮", "系统提示1");
+
+            var dr = MessageBox.Show($@"您已成功下单深圳南至长沙南的车票{newline}乘车日期:2019-10-30{newline}待付款金额:{200}{newline}是否前往官网付款?"
+                                       , "下单成功!", MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Information);
             if (dr == DialogResult.OK)
                 MessageBox.Show("你选择的为“是”按钮", "系统提示1");
         }
