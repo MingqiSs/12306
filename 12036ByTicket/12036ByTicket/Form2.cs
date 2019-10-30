@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace _12036ByTicket
 {
-    public partial class Form2 : Form
+    public partial class Form2 : CCWin.Skin_DevExpress
     {
         List<Test> list = new List<Test>();
         public Form2()
@@ -46,6 +46,8 @@ namespace _12036ByTicket
             skinComboBox1.AutoCompleteCustomSource.AddRange(stations.Select( q => q.name).ToArray());
             skinComboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
             skinComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+            
 
         }
 
@@ -90,6 +92,16 @@ namespace _12036ByTicket
                 this.cms_train.Show(Control.MousePosition.X, Control.MousePosition.Y);
 
             }
+        }
+
+        private void skinButton1_Click(object sender, EventArgs e)
+        {
+            var newline = System.Environment.NewLine;
+            var dr = MessageBox.Show($@"请确认订单信息!{newline}出发:深圳{newline}目的:长沙{newline}日期:长沙{newline}乘客:长沙{newline}座位:长沙{newline}车次:长沙{newline}
+                                       ","请确认订单!", MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question);
+            if (dr == DialogResult.OK)
+                MessageBox.Show("你选择的为“是”按钮", "系统提示1");
         }
     }
     public class Test {

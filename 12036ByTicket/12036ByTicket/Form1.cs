@@ -35,6 +35,7 @@ namespace _12036ByTicket
         private int j = 0;
         private void Form1_Load(object sender, EventArgs e)
         {
+            #region 初始化数据
             ////乘客列表
             var passengerlist = _12306Service.GetPassenger();
             _lsPassenger = passengerlist;
@@ -47,6 +48,10 @@ namespace _12036ByTicket
             {
                 seat_ck_b.Items.Add(item.SeatName);
             }
+            ////初始化日期
+            dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            #endregion
+
             #region 初始化点击事件
             ToolStripMenuItem tsMenumItem = new ToolStripMenuItem("删除选中");
             tsMenumItem.Click += ToolStripMenuItem_Click;
@@ -55,8 +60,8 @@ namespace _12036ByTicket
             tsMenumItem.Click += ToolStripMenuItem_Click;
             this.cms_train.Items.Add(tsMenumItem);
             #endregion
-            ////初始化日期
-            dtpicker.text = DateTime.Now.Date.ToString("yyyy-MM-dd");
+
+            #region 初始化站点的代码
             ////初始化站点的代码
             var stationNames = _12306Service.getFavoriteName().Select(q => q.name).ToArray();
             tb_stationFrom.Items.AddRange(stationNames);
@@ -68,11 +73,20 @@ namespace _12036ByTicket
             tb_stationFrom.AutoCompleteCustomSource.AddRange(stationNames);
             tb_stationTo.AutoCompleteSource = AutoCompleteSource.CustomSource;
             tb_stationTo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            ////已选车次选项
+            #endregion
+
+            #region 初始化dgv设置
+            dgv_tickets.AutoGenerateColumns = false;
+            //设置自动换行  
+            dgv_tickets.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            //设置自动调整高度  
+            dgv_tickets.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgv_tickets.ReadOnly = true;
+            #endregion
             ////日志输出
             FormatLogInfo($"登录成功 {_12306Service.UserName}");
 
-            _12306Service.Ticket_Init("");
+            //_12306Service.Ticket_Init("");
         }
 
         private void skinButton3_Click(object sender, EventArgs e)
@@ -222,7 +236,17 @@ namespace _12036ByTicket
                 MessageBox.Show("请选择座位！");
                 return;
             }
-            if (isAutoBuy)
+            var newline = System.Environment.NewLine;
+           var passengers = string.Join(",", GetPassaPassengers().Select(q => q.passenger_name));
+            var seats = string.Join(",", GetCheckSeatTypes().Select(q => q.SeatName));
+            //var trains = string.Empty;
+           // foreach (string item in select_train_lb.Items) trains = trains + item;
+            var trains = string.Join(",", select_train_lb.Items.Cast<string>());
+            var dr = MessageBox.Show($@"请确认订单信息!{newline}出发:{tb_stationFrom.Text}{newline}目的:{tb_stationTo.Text}{newline}日期:长沙{newline}乘客:{passengers}{newline}座位:{seats}{newline}车次:{trains}{newline}
+                                       ", "请确认订单!", MessageBoxButtons.OKCancel,
+              MessageBoxIcon.Question);
+            if (dr != DialogResult.OK) return;
+                if (isAutoBuy)
             {
                 isAutoBuy = false;
                 buyTimer.Stop();
@@ -255,17 +279,11 @@ namespace _12036ByTicket
             if (!ckb_T.Checked) list = list.Where(q => !q.Train_No.Contains("T")).ToList();
             if (!ckb_Z.Checked) list = list.Where(q => !q.Train_No.Contains("Z")).ToList();
             if (list != null && list.Count > 0)
-            {
-                dgv_tickets.AutoGenerateColumns = false;
+            {              
                 dgv_tickets.DataSource = list;
                 //dgv_tickets.DoubleBuffered(true);
                 //dgv_tickets.AutoResizeColumns();
-                //dgv_tickets.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-                //设置自动换行  
-                dgv_tickets.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                //设置自动调整高度  
-                dgv_tickets.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                dgv_tickets.ReadOnly = true;
+                //dgv_tickets.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;              
                 tickets = list;
                 FormatLogInfo("余票查询成功！");
             }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,6 +42,7 @@
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cms_train = new CCWin.SkinControl.SkinContextMenuStrip();
             this.skinComboBox1 = new CCWin.SkinControl.SkinComboBox();
+            this.skinButton1 = new CCWin.SkinControl.SkinButton();
             ((System.ComponentModel.ISupportInitialize)(this.skinDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -168,11 +170,27 @@
             this.skinComboBox1.TabIndex = 1;
             this.skinComboBox1.WaterText = "";
             // 
+            // skinButton1
+            // 
+            this.skinButton1.BackColor = System.Drawing.Color.Transparent;
+            this.skinButton1.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skinButton1.DownBack = null;
+            this.skinButton1.Location = new System.Drawing.Point(480, 81);
+            this.skinButton1.MouseBack = null;
+            this.skinButton1.Name = "skinButton1";
+            this.skinButton1.NormlBack = null;
+            this.skinButton1.Size = new System.Drawing.Size(75, 23);
+            this.skinButton1.TabIndex = 2;
+            this.skinButton1.Text = "skinButton1";
+            this.skinButton1.UseVisualStyleBackColor = false;
+            this.skinButton1.Click += new System.EventHandler(this.skinButton1_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.skinButton1);
             this.Controls.Add(this.skinComboBox1);
             this.Controls.Add(this.skinDataGridView1);
             this.Name = "Form2";
@@ -193,5 +211,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private CCWin.SkinControl.SkinContextMenuStrip cms_train;
         private CCWin.SkinControl.SkinComboBox skinComboBox1;
+        private CCWin.SkinControl.SkinButton skinButton1;
     }
 }
