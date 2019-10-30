@@ -722,7 +722,6 @@
             this.tb_stationTo.Size = new System.Drawing.Size(121, 22);
             this.tb_stationTo.TabIndex = 6;
             this.tb_stationTo.WaterText = "";
-            this.tb_stationTo.TextUpdate += new System.EventHandler(this.station_TextUpdate);
             // 
             // skinLabel2
             // 
@@ -773,7 +772,6 @@
             this.tb_stationFrom.Size = new System.Drawing.Size(121, 22);
             this.tb_stationFrom.TabIndex = 2;
             this.tb_stationFrom.WaterText = "";
-            this.tb_stationFrom.TextUpdate += new System.EventHandler(this.station_TextUpdate);
             // 
             // cms_train
             // 

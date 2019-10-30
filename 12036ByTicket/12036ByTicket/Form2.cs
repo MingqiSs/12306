@@ -42,8 +42,11 @@ namespace _12036ByTicket
             #endregion
 
             var stations = _12306Service.getFavoriteName();
-            comboBox1.Items.AddRange(stations.Select(q => q.name).ToArray());
-            comboBox1.AutoCompleteCustomSource.AddRange(stations.Select(q => q.name).ToArray());
+            //skinComboBox1.Items.AddRange(stations.Select(q => q.name).ToArray());
+            skinComboBox1.AutoCompleteCustomSource.AddRange(stations.Select( q => q.name).ToArray());
+            skinComboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            skinComboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
         }
 
         private void skinDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
