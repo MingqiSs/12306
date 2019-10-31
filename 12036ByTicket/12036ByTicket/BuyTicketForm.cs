@@ -259,7 +259,7 @@ namespace _12036ByTicket
                 j = 0;
                 FormatLogInfo("开始抢票");
                
-                //buyTimer_Tick(null, null);
+               // buyTimer_Tick(null, null);
                 buyTimer = new System.Windows.Forms.Timer();
                 buyTimer.Interval = 1000;
                 buyTimer.Tick += buyTimer_Tick;
@@ -297,7 +297,7 @@ namespace _12036ByTicket
         private void buyTimer_Tick(object sender, EventArgs e)
         {
             //第一次执行后修改为8秒
-            if (buyTimer.Interval == 1000) buyTimer.Interval = 8000;
+            if (buyTimer!=null&&buyTimer.Interval == 1000) buyTimer.Interval = 8000;
             foreach (string trian in select_train_lb.Items)
             {
                 j++;
@@ -432,7 +432,7 @@ namespace _12036ByTicket
                             {
                                 var passengerStr = passengerTicketStr.Split('_');
                                 //var oldpassengerStr = oldPassengerStr.Split('_');
-                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0], oldPassengerStr, from, out msg);
+                                var isOk = _12306Service.confirmSingleForQueue(passengerStr[0].TrimEnd(','), oldPassengerStr, from, out msg);
                                 if (isOk)//这时候 12306 就会有订单了 让你去支付
                                 {
                                     //返回车票的信息 
