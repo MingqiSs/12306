@@ -262,7 +262,7 @@ namespace _12036ByTicket
                 //buyTimer_Tick(null, null);
                 buyTimer = new System.Windows.Forms.Timer();
                 buyTimer.Interval = 1000;
-                //buyTimer.Tick += buyTimer_Tick;
+                buyTimer.Tick += buyTimer_Tick;
                 isAutoBuy = true;
                 Ticket_Buy_btn.Text = "暂停";
                 buyTimer.Start();
